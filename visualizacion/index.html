@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Postre · Tipos de cocina Michelin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#ECE3D0;--ink:#2a2320;--red:#BD2333;--gold:#F7B036;--goldink:#b07810;--red-deep:#7A1622;--paper:#efe5d0;--muted:#5b4d42;--track:#e4d8c4}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif}
+#stage{position:fixed;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;padding:3vh 0;overflow:hidden;
+  background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%)}
+#stage::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.4;mix-blend-mode:multiply;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>")}
+#frame{position:fixed;inset:clamp(14px,2.6vw,30px);z-index:7;pointer-events:none;border:1px solid #c3b394;border-radius:4px}
+#frame::before{content:"";position:absolute;inset:13px;border:1.5px double #C8912F;opacity:.7;border-radius:3px}
+#matte{position:fixed;inset:0;z-index:6;pointer-events:none;
+  background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%);background-attachment:fixed;
+  --mi:calc(clamp(14px,2.6vw,30px) + 12px);
+  clip-path:polygon(0 0, 0 100%, var(--mi) 100%, var(--mi) var(--mi), calc(100% - var(--mi)) var(--mi), calc(100% - var(--mi)) calc(100% - var(--mi)), var(--mi) calc(100% - var(--mi)), var(--mi) 100%, 100% 100%, 100% 0)}
+#scrim{position:fixed;inset:0;z-index:1;background:#ECE3D0;opacity:.78;transition:opacity .8s ease;pointer-events:none}
+#shelfwrap{width:98vw;display:flex;justify-content:center;position:relative;z-index:1;transition:opacity .5s ease}
+#shelf{display:flex;flex-direction:column;align-items:center;gap:20px;transform-origin:center center;
+  transform:scale(var(--fit,1)) translateX(var(--shift,0px));transition:transform .8s cubic-bezier(.22,1,.36,1)}
+.row{display:flex;flex-wrap:nowrap;align-items:flex-end;gap:12px}
+#r2{display:grid;grid-auto-flow:column;align-items:end;justify-items:center;column-gap:14px}
+.glass{position:relative;display:flex;flex-direction:column;align-items:center;flex:0 0 auto;
+  transition:transform .7s cubic-bezier(.22,1,.36,1),opacity .55s,filter .55s;transform-origin:center center}
+.glass.dim{opacity:.2;filter:saturate(.5)}
+.glass.spot{z-index:30}
+.glass svg{overflow:visible;display:block;filter:drop-shadow(0 9px 10px rgba(80,50,40,.22))}
+.glass.gilded svg{filter:drop-shadow(0 0 16px rgba(247,176,54,.7)) drop-shadow(0 9px 10px rgba(80,50,40,.22))}
+.liquid{transform:translateY(var(--empty,160px));transition:transform 1.4s cubic-bezier(.4,0,.2,1)}
+.cap{margin-top:8px;text-align:center;line-height:1.2}
+.cap .nm{font-family:'Playfair Display';font-weight:700;font-size:13px;color:#3a302a}
+.cap .ct{font-size:11px;color:#8a7666;font-weight:500}
+.cap .ct.au{color:var(--goldink);font-weight:600}
+.cap .ct.au2{color:#b3891f;font-weight:600}.cap .ct.au3{color:#a35f08;font-weight:600}
+.cap .ct.s1{color:#b04a40;font-weight:600}
+.cap .detail{display:none}
+.glass.spot .cap .detail{display:block}
+#shelf.allcaps .cap .detail{display:block}
+.scroller{position:relative;z-index:5}
+.step{min-height:100vh;display:flex;align-items:center;padding:0 7vw;pointer-events:none}
+.step.right{justify-content:flex-end}
+.step.allview{min-height:90vh}
+.card{pointer-events:auto;max-width:445px;background:rgba(255,252,245,.93);backdrop-filter:blur(6px);
+  border:1px solid rgba(189,35,51,.35);border-radius:6px;padding:30px 32px;box-shadow:0 18px 50px rgba(90,60,40,.18)}
+.eyebrow{font-weight:600;letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--red);margin-bottom:14px}
+h1{font-family:'Playfair Display';font-weight:900;font-size:clamp(44px,7vw,98px);line-height:.95;margin-bottom:16px;color:var(--ink)}
+h1 .r{color:var(--red)}
+h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40px);line-height:1.05;margin-bottom:16px;color:var(--ink)}
+.lede{font-weight:400;font-size:14px;line-height:1.55;color:#4a403a}
+.lede b{font-weight:600;color:var(--ink)}.hl-red{color:var(--red);font-weight:700}.hl-gold{color:var(--goldink);font-weight:700}
+.intro{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 8vw}
+.intro h1{font-size:clamp(32px,5.2vw,68px)}
+.intro .box{background:rgba(255,252,245,.62);backdrop-filter:blur(4px);padding:24px 34px;border-radius:8px}
+.intro .sub{font-style:italic;font-family:'Playfair Display';font-weight:500;font-size:clamp(17px,2.3vw,24px);color:var(--red);margin-top:8px}
+.intro .introsub{font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(14px,1.95vw,18px);line-height:1.55;color:#5b4d42;margin:16px auto 0;max-width:560px}
+.intro .introsub i{font-style:italic}
+.intro .introcue{margin-top:20px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a8714e}
+.scrollcue{margin-top:18px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a8714e;animation:bob 1.8s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.legend{position:fixed;top:clamp(40px,4.5vw,58px);right:clamp(40px,4.5vw,58px);z-index:8;font-size:10.5px;max-width:178px;text-align:left;transition:opacity .5s ease;
+  text-shadow:0 1px 3px rgba(236,227,208,.95),0 0 6px rgba(236,227,208,.85)}
+.legend .row{display:flex;align-items:flex-start;gap:7px;margin:5.5px 0;color:#3a302a;line-height:1.3}
+.legend .row:first-child{margin-top:0}.legend .row:last-child{margin-bottom:0}
+.sw{width:12px;height:12px;border-radius:3px;flex:0 0 auto;margin-top:1px}
+.sw.r{background:var(--red)}.sw.g2{background:#f7c64f}.sw.g3{background:#cf7d0c}
+.legend .lgl{flex:0 0 auto;width:13px;height:23px;margin-top:-3px;display:block;overflow:visible}
+.legend b{color:var(--ink);font-weight:700}
+.foot{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12vh 8vw;text-align:center;position:relative;z-index:5;background:none}
+.foot .lede{font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(15px,1.95vw,18px);line-height:1.6;color:#5b4d42;max-width:620px;margin:clamp(24px,3.2vw,40px) auto 0;text-align:center}
+.foot .big{font-family:'Playfair Display';font-weight:700;font-size:clamp(27px,4.2vw,48px);line-height:1.14;max-width:840px;margin:0 auto;color:var(--ink)}
+.foot .big .r{color:var(--red)}.foot .big .g{color:var(--goldink)}
+@media(max-width:640px){.card{max-width:none}.legend{font-size:10px;max-width:165px}.row{gap:7px}#r2{column-gap:7px}}
+
+/* ===== POSTRES (plato final, unido al scroll) ===== */
+#postres{position:relative;z-index:5;padding:6vh clamp(44px,6vw,82px) 13vh;
+  background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%);background-attachment:fixed}
+#postres::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.4;mix-blend-mode:multiply;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>")}
+#postres .pcard{position:relative;z-index:1;max-width:none;margin:0;padding:0}
+#postres .sep{display:flex;align-items:center;justify-content:center;gap:16px;max-width:620px;margin:0 auto 50px}
+#postres .sep .ln{flex:1;height:1px;background:linear-gradient(90deg,transparent,#C8912F);opacity:.65}
+#postres .sep .ln:last-child{background:linear-gradient(90deg,#C8912F,transparent)}
+#postres .sep .dot{color:#C8912F;font-size:10px;letter-spacing:.3em}
+#postres .course-tag{text-align:center;font-size:12.5px;letter-spacing:.42em;text-transform:uppercase;color:#BD2333;font-weight:600}
+#postres .emblem{width:84px;height:84px;margin:16px auto 6px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 3px rgba(30,70,40,.25))}
+#postres .emblem svg{width:100%;height:100%;display:block}
+#postres h1{font-family:'Playfair Display',serif;font-weight:900;text-align:center;font-size:clamp(40px,8vw,72px);line-height:.98;letter-spacing:-.01em;margin:6px 0 4px;color:#2a211c}
+#postres .subt{text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(16px,2.6vw,21px);color:#184f23;margin-bottom:22px}
+#postres .ribbon{display:flex;align-items:center;justify-content:center;gap:13px;margin:8px auto 22px;color:#C8912F;font-size:11px;letter-spacing:.3em}
+#postres .ribbon::before,#postres .ribbon::after{content:"";width:64px;height:1px;background:linear-gradient(90deg,transparent,#c3b394)}
+#postres .ribbon::after{background:linear-gradient(90deg,#c3b394,transparent)}
+#postres .ribbon .mstar{width:22px;height:22px;display:inline-flex}
+#postres .ribbon .mstar svg{width:100%;height:100%;display:block;fill:#cf7d0c}
+#postres .lede{text-align:center;max-width:820px;margin:0 auto;color:#5b4d42;font-size:16.5px;line-height:1.62}
+#postres .lede b{color:#7A1622;font-weight:600}#postres .lede .grn{color:#184f23;font-weight:600}
+#postres .menu-head{text-align:center;margin:46px auto 4px}
+#postres .menu-head .k{font-size:12px;letter-spacing:.36em;text-transform:uppercase;color:#C8912F;font-weight:600}
+#postres .menu-head h2{font-family:'Playfair Display',serif;font-style:normal;font-weight:900;letter-spacing:-.01em;font-size:clamp(24px,4.2vw,34px);color:#2a211c;margin-top:6px}
+#postres .menu-head .sub{color:#5b4d42;font-size:14px;margin:8px auto 0;max-width:600px}
+#postres .greenribbon{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 14px}
+#postres .greenribbon .gico{width:26px;height:26px;display:inline-flex;filter:drop-shadow(0 2px 3px rgba(30,70,40,.22))}
+#postres .greenribbon .gico svg{width:100%;height:100%;display:block}
+#postres .menu{margin:34px auto 0;max-width:720px;columns:1;column-gap:64px}
+#postres .course{break-inside:avoid;margin-bottom:30px}
+#postres .course-name{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:22px;color:#7A1622;margin-bottom:9px;display:flex;align-items:center;gap:9px}
+#postres .course-name .ico{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-left:auto}
+#postres .course-name .ico svg{width:44px;height:44px;display:block}
+#postres .course-name .cn{line-height:1}
+#postres .course-name .count{display:none}
+#postres .dishes{list-style:none}
+#postres .dish{display:flex;align-items:baseline;gap:6px;padding:5.5px 0;font-size:16px}
+#postres .dish .nm{font-weight:500;color:#2a211c}
+#postres .dish .dots{flex:1;border-bottom:1.5px dotted #c3b394;transform:translateY(-3px);min-width:12px}
+#postres .dish .loc{color:#5b4d42;font-size:13.5px;font-style:italic;white-space:nowrap}
+#postres .pfoot{text-align:center;margin:46px auto 0;max-width:720px}
+#postres .pfoot .q{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(17px,2.8vw,22px);color:#2a211c;line-height:1.45}
+#postres .pfoot .q b{color:#184f23;font-style:normal}
+#postres .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+#postres .reveal.in{opacity:1;transform:none}
+/* cartel inicial de postres (igual al mapa/copas) */
+#postres .pcover{min-height:88vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 4vw;margin-bottom:8px}
+#postres .pcover .cbox{background:rgba(255,252,245,.62);backdrop-filter:blur(4px);border-radius:16px;padding:34px clamp(28px,5vw,56px) 40px;box-shadow:0 24px 60px rgba(90,60,40,.12);max-width:760px}
+#postres .pcover .course-tag{margin-bottom:14px}
+#postres .pcover .pcover-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(30px,5vw,58px);line-height:1.04;letter-spacing:-.01em;color:#2a211c;margin:0 auto;max-width:16ch}
+#postres .pcover .pcover-sub{font-weight:400;color:#5b4d42;font-size:clamp(14px,1.7vw,17.5px);line-height:1.6;margin:20px auto 0;max-width:58ch}
+#postres .pcover .pcover-sub b{color:#7A1622;font-weight:600}
+#postres .pcover .pcover-sub .grn{color:#184f23;font-weight:600}
+/* acordeón de países (botones) */
+#postres .menu{margin:24px auto 0;max-width:680px;columns:auto;column-gap:0}
+#postres .course{break-inside:avoid;margin-bottom:12px;border:1px solid rgba(189,35,51,.2);border-radius:10px;background:rgba(255,252,245,.55);overflow:hidden;transition:border-color .3s,background .3s}
+#postres .course.open{border-color:rgba(189,35,51,.4);background:rgba(255,252,245,.8)}
+#postres .course-name{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:21px;color:#7A1622;margin:0;display:flex;align-items:center;gap:12px;padding:15px 20px;cursor:pointer;-webkit-user-select:none;user-select:none}
+#postres .course-name .cn{flex:1 1 auto;line-height:1}
+#postres .course-name .count{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:24px;height:24px;padding:0 7px;border-radius:12px;background:#BD2333;color:#fff;font-family:'Inter',sans-serif;font-style:normal;font-weight:600;font-size:12.5px;margin-left:0}
+#postres .course-name .ico{flex:none;width:36px;height:36px;display:flex;align-items:center;justify-content:center;margin-left:0}
+#postres .course-name .ico svg{width:36px;height:36px;display:block}
+#postres .course-name .chev{flex:none;width:9px;height:9px;border-right:2px solid #BD2333;border-bottom:2px solid #BD2333;transform:rotate(45deg);transition:transform .3s;margin-left:2px}
+#postres .course.open .course-name .chev{transform:rotate(-135deg)}
+#postres .dishes{list-style:none;max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.22,1,.36,1);padding:0 20px}
+#postres .course.open .dishes{max-height:900px;padding-bottom:14px}
+@media(max-width:560px){#postres .menu{columns:1}}
+  #graphic{position:fixed;inset:0;z-index:2;height:100vh;width:100%;overflow:hidden;
+    background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%)}
+  #nav{display:none !important}
+  #graphic .grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.22;mix-blend-mode:multiply;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/></svg>")}
+  #graphic .vig{position:absolute;inset:0;z-index:1;pointer-events:none;box-shadow:inset 0 0 200px 40px rgba(120,90,50,.10)}
+  #map{position:absolute;inset:0;z-index:0}
+  #mscrim{position:absolute;inset:0;z-index:2;background:var(--cream);opacity:0;pointer-events:none}
+  #mscroller{position:relative;z-index:0}
+  #mscroller .mstep{height:55vh;pointer-events:none}
+  .country{stroke:#cbb892;stroke-width:.4px;stroke-linejoin:round;transition:fill-opacity .7s ease,fill .7s ease}
+
+  /* etiquetas de país (chips) */
+  #labels{position:absolute;inset:0;z-index:3;pointer-events:none}
+  .lab{position:absolute;transform:translate(-50%,-145%);text-align:center;white-space:nowrap;
+    opacity:0;transition:opacity .5s ease;background:rgba(255,252,245,.93);backdrop-filter:blur(6px);
+    border:1px solid rgba(189,35,51,.35);border-radius:6px;padding:4px 11px 5px;box-shadow:0 12px 30px rgba(90,60,40,.18)}
+  .lab::after{content:"";position:absolute;left:50%;bottom:-5px;width:8px;height:8px;background:rgba(255,252,245,.93);
+    border-right:1px solid rgba(189,35,51,.35);border-bottom:1px solid rgba(189,35,51,.35);transform:translateX(-50%) rotate(45deg)}
+  .lab.on{opacity:1}
+  .lab .nm{font-family:'Playfair Display';font-style:italic;font-weight:500;font-size:13px;color:var(--ink);line-height:1.1}
+  .lab .vl{font-family:'Playfair Display';font-weight:700;font-size:16px;color:var(--red);line-height:1.1}
+
+  /* PORTADA (paso 0) */
+  #cover{position:absolute;inset:0;z-index:5;pointer-events:none;text-align:center;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 6vw;
+    opacity:0}
+  #cover.on{opacity:1}
+  #cover .cbox{display:inline-block;background:rgba(255,252,245,.62);backdrop-filter:blur(4px);
+    border-radius:16px;padding:30px 48px 34px;box-shadow:0 24px 60px rgba(90,60,40,.12)}
+  #cover .meyebrow{font-weight:600;letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--red);margin-bottom:14px}
+  #cover h1{font-family:'Playfair Display';font-weight:900;color:var(--ink);font-size:clamp(34px,5.6vw,66px);
+    line-height:1.03;letter-spacing:-.01em;max-width:15ch;margin:0 auto}
+  #cover p{font-weight:400;color:#4a403a;font-size:clamp(14px,1.6vw,18px);margin:18px auto 0;max-width:46ch;line-height:1.55}
+  #cover .cue-inbox{margin-top:22px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a8714e;animation:bob 1.8s infinite}
+  #cue{display:none !important}
+
+  /* TARJETA lateral izquierda (pasos foco) */
+  #panel{position:absolute;left:0;top:0;height:100vh;width:100%;z-index:5;pointer-events:none;display:flex;align-items:center;justify-content:flex-start}
+  .mpc{margin-left:7vw;width:300px;max-width:84vw;opacity:0;transform:translateY(14px);
+    transition:opacity .55s ease,transform .55s ease;background:rgba(255,252,245,.93);backdrop-filter:blur(6px);
+    border:1px solid rgba(189,35,51,.35);border-radius:6px;padding:26px 28px 24px;
+    box-shadow:0 18px 50px rgba(90,60,40,.18)}
+  .mpc.on{opacity:1;transform:none}
+  .kick{font-weight:600;letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--red);margin-bottom:10px}
+  .ttl{font-family:'Playfair Display';font-weight:700;font-size:clamp(24px,3vw,32px);line-height:1.08;margin-bottom:12px;color:var(--ink)}
+  .mbig{font-family:'Playfair Display';font-weight:900;font-size:clamp(44px,6.5vw,64px);color:var(--red);line-height:.92;letter-spacing:-.01em}
+  .msub{font-size:14px;color:#4a403a;margin-top:18px;line-height:1.55}
+  .msub b{color:var(--red);font-weight:700}
+  .note{margin-top:16px;font-size:12px;color:#6b5c52;line-height:1.55;border-top:1px solid rgba(189,35,51,.25);padding-top:12px}
+
+  /* CIERRE: pantalla oscura */
+  #closing{position:absolute;inset:0;z-index:8;pointer-events:none;
+    background:radial-gradient(140% 120% at 50% 4%, #f6efdd, #efe5d0 50%, #ead9bb);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(20px,4vh,52px) 6vw;
+    opacity:0;transition:opacity .7s ease}
+  #closing.on{opacity:1}
+  #closing .meyebrow{font-weight:600;letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--red);margin-bottom:clamp(12px,2.2vh,22px)}
+  #closing h2{font-family:'Playfair Display';font-weight:700;color:var(--ink);font-size:clamp(24px,min(4.4vw,6vh),52px);
+    line-height:1.06;text-align:center;max-width:18ch;margin:0}
+  #closing .body{font-weight:400;color:#4a403a;font-size:clamp(13px,min(1.7vw,2.2vh),18px);
+    line-height:1.5;text-align:center;max-width:54ch;margin-top:clamp(14px,2.6vh,28px)}
+  .toplabel{margin-top:clamp(20px,3.6vh,44px);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);text-align:center}
+  #clTop{display:flex;flex-direction:column;gap:clamp(4px,1vh,9px);margin-top:clamp(12px,2.2vh,20px);width:min(560px,86vw);
+    background:rgba(255,252,245,.7);backdrop-filter:blur(6px);border:1px solid rgba(189,35,51,.3);
+    border-radius:8px;padding:clamp(12px,2vh,20px) clamp(16px,2.4vw,24px);box-shadow:0 18px 50px rgba(90,60,40,.16)}
+  .bar-row{display:grid;grid-template-columns:88px 1fr 38px;gap:10px;align-items:center;
+    font-size:clamp(11px,1.5vh,13px);color:#4a403a}
+  .bar-row .bl{text-align:right;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar-row .bt{position:relative;height:13px;background:rgba(120,90,50,.12);border-radius:3px;overflow:hidden}
+  .bar-row .bf{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#d68b72,#BD2333);
+    border-radius:3px;transition:width 1s cubic-bezier(.22,1,.36,1)}
+  .bar-row.hl .bf{background:linear-gradient(90deg,#BD2333,#7A1622)}
+  .bar-row .bv{font-weight:700;font-variant-numeric:tabular-nums;color:var(--goldink);text-align:left}
+
+  /* leyenda */
+  #legend{position:absolute;right:clamp(46px,5vw,60px);top:clamp(46px,5.5vw,60px);z-index:6;pointer-events:none;
+    display:grid;grid-template-columns:auto;gap:5px;font-size:12px;color:#3a302a;transition:opacity .5s ease;
+    text-shadow:0 1px 3px rgba(236,227,208,.95),0 0 6px rgba(236,227,208,.85)}
+  #legend .li{display:flex;align-items:center;gap:8px}
+  #legend .sw{width:15px;height:12px;border-radius:3px;border:1px solid rgba(120,90,50,.3)}
+  #legend .cap{font-weight:700;letter-spacing:.04em;margin-bottom:4px;color:var(--ink)}
+
+  .country{stroke:#cbb892;stroke-width:.4px;stroke-linejoin:round;transition:fill-opacity .7s ease,fill .7s ease}
+
+
+  @media(max-width:720px){
+    .mpc{margin:0 0 0 12px;width:78vw}
+    #panel{align-items:flex-end;padding-bottom:80px}
+    #legend{bottom:auto;top:14px;left:14px;right:auto;background:rgba(246,239,221,.85);padding:8px 10px;border-radius:4px}
+    #clTop{grid-auto-flow:row;grid-template-rows:none;grid-template-columns:1fr}
+    #cover{padding:0 5vw}
+  }
+  /* navegación manual */
+  #nav{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:7;
+    display:flex;align-items:center;gap:14px;pointer-events:auto}
+  #dots{display:flex;gap:10px}
+  .dot{width:9px;height:9px;border-radius:50%;border:1px solid rgba(120,90,50,.55);
+    background:transparent;cursor:pointer;transition:background .3s,transform .3s,border-color .3s;padding:0}
+  .dot.on{background:var(--red);border-color:var(--red);transform:scale(1.25)}
+  #nav.dark .dot{border-color:rgba(244,233,214,.5)} #nav.dark .dot.on{background:var(--gold);border-color:var(--gold)}
+  .arrow{background:transparent;border:none;cursor:pointer;font-size:18px;line-height:1;color:#8a715a;
+    padding:4px 6px;border-radius:4px;transition:color .25s,opacity .25s}
+  .arrow:hover{color:var(--red)} .arrow:disabled{opacity:.25;cursor:default}
+  #nav.dark .arrow{color:rgba(244,233,214,.7)} #nav.dark .arrow:hover{color:var(--gold)}
+  #cue{position:absolute;left:50%;bottom:48px;transform:translateX(-50%);z-index:7;pointer-events:none;
+    font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#8a715a;opacity:.9;
+    transition:opacity .4s,color .4s}
+  #cue.dark{color:rgba(244,233,214,.65)}
+  /* ===== INTRO: libro Guía Michelin ===== */
+  #bookintro{position:fixed;inset:0;z-index:40;pointer-events:none;display:flex;align-items:center;
+    overflow:hidden;background:radial-gradient(130% 110% at 50% 0%, #f6efdd 0%, #efe5d0 52%, #e7d6b6 100%);will-change:opacity;
+    padding:0 clamp(28px,5vw,80px)}
+  #bookintro .bi-text{will-change:opacity,transform;display:flex;flex-direction:column;align-items:flex-start;text-align:left;
+    gap:clamp(10px,1.6vh,18px);max-width:min(38vw,460px);flex:0 0 auto}
+  #bookintro .bi-eyebrow{font-family:'Inter',sans-serif;font-weight:600;letter-spacing:.34em;text-transform:uppercase;
+    font-size:clamp(10.5px,1.3vw,13px);color:var(--goldink)}
+  #bookintro h1{font-family:'Playfair Display',serif;font-weight:900;line-height:.98;letter-spacing:-.01em;
+    font-size:clamp(30px,5.4vw,62px);color:var(--ink);max-width:14ch}
+  #bookintro .bi-lede{font-family:'Inter',sans-serif;font-weight:400;line-height:1.5;
+    font-size:clamp(14px,1.7vw,18px);color:#5e544b;max-width:34ch}
+  #bookintro .bi-cue{font-family:'Inter',sans-serif;font-size:12.5px;letter-spacing:.05em;color:#9a8c79;margin-top:2px}
+  #bookintro .bi-stage{position:absolute;right:0;top:0;bottom:0;width:56vw;display:flex;align-items:center;justify-content:flex-end;
+    padding:0}
+  .book-scene{position:relative;perspective:1700px;height:min(100vh, 56vw * 44 / 30);width:calc(min(100vh, 56vw * 44 / 30) * 30 / 44);will-change:transform;flex:0 0 auto}
+  .book{position:relative;width:100%;height:100%;transform-style:preserve-3d}
+  .book-face{position:absolute;inset:0;border-radius:5px 9px 9px 5px;overflow:hidden}
+  .book-back{background:#f1e9d7;box-shadow:inset 0 0 0 1px #d8c8a8, 0 18px 40px -16px rgba(40,30,20,.45)}
+  .book-back .pginner{position:absolute;inset:9% 8% 8% 12%;border-radius:2px 5px 5px 2px;
+    background:linear-gradient(90deg,#e9e0cd 0%,#f4ecdb 14%,#f4ecdb 100%)}
+  .book-front{transform-origin:left center;will-change:transform;backface-visibility:hidden;
+    box-shadow:0 22px 46px -18px rgba(60,10,10,.55), inset -6px 0 14px -8px rgba(0,0,0,.35)}
+  .book-front svg,.book-front img{display:block;width:100%;height:100%}
+  .bib-man{position:relative;height:min(78vh,560px);width:calc(min(78vh,560px) * 245.61 / 356.4);
+    flex:0 0 auto;margin-right:clamp(-18px,-2.2vw,-6px);z-index:2;opacity:1;
+    transform-origin:bottom right;will-change:transform,opacity;
+    filter:drop-shadow(0 18px 22px rgba(40,25,10,.28))}
+  .bib-man svg,.bib-man img{display:block;width:100%;height:100%}
+  #mi-root{ color:var(--ink); font-family:'Inter',system-ui,sans-serif; }
+  #mi-grain{ position:fixed; inset:0; z-index:3; pointer-events:none; opacity:.4; mix-blend-mode:multiply; display:none;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>"); }
+
+  /* paneles de apertura y cierre */
+  #mi-stage .panel{ position:absolute; inset:0; z-index:6; display:flex; align-items:center; justify-content:center; padding:0 7vw; pointer-events:none; }
+  #mi-outro{ position:absolute; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(140% 120% at 50% 4%, #f6efdd, #efe5d0 50%, #ead9bb);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; padding:clamp(20px,4vh,52px) 6vw;
+    opacity:0; }
+  #mi-outro .meyebrow{ font-weight:600; letter-spacing:.22em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:clamp(12px,2.2vh,22px); }
+  #mi-outro h2{ font-family:'Playfair Display'; font-weight:700; color:var(--ink); font-size:clamp(24px,min(4.4vw,6vh),52px);
+    line-height:1.06; text-align:center; max-width:18ch; margin:0; }
+  #mi-outro .body{ font-weight:400; color:#4a403a; font-size:clamp(13px,min(1.7vw,2.2vh),18px);
+    line-height:1.5; text-align:center; max-width:54ch; margin-top:clamp(14px,2.6vh,28px); }
+  #mi-outro .body b{ color:var(--red); }
+  #mi-stage .panel .box{ max-width:560px; text-align:center; background:rgba(255,252,245,.62); backdrop-filter:blur(4px); border-radius:16px; padding:clamp(26px,4vw,40px) clamp(28px,4.4vw,46px); box-shadow:0 24px 60px rgba(90,60,40,.12); }
+  #mi-stage .panel .eyebrow{ font-weight:600; letter-spacing:.26em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:14px; }
+  #mi-stage .panel h1{ font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(34px,5.6vw,66px); line-height:1.02; color:var(--ink); margin-bottom:14px; }
+  #mi-stage .panel h1 .r{ color:var(--red); }
+  #mi-stage .panel .sub{ font-family:'Inter',sans-serif; font-style:normal; font-weight:400; color:#4a403a; font-size:clamp(14px,1.6vw,18px); line-height:1.55; }
+  #mi-stage .panel .cue{ margin-top:18px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#a8714e; animation:mi-bob 1.8s infinite; }
+  #mi-stage .panel .big{ font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(23px,3.3vw,40px); line-height:1.18; color:var(--ink); }
+  #mi-stage .panel .big .r{ color:var(--red); } #mi-stage .panel .big .g{ color:var(--goldink); }
+
+  #mi-stage{ position:fixed; inset:0; z-index:2; width:100%; height:100vh; overflow:hidden; display:none; transition:opacity .15s linear;
+    background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%); }
+  #mi-stage canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+  #mi-stage .cap{ position:absolute; top:11%; left:0; right:0; text-align:center; padding:0 7vw; pointer-events:none; z-index:3; }
+  #mi-stage .ribbon{ display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:16px; }
+  #mi-stage .ribbon .ln{ width:clamp(30px,7vw,76px); height:1px; background:linear-gradient(90deg,transparent,#C8912F); }
+  #mi-stage .ribbon .ln.r{ background:linear-gradient(90deg,#C8912F,transparent); }
+  #mi-stage .stars{ display:inline-flex; align-items:center; gap:.26em; font-size:clamp(18px,2.9vw,27px); line-height:1; }
+  #mi-stage .stars .mstar{ display:block; height:1.16em; width:auto; }
+  #mi-stage .eyebrow{ font-weight:600; letter-spacing:.3em; text-transform:uppercase; font-size:11px; color:var(--red); }
+  #mi-stage .big{ font-family:'Playfair Display',Georgia,serif; font-weight:600; font-size:clamp(40px,6.4vw,78px); line-height:.92; letter-spacing:-.01em; color:var(--ink); }
+  #mi-stage .small{ font-family:'Playfair Display',serif; font-style:italic; font-weight:500; font-size:clamp(14px,2.1vw,20px); color:#6a5644; margin-top:11px; }
+
+  #mi-stage .coursetag{ position:absolute; bottom:6%; left:0; right:0; text-align:center; z-index:3; pointer-events:none; font-size:10.5px; letter-spacing:.42em; text-transform:uppercase; color:var(--goldink); font-weight:600; }
+  #mi-stage .hint{ position:absolute; bottom:10.5%; left:0; right:0; text-align:center; color:#a8714e; font-size:11px; letter-spacing:.2em; text-transform:uppercase; animation:mi-bob 1.8s infinite; z-index:3; pointer-events:none; }
+  @keyframes mi-bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  #ti-root{ color:var(--ink); font-family:'Inter',system-ui,sans-serif; }
+  #ti-grain{ position:fixed; inset:0; z-index:3; pointer-events:none; opacity:.4; mix-blend-mode:multiply; display:none;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>"); }
+  /* paneles de apertura y cierre */
+  #ti-stage .panel{ position:absolute; inset:0; z-index:6; display:flex; align-items:center; justify-content:center; padding:0 7vw; pointer-events:none; }
+  #ti-cover .box{ max-width:920px; }
+  #ti-cover h1{ font-size:clamp(30px,5vw,58px); }
+  #ti-stage .panel .box{ max-width:560px; text-align:center; background:rgba(255,252,245,.62); backdrop-filter:blur(4px); border-radius:16px; padding:clamp(26px,4vw,40px) clamp(28px,4.4vw,46px); box-shadow:0 24px 60px rgba(90,60,40,.12); }
+  #ti-outro{ position:absolute; inset:0; z-index:8; pointer-events:none;
+    background:radial-gradient(140% 120% at 50% 4%, #f6efdd, #efe5d0 50%, #ead9bb);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; padding:clamp(20px,4vh,52px) 6vw;
+    opacity:0; }
+  #ti-outro .meyebrow{ font-weight:600; letter-spacing:.22em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:clamp(12px,2.2vh,22px); }
+  #ti-outro h2{ font-family:'Playfair Display'; font-weight:700; color:var(--ink); font-size:clamp(24px,min(4.4vw,6vh),52px);
+    line-height:1.06; text-align:center; max-width:18ch; margin:0; }
+  #ti-outro .body{ font-weight:400; color:#4a403a; font-size:clamp(13px,min(1.7vw,2.2vh),18px);
+    line-height:1.5; text-align:center; max-width:54ch; margin-top:clamp(14px,2.6vh,28px); }
+  #ti-outro .body b{ color:var(--red); }
+  #ti-stage .panel .eyebrow{ font-weight:600; letter-spacing:.26em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:14px; }
+  #ti-stage .panel h1{ font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(34px,5.6vw,66px); line-height:1.02; color:var(--ink); margin-bottom:14px; }
+  #ti-stage .panel h1 .r{ color:var(--red); }
+  #ti-stage .panel .sub{ font-family:'Inter',sans-serif; font-style:normal; font-weight:400; color:#4a403a; font-size:clamp(14px,1.6vw,18px); line-height:1.55; }
+  #ti-stage .panel .cue{ margin-top:18px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#a8714e; animation:ti-bob 1.8s infinite; }
+  #ti-stage .panel .big{ font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(23px,3.3vw,40px); line-height:1.18; color:var(--ink); }
+  #ti-stage .panel .big .r{ color:var(--red); } #ti-stage .panel .big .g{ color:var(--goldink); }
+
+  #ti-stage{ position:fixed; inset:0; z-index:2; width:100%; height:100vh; overflow:hidden; display:none; transition:opacity .15s linear;
+    background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%); }
+  #ti-stage canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+  #ti-stage .cap{ position:absolute; top:6%; left:0; right:0; text-align:center; padding:0 7vw; pointer-events:none; z-index:3; }
+  #ti-stage .eyebrow{ font-weight:600; letter-spacing:.3em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:10px; }
+  #ti-stage .big{ font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(40px,6.4vw,76px); line-height:.95; color:var(--ink); }
+  #ti-stage .small{ font-family:'Playfair Display',serif; font-style:italic; font-weight:500; font-size:clamp(14px,2.1vw,20px); color:#6a5644; margin-top:8px; }
+  #ti-stage .coursetag{ position:absolute; bottom:3.5%; left:0; right:0; text-align:center; z-index:3; pointer-events:none; font-size:10.5px; letter-spacing:.42em; text-transform:uppercase; color:var(--goldink); font-weight:600; }
+  #ti-stage .hint{ position:absolute; bottom:7.5%; left:0; right:0; text-align:center; color:#a8714e; font-size:11px; letter-spacing:.2em; text-transform:uppercase; animation:ti-bob 1.8s infinite; z-index:3; pointer-events:none; }
+  @keyframes ti-bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+.cm-section{
+  position:relative;
+  isolation:isolate;
+  width:100%;
+  min-height:100vh;
+  overflow:hidden;
+  padding:clamp(52px,7vh,84px) clamp(34px,6vw,86px) clamp(58px,8vh,92px);
+  background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%);
+}
+.cm-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  opacity:.38;
+  pointer-events:none;
+  mix-blend-mode:multiply;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+}
+.cm-wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto}
+.cm-sep{display:flex;align-items:center;justify-content:center;gap:16px;max-width:620px;margin:0 auto 38px}
+.cm-sep .cm-ln{flex:1;height:1px;background:linear-gradient(90deg,transparent,#C8912F);opacity:.65}
+.cm-sep .cm-ln:last-child{background:linear-gradient(90deg,#C8912F,transparent)}
+.cm-sep .cm-dot{color:#C8912F;font-size:10px;letter-spacing:.3em}
+.cm-eyebrow{display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Inter',sans-serif;font-weight:600;letter-spacing:.34em;text-transform:uppercase;font-size:clamp(10.5px,1.2vw,13px);color:var(--red);margin-bottom:18px;text-align:center}
+.cm-star-icon{width:20px;height:20px;display:block;flex:0 0 auto;color:var(--red)}
+.cm-red{color:var(--red)}
+.cm-gold{color:var(--gold)}
+.cm-title{font-family:'Playfair Display',serif;font-weight:900;text-align:center;font-size:clamp(40px,6.5vw,76px);line-height:.96;letter-spacing:-.035em;color:#17110e;margin:0 auto 16px;max-width:16ch}
+.cm-lead{max-width:920px;margin:0 auto 38px;color:var(--muted);font-size:clamp(15px,1.6vw,18px);line-height:1.55;text-align:center}
+.cm-lead b{color:var(--red-deep);font-weight:600}
+@media(max-width:900px){
+  .cm-section{padding:48px 18px 58px;min-height:auto}
+  .cm-title{text-align:left;max-width:100%;font-size:clamp(38px,10vw,58px)}
+  .cm-eyebrow,.cm-lead{text-align:left;justify-content:flex-start}
+  .cm-sep{margin-bottom:28px}
+}
+
+
+.cm-game-wrap{max-width:1040px;margin:0 auto}
+.cm-personal{max-width:1020px;margin:0 auto;display:grid;grid-template-columns:70px minmax(320px,1.15fr) 1px 1fr;gap:24px;align-items:center;background:rgba(255,252,245,.76);backdrop-filter:blur(4px);border:1px solid rgba(189,35,51,.30);border-radius:6px;padding:28px 30px;box-shadow:0 18px 50px rgba(90,60,40,.12)}
+.cm-round-icon{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(189,35,51,.35);background:rgba(255,252,245,.9)}
+.cm-round-icon span{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;color:var(--red)}
+.cm-personal h3{font-family:'Playfair Display',serif;font-size:clamp(30px,3vw,42px);line-height:1.02;color:#17110e;margin:0 0 12px;letter-spacing:-.03em}
+.cm-personal-help{margin:-4px 0 16px;color:#6b5c52;font-size:14px;line-height:1.35}
+.cm-salary-grid{display:grid;grid-template-columns:minmax(120px,220px) 100px;gap:10px;align-items:end;max-width:340px}
+.cm-input-label{font-size:11px;color:#6b5c52;margin-bottom:7px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.cm-field{background:#fffdf8;border:1px solid rgba(120,90,50,.22);border-radius:6px;padding:10px 12px;color:#2b211c;height:44px;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)}
+.cm-field input,.cm-field select{width:100%;height:100%;border:0;outline:0;background:transparent;font:600 16px 'Inter',sans-serif;color:#2b211c}
+.cm-field select{appearance:auto;cursor:pointer}
+.cm-divider{height:100%;width:1px;background:rgba(120,90,50,.28)}
+.cm-result{display:flex;flex-direction:column;justify-content:center;gap:5px;color:#2c211c;line-height:1.25;max-width:430px}
+.cm-result b{color:var(--red)}
+.cm-result-kicker{display:block;font-size:13.5px;color:#6b5c52;line-height:1.3;margin:0 0 2px}
+.cm-result-main{display:block;font-family:'Playfair Display',serif;font-size:clamp(34px,3.4vw,48px);line-height:.98;color:#17110e;margin:0 0 6px;letter-spacing:-.025em}
+.cm-result-main b{color:var(--red)}
+.cm-result-sub{display:block;font-size:15.5px;color:#2c211c;line-height:1.25;margin:0}
+.cm-result small{display:block;margin-top:4px;font-size:11px;color:#6b5c52;line-height:1.3}
+@media(max-width:900px){.cm-personal{grid-template-columns:56px 1fr;gap:16px;padding:20px;max-width:500px}.cm-divider{display:none}.cm-result{grid-column:1/-1}.cm-round-icon{width:54px;height:54px}.cm-salary-grid{max-width:none}}
+@media(max-width:480px){.cm-salary-grid{grid-template-columns:1fr 94px}}
+
+.cm-tickets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.8vw,32px);align-items:stretch}
+.cm-ticket{position:relative;min-height:390px;padding:28px 28px 24px;background:rgba(255,252,245,.86);backdrop-filter:blur(4px);border:1px solid rgba(189,35,51,.30);box-shadow:0 18px 50px rgba(90,60,40,.14);border-radius:6px;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
+.cm-ticket:hover{transform:translateY(-5px);box-shadow:0 24px 56px rgba(90,60,40,.20);border-color:rgba(189,35,51,.48)}
+.cm-ticket.cm-is-gold:hover{border-color:rgba(247,176,54,.68)}
+.cm-ticket::before{content:"";position:absolute;inset:18px;border:1px solid rgba(195,179,148,.76);border-radius:4px;pointer-events:none}
+.cm-ticket-head{position:relative;z-index:1;display:flex;align-items:baseline;gap:10px;margin:8px 0 8px;font-family:'Playfair Display',serif;color:#17110e}
+.cm-stars-img{display:flex;align-items:center;gap:4px;flex:0 0 auto;transform:translateY(-2px)}
+.cm-stars-img svg{width:18px;height:18px;display:block;flex:0 0 auto}
+.cm-star-title-text{display:flex;align-items:baseline;gap:7px;line-height:1;white-space:nowrap}
+.cm-star-number{font-size:clamp(34px,3.4vw,46px);font-weight:900;letter-spacing:-.05em}
+.cm-star-word{font-size:clamp(25px,2.3vw,33px);font-weight:800;letter-spacing:-.035em}
+.cm-n-count{position:relative;z-index:1;font-size:12.5px;color:#6b5c52;margin-bottom:14px;font-variant-numeric:tabular-nums}
+.cm-dash{position:relative;z-index:1;border-bottom:2px dotted rgba(120,90,50,.28);margin-bottom:14px}
+.cm-price-row{position:relative;z-index:1;display:grid;grid-template-columns:68px 1fr 54px;gap:12px;align-items:center;padding:9px 0 12px;border-bottom:1px dotted rgba(120,90,50,.22);border-radius:6px;transition:background .2s ease,transform .2s ease}
+.cm-price-row:hover{background:rgba(189,35,51,.045);transform:translateX(3px)}
+.cm-price-row:last-child{border-bottom:0}
+.cm-price-label{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#221915;white-space:nowrap;letter-spacing:-.03em}
+.cm-track{height:16px;background:var(--track);border-radius:999px;overflow:hidden;box-shadow:inset 0 1px 1px rgba(80,50,20,.12)}
+.cm-fill{height:100%;width:var(--width);border-radius:999px;background:var(--red);transition:width .7s ease}
+.cm-fill.cm-low{background:#cfc6b7}.cm-fill.cm-mid{background:#d66f7a}.cm-fill.cm-high{background:var(--red)}.cm-fill.cm-lux{background:var(--red-deep)}
+.cm-is-gold .cm-fill.cm-lux{background:linear-gradient(90deg,var(--gold),#cf7d0c)}
+.cm-pct{font-size:14px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;color:#251b16}
+.cm-count{display:block;margin-top:2px;font-size:10px;font-weight:500;color:#7d6b5d}
+.cm-profile{position:relative;z-index:1;margin-top:16px;padding-top:17px;border-top:1px solid rgba(120,90,50,.36);text-align:center;font-family:'Playfair Display',serif;font-size:21px;color:#17110e}
+.cm-profile strong{color:var(--red);font-weight:800}.cm-is-gold .cm-profile strong{color:var(--goldink)}
+@media(max-width:980px){.cm-price-row{grid-template-columns:62px 1fr 48px;gap:8px}.cm-ticket{padding-left:26px;padding-right:26px}.cm-price-label{font-size:20px}}
+@media(max-width:900px){.cm-tickets{grid-template-columns:1fr;max-width:500px;margin:0 auto}}
+@media(max-width:480px){.cm-price-row{grid-template-columns:68px 1fr 48px}.cm-star-number{font-size:34px}.cm-star-word{font-size:28px}}
+
+#bookoutro{position:fixed;inset:0;z-index:25;display:none;align-items:center;justify-content:center;
+  background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%);
+  pointer-events:none}
+#bookoutro .bo-stage{position:relative;height:min(82vh,640px);
+  width:calc(min(82vh,640px) * 1073.42 / 1600)}
+#bookoutro .bo-book{position:relative;width:100%;height:100%}
+#bookoutro .bo-face{position:absolute;inset:0;border-radius:5px 9px 9px 5px;overflow:hidden}
+#bookoutro .bo-back{background:#f1e9d7;box-shadow:inset 0 0 0 1px #d8c8a8, 0 18px 40px -16px rgba(40,30,20,.45)}
+#bookoutro .bo-back .bo-pginner{position:absolute;inset:9% 8% 8% 12%;border-radius:2px 5px 5px 2px;
+  background:linear-gradient(90deg,#e9e0cd 0%,#f4ecdb 14%,#f4ecdb 100%)}
+#bookoutro .bo-front{
+  transform-origin:left center;backface-visibility:hidden;
+  box-shadow:0 22px 46px -18px rgba(60,10,10,.55), inset -6px 0 14px -8px rgba(0,0,0,.35)}
+#bookoutro .bo-front svg,#bookoutro .bo-front img{display:block;width:100%;height:100%}
+</style></head>
+<body>
+<div id="bookintro">
+  <div class="bi-text">
+    <div class="bi-eyebrow">Guía Michelin · Edición 1900</div>
+    <h1>Un siglo de estrellas</h1>
+    <p class="bi-lede">Un recorrido por el mapa del prestigio gastronómico: dónde se concentran las estrellas, qué cocinas dominan la guía y quiénes alcanzan la cima.</p>
+    <div class="bi-cue">Scrolleá para abrir la guía ↓</div>
+  </div>
+  <div class="bi-stage">
+    <div class="bib-man"><img src="michelin-man.svg" alt="" aria-hidden="true" style="display:block;width:100%;height:100%"></div>
+    <div class="book-scene">
+      <div class="book">
+        <div class="book-face book-back"><div class="pginner"></div></div>
+        <div class="book-face book-front">
+          <img src="guia-michelin.svg" alt="" aria-hidden="true" style="display:block;width:100%;height:100%">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="graphic">
+    <svg id="map"></svg>
+    <div class="grain"></div><div class="vig"></div>
+    <div id="mscrim"></div>
+    <div id="labels"></div>
+    <div id="cover"><div class="cbox"><div class="meyebrow">El mapa del prestigio</div><h1 id="coverT"></h1><p id="coverB"></p></div></div>
+    <div id="panel"><div class="mpc" id="mpc"></div></div>
+    <div id="closing">
+      <div class="meyebrow">Fin del recorrido</div>
+      <h2 id="clT"></h2><p class="body" id="clB"></p>
+      <div class="toplabel">Top 10 países por estrellas</div>
+      <div id="clTop"></div>
+    </div>
+    <div id="legend">
+      <span class="cap">Estrellas por país</span>
+      <div class="li"><span class="sw" style="background:#7A1622"></span>500 +</div>
+      <div class="li"><span class="sw" style="background:#BD2333"></span>100 – 499</div>
+      <div class="li"><span class="sw" style="background:#c9685a"></span>25 – 99</div>
+      <div class="li"><span class="sw" style="background:#d68b72"></span>5 – 24</div>
+      <div class="li"><span class="sw" style="background:#e3b69e"></span>1 – 4</div>
+      <div class="li"><span class="sw" style="background:#e8dcc2"></span>sin datos</div>
+    </div>
+    <nav id="nav">
+      <button class="arrow" id="prev" aria-label="Anterior">‹</button>
+      <div id="dots"></div>
+      <button class="arrow" id="next" aria-label="Siguiente">›</button>
+    </nav>
+  </div>
+<div id="ti-root">
+  <div id="ti-grain"></div>
+  <div id="ti-stage">
+    <canvas id="ti-cv"></canvas>
+    <div class="cap" id="ti-cap"></div>
+    <div class="hint" id="ti-hint"></div>
+    <div class="panel" id="ti-cover"><div class="box">
+      <div class="eyebrow">Tercer servicio</div>
+      <h1>¿Cómo conquistó el<br>mundo la <span class="r">guía</span>?</h1>
+      <div class="sub">Una línea de tiempo: 1900 – 2026.</div>
+    </div></div>
+    <div class="panel" id="ti-outro">
+      <div class="meyebrow">Fin del tercer servicio</div>
+      <h2>El talento no conoce<br>fronteras.</h2>
+      <div class="body">En un siglo, de un país a más de <b>cuarenta</b>. El <b>rojo</b> dejó de ser solo europeo &mdash; 41 ediciones · 3 continentes · 125 años.</div>
+    </div>
+  </div>
+</div>
+<div id="mi-root">
+  <div id="mi-grain"></div>
+  <div id="mi-stage">
+    <canvas id="mi-plate"></canvas>
+    <div class="cap" id="mi-cap"></div>
+    <div class="hint" id="mi-hint"></div>
+    <div class="panel" id="mi-cover"><div class="box">
+      <div class="eyebrow">Primer servicio</div>
+      <h1>El plato de las <span class="r">estrellas</span></h1>
+      <div class="sub">3.842 restaurantes, servidos miga a miga.</div>
+    </div></div>
+    <div class="panel" id="mi-outro">
+      <div class="meyebrow">Fin del primer servicio</div>
+      <h2>La cima es una<br>franja angosta.</h2>
+      <div class="body">De los 3.842 restaurantes, apenas <b>157</b> alcanzan las tres estrellas &mdash; <b>157 / 3.842, apenas el 4%</b>.</div>
+    </div>
+  </div>
+</div>
+<section class="cm-section" id="cm-tickets-section">
+  <div class="cm-wrap">
+    <div class="cm-sep"><span class="cm-ln"></span><span class="cm-dot">◆</span><span class="cm-ln"></span></div>
+    <div class="cm-eyebrow">
+      <svg class="cm-star-icon cm-red" aria-hidden="true"><use href="#cm-michelin-star"></use></svg>
+      <span>La entrada — estrellas & precio</span>
+    </div>
+    <h1 class="cm-title">¿Subir una estrella también sube la cuenta?</h1>
+    <p class="cm-lead">A medida que suben las estrellas, también cambia la cuenta: entre los restaurantes de <b>2 y 3 estrellas</b>, casi todos caen en la categoría de precio más alta.</p>
+    <div class="cm-tickets" id="cm-tickets"></div>
+  </div>
+</section>
+
+<div id="stage"><div id="shelfwrap"><div id="shelf"><div class="row" id="r1"></div><div class="row" id="r2"></div></div></div></div>
+<div id="scrim"></div>
+<div id="matte"></div>
+<div id="frame"></div>
+
+<div class="legend">
+  <div class="row"><svg class="lgl" viewBox="0 0 100 176" aria-hidden="true"><clipPath id="lcl"><path d="M28,20 C20,52 24,100 50,112 C76,100 80,52 72,20 Z"/></clipPath><g clip-path="url(#lcl)"><rect x="0" y="46" width="100" height="100" fill="#bd2333"/><rect x="0" y="33" width="100" height="13" fill="#f7c64f"/><rect x="0" y="20" width="100" height="13" fill="#cf7d0c"/></g><path d="M28,20 C20,52 24,100 50,112 C76,100 80,52 72,20 Z" fill="none" stroke="#8a715a" stroke-width="3.5"/><ellipse cx="50" cy="20" rx="22" ry="4" fill="none" stroke="#8a715a" stroke-width="3.5"/><rect x="47.5" y="112" width="5" height="50" rx="2" fill="#bdab92"/><ellipse cx="50" cy="166" rx="24" ry="5.5" fill="none" stroke="#8a715a" stroke-width="3.5"/></svg><span><b>Tamaño de la copa</b> = qué tan presente está esa cocina.</span></div>
+  <div class="row"><span class="sw r"></span><span>Restaurantes con 1 estrella.</span></div>
+  <div class="row"><span class="sw g2"></span><span>Restaurantes con 2 estrellas.</span></div>
+  <div class="row"><span class="sw g3"></span><span>Restaurantes con 3 estrellas.</span></div>
+</div>
+
+<div class="scroller">
+  <section class="intro" data-stage="0"><div class="box">
+    <div class="eyebrow">La carta de vinos</div>
+    <h1>¿Qué tipo de cocina dominan <br> la guia?</h1>
+    <p class="introsub">Se muestran las 16 cocinas con mayor predominancia buscando responder: ¿que es lo que verdaderamente las lleva a la cima?</p>
+  </div></section>
+
+  <section class="step" data-stage="1"></section>
+
+  <section class="step right" data-stage="3"><div class="card">
+    <div class="eyebrow">La más común</div>
+    <h2>Mucho vino, poco oro</h2>
+    <p class="lede"><b>Moderna</b> es la cocina más presente de la guía, pero su franja dorada es de las más finas. Ser lo más común no la acerca a la cima.</p>
+  </div></section>
+
+  <section class="step right" data-stage="4"><div class="card">
+    <div class="eyebrow">El oro</div>
+    <h2>La franja más alta</h2>
+    <p class="lede"><b>Creativa</b>, casi tan ancha como Moderna, corona mucho más oro: cuenta con la mayor proporción que llega a 2 o 3 estrellas. Ser innovador tiene sus beneficios.</p>
+  </div></section>
+
+  <section class="step right" data-stage="5"><div class="card">
+    <div class="eyebrow">Con bandera</div>
+    <h2>Recién acá, un país</h2>
+    <p class="lede"><b>Francesa</b>, <b>Japonesa</b>, <b>Italiana</b> y <b>China</b> son las cocinas con nacionalidad más presentes en la guía. Aun así, ninguna se llena tanto como los estilos sin país.</p>
+  </div></section>
+
+  <section class="step allview" data-stage="6"></section>
+
+  <div class="foot" data-stage="7">
+    <p class="big">Claramente, la creatividad gana.</p>
+    <p class="lede reveal">De todos los tipos de cocina, la <b> Creativa </b> aunque no sea la más presente en la guia, es la que concentra la mayor cantidad de dos y tres estrellas, y por lo tanto, es la más <b>prestigiosa</b></p> 
+  </div>
+
+  <section id="postres"><div class="pcard">
+    <div class="pcover">
+      <div class="cbox">
+        <div class="course-tag">Postre</div>
+        <h1 class="pcover-title">La estrella que no se sirve en el plato</h1>
+        
+        <p class="pcover-sub">De los <b>3.842</b> restaurantes con estrella Michelin, solo <span class="grn">386</span> lucen tambien la <span class="grn">Estrella Verde</span>, el sello a la cocina sostenible: apenas <b>1 de cada 10</b>. Pero se vuelve comun en la cima &mdash; <span class="grn">casi 1 de cada 4</span> de los tres estrellas del mundo tambien es verde. Lo mas excelso resulta, cada vez mas, lo mas sostenible.</p>
+      </div>
+    </div>
+    <div class="menu-head reveal">
+      <div class="greenribbon"><span class="gico" role="img" aria-label="Estrella Verde"><svg viewBox="0 0 913.12 844.54" xmlns="http://www.w3.org/2000/svg"><g fill="#04953A" stroke="none"><path d="M735.7,321.67l-22.06,2.15-16.01,2.09-9.85,2.25-22.02,5.55-26.01,8.62-11.33,4.55-7.59-12.57c-4.31-7.15-8.83-14.08-12.07-22.14l16.52-14.33,20.31-19.69,14.04-15.62,8.73-10.09,9.44-12.86,17.68-26.22c13.25-24.1,19.93-50.08,15.77-77.43-.78-5.1-1.71-11.38-3.85-15.48l-10.18-19.45c-9.18-14.38-22.86-24.85-37.53-33.33l-4.36-2.52c-22.47-11.43-47.93-16.61-72.47-10.52-14.15,3.51-31.6,13.11-41.63,23.32l-8.43,8.59c-9.66,9.83-15.61,21.86-21.81,34.23-17.47,34.89-29.29,71.24-34.57,110.37l-40.04-.02-1.24-8.03c-2.96-19.17-6.54-37.72-12.87-56.04l-5.08-14.69-4.86-11.45-11.5-23.39-12.16-19.79-6.58-9.1-13.69-13.68-7.91-5.86-8.94-5.8-11.75-5.4-11.65-3.71c-24.47-5.32-48.83-.17-70.82,10.88l-7.54,4.39c-9.24,5.39-17.72,11.36-24.54,19.55l-5.47,6.56c-15.79,18.96-21.5,42.74-19.24,67.68,2.78,30.72,17.87,53.12,33.8,77.99,2.52,3.93,5.16,7.06,8.25,10.64l6.49,7.53,8.93,10.1,10.87,11.2,4.17,3.9,12.24,11.29c.55.51,1.08,2.63.89,2.45,1.58-.19,4.08.98,5.48,2.33l8.38,8.11c1.42,1.61-1.42,6.51-2.6,8.28l-4.09,6.16-5.07,9.71c-2.09,4.01-4.32,7.75-7.65,10.8-32.31-13.55-64.69-22.15-99.27-24.46-20.47-1.37-40.38-2.13-59.84,3.1-13.84,3.72-26.64,9.49-37.69,18.12-2.1,1.64-3.53,2.81-5.73,3.84-1.24.98-3.37,3.38-4.54,4.76l-3.31,3.9-7.94,12.8c-15.22,24.54-16.92,60.68-8.53,88.11,4.64,15.15,12.49,27.98,23.79,39.2l9.43,8.26c2.38,2.08,6.11,4.58,8.43,5.67l15.63,7.31,11.94,3.83,21.39,3.48c19.93,1.44,39.24.26,58.9-2.74l11.22-1.71c20.25-3.08,39.16-10.05,58.58-16.4l12-3.92,19.49,33.93-13.9,5.7-33.04,12.58-17.78,5.67c-30.06,9.59-80.16,17.42-109.95,11.86l-17.63-3.29c-22.91-4.28-56.64-22.62-71.66-41.52l-4.11-3.81-14.04-18.16-3.67-7.06C1.86,460.17-4.28,421.77,3.04,385.37l2.47-10.7c1.29-5.61,3.23-10.86,5.5-16.21,2.46-5.78,4.22-12,8.43-17.15.63-1.62,1.74-4.59,2.84-6.07l10.26-13.99,5.48-6.55c4.57-5.46,10.04-10.92,15.91-14.98l13.66-9.45c10.52-7.28,22.52-12.41,34.86-16.08,7.76-2.31,15.22-5.15,23.49-5.88l18.51-1.62c9.43-.82,18.35-1.02,27.96.32l12.79-.12,15.59,2.67-7.39-9.58-4.32-6.17-3.73-5.71-6.28-9.84c-6.26-9.81-12.2-19.3-15.98-30.35l-2.51-7.34-2.73-6.07c-2.58-5.75-3.23-11.58-4.38-17.67-2.41-12.76-3.98-25.47-2.34-38.69l1.24-10.04c1.64-13.3,6.56-25.67,12.12-37.89,7.15-15.71,18-28.74,29.94-41.04,6.31-6.5,13.01-11.56,20-16.92,3.65-2.8,7.27-5.69,11.31-7.89l16.87-9.16c8.34-4.53,30.21-11.88,40.14-13l13.63-1.54c17.66-1.99,43.31,1.72,59.56,8.76l5.77,2.5,18.42,9.52,6.29,4.56,6.27,4.76,5.76,4.37c4.11,3.12,8.29,7.19,11.71,11.11l7.07,8.09c12.14,13.9,21.84,29.66,29.45,46.5l8.95,19.81,2.17-.98c6.75-17.03,14.14-32.63,24.41-47.66,14.07-22.97,33.09-43.2,57.73-55.16l5.55-2.69c12.49-6.07,25.56-10.66,39.28-12.25l10.63-1.23c6.77-.79,13.23-.99,19.95-.06l17.33,2.41,15.96,3.74c28.64,9.54,55.09,25.68,74.88,48.07l9.53,10.79c24.94,32.25,34.3,71.27,26.24,111.23-1.46,7.26-3.22,14.42-5.91,21.23l-1.95,4.93c-5.92,15.01-12.94,28.71-22.18,41.84l-16.92,24.05,2.32.73c8.63-3.51,16.89-2.9,25.7-2.92l27.93-.07,18.53,1.64,23.48,5.85c6.8,1.7,13.39,4,19.55,7.49l17.1,9.7c10.76,6.1,20.15,14.52,28.25,24.02l4.61,5.41c5.1,5.98,9.43,12.65,13.23,19.72,3.78,5.7,6.66,11.62,8.5,18.07,2.85,5.07,4.33,10.59,5.64,16.13l2.1,8.83,2.65,17.15c1.8,11.64,1.45,23.78-.2,35.59l-1.4,10.05-1.83,7.6-1.69,8.33c-2.15,10.59-5.67,20.62-11.14,29.95l-7.24,12.36c-10.03,17.12-23.85,31.14-40.12,42.62-6.76,4.77-13.31,8.81-20.78,12.29l-9.95,4.63c-20.34,9.47-54.15,15-77.52,12.76l-25.01-2.41,11.5,14.43,11.93,19.51c4.39,7.18,8.48,14.52,11.45,22.6l1.94,5.29c-1.71.18-1.01.11.49-.05,5.22,14.86,10.11,30.48,10.17,46.89l.07,19.1c-1.3,28.13-11.79,55.15-28.8,77.11-8.92,11.52-17.75,21.87-29.58,29.82l-17.97,12.08-16.57,8.36c-22.76,11.48-56.91,16.45-82.42,11.87-19.22-3.44-37.21-10-53.62-20.7l-8.87-6.92-10.87-8.16.5-1.35c-1.79-.64-3.47-1.34-4.1-2.01-8.57-9.14-16.53-17.68-23.2-28.11-8.16-12.76-15.58-24.97-21.56-38.74-6.7-15.42-12.39-30.69-16.37-47.29-6.38-24.79-10.35-49.19-12.77-74.82,1.37-1.19,3.43-1.18,5.11-.26l29.84.04c1.45-.33,3.03-.67,3.84-.26s1.7,2.78,1.85,3.81c2.68,18.64,5.86,36.45,11.38,54.38l2.63,8.53c8.64,28.06,21.31,54.21,39.56,77.66l13.17,13.56,7.17,5.47,6.21,4.33,4.83,2.76c29.02,16.6,63.99,12.69,93.38-2.26l4.38-2.49c7.97-4.53,15.91-9.22,22.13-15.88l10.1-10.81c15.79-19.89,22.67-43.38,20.08-68.91-.68-6.69-1.42-13.99-3.31-20.06-3.25-10.41-7.57-19.52-12.49-28.89l-2.35-4.49-11.23-18.29-17.58-22.66-12.98-14.27c-1.89-2.39-3.94-5.06-6.03-6.97l-20.31-18.56-16.9-14.8,11.5-21.5,7.96-13.14,19.86,7.65,16.85,5.42,32.14,7.8,18.16,2.3,17.54,1.92,38.93-.04c8.17,0,16.28-2.98,23.85-4.95l10.07-2.62.44-.85c14.02-5.89,26.82-14.72,36.22-26.57,15.01-18.92,18.83-35.44,21.5-58.73.6-5.28.33-10.63-.14-16.09-2.29-26.29-12.8-51.39-33-68.69-15-12.84-33.06-19.41-51.97-23.26-3.63-.74-6.76-1.5-10.45-1.45l-32.68.44Z"/><path d="M96.62,764.71l9.54-5.56,23.35-13.94,6.17-3.35,10.12-6.4,6.58-4.39,16.38-10.68,9.98-6.83,25.13-17.89c2.38-1.7,4.55-3.13,6.56-3.61,2.22-2.55,5.56-5.7,8.37-7.29,3.67-2.09,6-4.36,9.17-6.97l6.04-5,10.06-7.89c1.73-1.36,3.49-2.51,4.99-3.94l6.76-6.44,11.86-9.93,13.7-12.49,21.4-20.63,24.62-25.27,13.2-15.04,9.63-11.07,5.03-5.98,8.06-9.93,15.51-19.43,9.01-12.07c1.43-1.91,2.39-2.24,3.41-4.54,3.23-7.27,9.21-12.94,13.31-19.37l11.08-17.39,21.72-35.17,12.66-22.08,11.17-20.34,13.45-26.42c3.69-7.24,6.63-14.68,11.65-21.74l30.71,13.63-6.61,15.09-15.07,32.66-2.17,4.77-9.28,18.55-4.46,8.53-15.1,28.22-19.81,34.12-3.12,4.94-28.56,43.39-8.5,11.43-5.63,7.46-4.76,7.16-11.1,13.93-18.51,22.76-18.14,20.64-8.01,9.05-6.72,7.4c-21.53,23.7-44.77,44.78-68.88,65.99l-48.85,39.9-18.11,13.62-11.78,8.71-5.89,4.25-31.2,21.8-6.41,3.92-3.52.43c-.7.09-.84,1.48-1.13,2.79l-15.18,9.66-11.61,7.16-16.17,9.95-11.48,6.99-22.74-50.63-2.41-7.21,40.54-21.99Z"/></g></svg></span><span class="gico" role="img" aria-label="Estrella Verde"><svg viewBox="0 0 913.12 844.54" xmlns="http://www.w3.org/2000/svg"><g fill="#04953A" stroke="none"><path d="M735.7,321.67l-22.06,2.15-16.01,2.09-9.85,2.25-22.02,5.55-26.01,8.62-11.33,4.55-7.59-12.57c-4.31-7.15-8.83-14.08-12.07-22.14l16.52-14.33,20.31-19.69,14.04-15.62,8.73-10.09,9.44-12.86,17.68-26.22c13.25-24.1,19.93-50.08,15.77-77.43-.78-5.1-1.71-11.38-3.85-15.48l-10.18-19.45c-9.18-14.38-22.86-24.85-37.53-33.33l-4.36-2.52c-22.47-11.43-47.93-16.61-72.47-10.52-14.15,3.51-31.6,13.11-41.63,23.32l-8.43,8.59c-9.66,9.83-15.61,21.86-21.81,34.23-17.47,34.89-29.29,71.24-34.57,110.37l-40.04-.02-1.24-8.03c-2.96-19.17-6.54-37.72-12.87-56.04l-5.08-14.69-4.86-11.45-11.5-23.39-12.16-19.79-6.58-9.1-13.69-13.68-7.91-5.86-8.94-5.8-11.75-5.4-11.65-3.71c-24.47-5.32-48.83-.17-70.82,10.88l-7.54,4.39c-9.24,5.39-17.72,11.36-24.54,19.55l-5.47,6.56c-15.79,18.96-21.5,42.74-19.24,67.68,2.78,30.72,17.87,53.12,33.8,77.99,2.52,3.93,5.16,7.06,8.25,10.64l6.49,7.53,8.93,10.1,10.87,11.2,4.17,3.9,12.24,11.29c.55.51,1.08,2.63.89,2.45,1.58-.19,4.08.98,5.48,2.33l8.38,8.11c1.42,1.61-1.42,6.51-2.6,8.28l-4.09,6.16-5.07,9.71c-2.09,4.01-4.32,7.75-7.65,10.8-32.31-13.55-64.69-22.15-99.27-24.46-20.47-1.37-40.38-2.13-59.84,3.1-13.84,3.72-26.64,9.49-37.69,18.12-2.1,1.64-3.53,2.81-5.73,3.84-1.24.98-3.37,3.38-4.54,4.76l-3.31,3.9-7.94,12.8c-15.22,24.54-16.92,60.68-8.53,88.11,4.64,15.15,12.49,27.98,23.79,39.2l9.43,8.26c2.38,2.08,6.11,4.58,8.43,5.67l15.63,7.31,11.94,3.83,21.39,3.48c19.93,1.44,39.24.26,58.9-2.74l11.22-1.71c20.25-3.08,39.16-10.05,58.58-16.4l12-3.92,19.49,33.93-13.9,5.7-33.04,12.58-17.78,5.67c-30.06,9.59-80.16,17.42-109.95,11.86l-17.63-3.29c-22.91-4.28-56.64-22.62-71.66-41.52l-4.11-3.81-14.04-18.16-3.67-7.06C1.86,460.17-4.28,421.77,3.04,385.37l2.47-10.7c1.29-5.61,3.23-10.86,5.5-16.21,2.46-5.78,4.22-12,8.43-17.15.63-1.62,1.74-4.59,2.84-6.07l10.26-13.99,5.48-6.55c4.57-5.46,10.04-10.92,15.91-14.98l13.66-9.45c10.52-7.28,22.52-12.41,34.86-16.08,7.76-2.31,15.22-5.15,23.49-5.88l18.51-1.62c9.43-.82,18.35-1.02,27.96.32l12.79-.12,15.59,2.67-7.39-9.58-4.32-6.17-3.73-5.71-6.28-9.84c-6.26-9.81-12.2-19.3-15.98-30.35l-2.51-7.34-2.73-6.07c-2.58-5.75-3.23-11.58-4.38-17.67-2.41-12.76-3.98-25.47-2.34-38.69l1.24-10.04c1.64-13.3,6.56-25.67,12.12-37.89,7.15-15.71,18-28.74,29.94-41.04,6.31-6.5,13.01-11.56,20-16.92,3.65-2.8,7.27-5.69,11.31-7.89l16.87-9.16c8.34-4.53,30.21-11.88,40.14-13l13.63-1.54c17.66-1.99,43.31,1.72,59.56,8.76l5.77,2.5,18.42,9.52,6.29,4.56,6.27,4.76,5.76,4.37c4.11,3.12,8.29,7.19,11.71,11.11l7.07,8.09c12.14,13.9,21.84,29.66,29.45,46.5l8.95,19.81,2.17-.98c6.75-17.03,14.14-32.63,24.41-47.66,14.07-22.97,33.09-43.2,57.73-55.16l5.55-2.69c12.49-6.07,25.56-10.66,39.28-12.25l10.63-1.23c6.77-.79,13.23-.99,19.95-.06l17.33,2.41,15.96,3.74c28.64,9.54,55.09,25.68,74.88,48.07l9.53,10.79c24.94,32.25,34.3,71.27,26.24,111.23-1.46,7.26-3.22,14.42-5.91,21.23l-1.95,4.93c-5.92,15.01-12.94,28.71-22.18,41.84l-16.92,24.05,2.32.73c8.63-3.51,16.89-2.9,25.7-2.92l27.93-.07,18.53,1.64,23.48,5.85c6.8,1.7,13.39,4,19.55,7.49l17.1,9.7c10.76,6.1,20.15,14.52,28.25,24.02l4.61,5.41c5.1,5.98,9.43,12.65,13.23,19.72,3.78,5.7,6.66,11.62,8.5,18.07,2.85,5.07,4.33,10.59,5.64,16.13l2.1,8.83,2.65,17.15c1.8,11.64,1.45,23.78-.2,35.59l-1.4,10.05-1.83,7.6-1.69,8.33c-2.15,10.59-5.67,20.62-11.14,29.95l-7.24,12.36c-10.03,17.12-23.85,31.14-40.12,42.62-6.76,4.77-13.31,8.81-20.78,12.29l-9.95,4.63c-20.34,9.47-54.15,15-77.52,12.76l-25.01-2.41,11.5,14.43,11.93,19.51c4.39,7.18,8.48,14.52,11.45,22.6l1.94,5.29c-1.71.18-1.01.11.49-.05,5.22,14.86,10.11,30.48,10.17,46.89l.07,19.1c-1.3,28.13-11.79,55.15-28.8,77.11-8.92,11.52-17.75,21.87-29.58,29.82l-17.97,12.08-16.57,8.36c-22.76,11.48-56.91,16.45-82.42,11.87-19.22-3.44-37.21-10-53.62-20.7l-8.87-6.92-10.87-8.16.5-1.35c-1.79-.64-3.47-1.34-4.1-2.01-8.57-9.14-16.53-17.68-23.2-28.11-8.16-12.76-15.58-24.97-21.56-38.74-6.7-15.42-12.39-30.69-16.37-47.29-6.38-24.79-10.35-49.19-12.77-74.82,1.37-1.19,3.43-1.18,5.11-.26l29.84.04c1.45-.33,3.03-.67,3.84-.26s1.7,2.78,1.85,3.81c2.68,18.64,5.86,36.45,11.38,54.38l2.63,8.53c8.64,28.06,21.31,54.21,39.56,77.66l13.17,13.56,7.17,5.47,6.21,4.33,4.83,2.76c29.02,16.6,63.99,12.69,93.38-2.26l4.38-2.49c7.97-4.53,15.91-9.22,22.13-15.88l10.1-10.81c15.79-19.89,22.67-43.38,20.08-68.91-.68-6.69-1.42-13.99-3.31-20.06-3.25-10.41-7.57-19.52-12.49-28.89l-2.35-4.49-11.23-18.29-17.58-22.66-12.98-14.27c-1.89-2.39-3.94-5.06-6.03-6.97l-20.31-18.56-16.9-14.8,11.5-21.5,7.96-13.14,19.86,7.65,16.85,5.42,32.14,7.8,18.16,2.3,17.54,1.92,38.93-.04c8.17,0,16.28-2.98,23.85-4.95l10.07-2.62.44-.85c14.02-5.89,26.82-14.72,36.22-26.57,15.01-18.92,18.83-35.44,21.5-58.73.6-5.28.33-10.63-.14-16.09-2.29-26.29-12.8-51.39-33-68.69-15-12.84-33.06-19.41-51.97-23.26-3.63-.74-6.76-1.5-10.45-1.45l-32.68.44Z"/><path d="M96.62,764.71l9.54-5.56,23.35-13.94,6.17-3.35,10.12-6.4,6.58-4.39,16.38-10.68,9.98-6.83,25.13-17.89c2.38-1.7,4.55-3.13,6.56-3.61,2.22-2.55,5.56-5.7,8.37-7.29,3.67-2.09,6-4.36,9.17-6.97l6.04-5,10.06-7.89c1.73-1.36,3.49-2.51,4.99-3.94l6.76-6.44,11.86-9.93,13.7-12.49,21.4-20.63,24.62-25.27,13.2-15.04,9.63-11.07,5.03-5.98,8.06-9.93,15.51-19.43,9.01-12.07c1.43-1.91,2.39-2.24,3.41-4.54,3.23-7.27,9.21-12.94,13.31-19.37l11.08-17.39,21.72-35.17,12.66-22.08,11.17-20.34,13.45-26.42c3.69-7.24,6.63-14.68,11.65-21.74l30.71,13.63-6.61,15.09-15.07,32.66-2.17,4.77-9.28,18.55-4.46,8.53-15.1,28.22-19.81,34.12-3.12,4.94-28.56,43.39-8.5,11.43-5.63,7.46-4.76,7.16-11.1,13.93-18.51,22.76-18.14,20.64-8.01,9.05-6.72,7.4c-21.53,23.7-44.77,44.78-68.88,65.99l-48.85,39.9-18.11,13.62-11.78,8.71-5.89,4.25-31.2,21.8-6.41,3.92-3.52.43c-.7.09-.84,1.48-1.13,2.79l-15.18,9.66-11.61,7.16-16.17,9.95-11.48,6.99-22.74-50.63-2.41-7.21,40.54-21.99Z"/></g></svg></span><span class="gico" role="img" aria-label="Estrella Verde"><svg viewBox="0 0 913.12 844.54" xmlns="http://www.w3.org/2000/svg"><g fill="#04953A" stroke="none"><path d="M735.7,321.67l-22.06,2.15-16.01,2.09-9.85,2.25-22.02,5.55-26.01,8.62-11.33,4.55-7.59-12.57c-4.31-7.15-8.83-14.08-12.07-22.14l16.52-14.33,20.31-19.69,14.04-15.62,8.73-10.09,9.44-12.86,17.68-26.22c13.25-24.1,19.93-50.08,15.77-77.43-.78-5.1-1.71-11.38-3.85-15.48l-10.18-19.45c-9.18-14.38-22.86-24.85-37.53-33.33l-4.36-2.52c-22.47-11.43-47.93-16.61-72.47-10.52-14.15,3.51-31.6,13.11-41.63,23.32l-8.43,8.59c-9.66,9.83-15.61,21.86-21.81,34.23-17.47,34.89-29.29,71.24-34.57,110.37l-40.04-.02-1.24-8.03c-2.96-19.17-6.54-37.72-12.87-56.04l-5.08-14.69-4.86-11.45-11.5-23.39-12.16-19.79-6.58-9.1-13.69-13.68-7.91-5.86-8.94-5.8-11.75-5.4-11.65-3.71c-24.47-5.32-48.83-.17-70.82,10.88l-7.54,4.39c-9.24,5.39-17.72,11.36-24.54,19.55l-5.47,6.56c-15.79,18.96-21.5,42.74-19.24,67.68,2.78,30.72,17.87,53.12,33.8,77.99,2.52,3.93,5.16,7.06,8.25,10.64l6.49,7.53,8.93,10.1,10.87,11.2,4.17,3.9,12.24,11.29c.55.51,1.08,2.63.89,2.45,1.58-.19,4.08.98,5.48,2.33l8.38,8.11c1.42,1.61-1.42,6.51-2.6,8.28l-4.09,6.16-5.07,9.71c-2.09,4.01-4.32,7.75-7.65,10.8-32.31-13.55-64.69-22.15-99.27-24.46-20.47-1.37-40.38-2.13-59.84,3.1-13.84,3.72-26.64,9.49-37.69,18.12-2.1,1.64-3.53,2.81-5.73,3.84-1.24.98-3.37,3.38-4.54,4.76l-3.31,3.9-7.94,12.8c-15.22,24.54-16.92,60.68-8.53,88.11,4.64,15.15,12.49,27.98,23.79,39.2l9.43,8.26c2.38,2.08,6.11,4.58,8.43,5.67l15.63,7.31,11.94,3.83,21.39,3.48c19.93,1.44,39.24.26,58.9-2.74l11.22-1.71c20.25-3.08,39.16-10.05,58.58-16.4l12-3.92,19.49,33.93-13.9,5.7-33.04,12.58-17.78,5.67c-30.06,9.59-80.16,17.42-109.95,11.86l-17.63-3.29c-22.91-4.28-56.64-22.62-71.66-41.52l-4.11-3.81-14.04-18.16-3.67-7.06C1.86,460.17-4.28,421.77,3.04,385.37l2.47-10.7c1.29-5.61,3.23-10.86,5.5-16.21,2.46-5.78,4.22-12,8.43-17.15.63-1.62,1.74-4.59,2.84-6.07l10.26-13.99,5.48-6.55c4.57-5.46,10.04-10.92,15.91-14.98l13.66-9.45c10.52-7.28,22.52-12.41,34.86-16.08,7.76-2.31,15.22-5.15,23.49-5.88l18.51-1.62c9.43-.82,18.35-1.02,27.96.32l12.79-.12,15.59,2.67-7.39-9.58-4.32-6.17-3.73-5.71-6.28-9.84c-6.26-9.81-12.2-19.3-15.98-30.35l-2.51-7.34-2.73-6.07c-2.58-5.75-3.23-11.58-4.38-17.67-2.41-12.76-3.98-25.47-2.34-38.69l1.24-10.04c1.64-13.3,6.56-25.67,12.12-37.89,7.15-15.71,18-28.74,29.94-41.04,6.31-6.5,13.01-11.56,20-16.92,3.65-2.8,7.27-5.69,11.31-7.89l16.87-9.16c8.34-4.53,30.21-11.88,40.14-13l13.63-1.54c17.66-1.99,43.31,1.72,59.56,8.76l5.77,2.5,18.42,9.52,6.29,4.56,6.27,4.76,5.76,4.37c4.11,3.12,8.29,7.19,11.71,11.11l7.07,8.09c12.14,13.9,21.84,29.66,29.45,46.5l8.95,19.81,2.17-.98c6.75-17.03,14.14-32.63,24.41-47.66,14.07-22.97,33.09-43.2,57.73-55.16l5.55-2.69c12.49-6.07,25.56-10.66,39.28-12.25l10.63-1.23c6.77-.79,13.23-.99,19.95-.06l17.33,2.41,15.96,3.74c28.64,9.54,55.09,25.68,74.88,48.07l9.53,10.79c24.94,32.25,34.3,71.27,26.24,111.23-1.46,7.26-3.22,14.42-5.91,21.23l-1.95,4.93c-5.92,15.01-12.94,28.71-22.18,41.84l-16.92,24.05,2.32.73c8.63-3.51,16.89-2.9,25.7-2.92l27.93-.07,18.53,1.64,23.48,5.85c6.8,1.7,13.39,4,19.55,7.49l17.1,9.7c10.76,6.1,20.15,14.52,28.25,24.02l4.61,5.41c5.1,5.98,9.43,12.65,13.23,19.72,3.78,5.7,6.66,11.62,8.5,18.07,2.85,5.07,4.33,10.59,5.64,16.13l2.1,8.83,2.65,17.15c1.8,11.64,1.45,23.78-.2,35.59l-1.4,10.05-1.83,7.6-1.69,8.33c-2.15,10.59-5.67,20.62-11.14,29.95l-7.24,12.36c-10.03,17.12-23.85,31.14-40.12,42.62-6.76,4.77-13.31,8.81-20.78,12.29l-9.95,4.63c-20.34,9.47-54.15,15-77.52,12.76l-25.01-2.41,11.5,14.43,11.93,19.51c4.39,7.18,8.48,14.52,11.45,22.6l1.94,5.29c-1.71.18-1.01.11.49-.05,5.22,14.86,10.11,30.48,10.17,46.89l.07,19.1c-1.3,28.13-11.79,55.15-28.8,77.11-8.92,11.52-17.75,21.87-29.58,29.82l-17.97,12.08-16.57,8.36c-22.76,11.48-56.91,16.45-82.42,11.87-19.22-3.44-37.21-10-53.62-20.7l-8.87-6.92-10.87-8.16.5-1.35c-1.79-.64-3.47-1.34-4.1-2.01-8.57-9.14-16.53-17.68-23.2-28.11-8.16-12.76-15.58-24.97-21.56-38.74-6.7-15.42-12.39-30.69-16.37-47.29-6.38-24.79-10.35-49.19-12.77-74.82,1.37-1.19,3.43-1.18,5.11-.26l29.84.04c1.45-.33,3.03-.67,3.84-.26s1.7,2.78,1.85,3.81c2.68,18.64,5.86,36.45,11.38,54.38l2.63,8.53c8.64,28.06,21.31,54.21,39.56,77.66l13.17,13.56,7.17,5.47,6.21,4.33,4.83,2.76c29.02,16.6,63.99,12.69,93.38-2.26l4.38-2.49c7.97-4.53,15.91-9.22,22.13-15.88l10.1-10.81c15.79-19.89,22.67-43.38,20.08-68.91-.68-6.69-1.42-13.99-3.31-20.06-3.25-10.41-7.57-19.52-12.49-28.89l-2.35-4.49-11.23-18.29-17.58-22.66-12.98-14.27c-1.89-2.39-3.94-5.06-6.03-6.97l-20.31-18.56-16.9-14.8,11.5-21.5,7.96-13.14,19.86,7.65,16.85,5.42,32.14,7.8,18.16,2.3,17.54,1.92,38.93-.04c8.17,0,16.28-2.98,23.85-4.95l10.07-2.62.44-.85c14.02-5.89,26.82-14.72,36.22-26.57,15.01-18.92,18.83-35.44,21.5-58.73.6-5.28.33-10.63-.14-16.09-2.29-26.29-12.8-51.39-33-68.69-15-12.84-33.06-19.41-51.97-23.26-3.63-.74-6.76-1.5-10.45-1.45l-32.68.44Z"/><path d="M96.62,764.71l9.54-5.56,23.35-13.94,6.17-3.35,10.12-6.4,6.58-4.39,16.38-10.68,9.98-6.83,25.13-17.89c2.38-1.7,4.55-3.13,6.56-3.61,2.22-2.55,5.56-5.7,8.37-7.29,3.67-2.09,6-4.36,9.17-6.97l6.04-5,10.06-7.89c1.73-1.36,3.49-2.51,4.99-3.94l6.76-6.44,11.86-9.93,13.7-12.49,21.4-20.63,24.62-25.27,13.2-15.04,9.63-11.07,5.03-5.98,8.06-9.93,15.51-19.43,9.01-12.07c1.43-1.91,2.39-2.24,3.41-4.54,3.23-7.27,9.21-12.94,13.31-19.37l11.08-17.39,21.72-35.17,12.66-22.08,11.17-20.34,13.45-26.42c3.69-7.24,6.63-14.68,11.65-21.74l30.71,13.63-6.61,15.09-15.07,32.66-2.17,4.77-9.28,18.55-4.46,8.53-15.1,28.22-19.81,34.12-3.12,4.94-28.56,43.39-8.5,11.43-5.63,7.46-4.76,7.16-11.1,13.93-18.51,22.76-18.14,20.64-8.01,9.05-6.72,7.4c-21.53,23.7-44.77,44.78-68.88,65.99l-48.85,39.9-18.11,13.62-11.78,8.71-5.89,4.25-31.2,21.8-6.41,3.92-3.52.43c-.7.09-.84,1.48-1.13,2.79l-15.18,9.66-11.61,7.16-16.17,9.95-11.48,6.99-22.74-50.63-2.41-7.21,40.54-21.99Z"/></g></svg></span></div>
+      <span class="k">Especialidad de la casa</span>
+      <h2>Tres estrellas &amp; verdes</h2>
+      
+      <p class="sub">Los 37 que alcanzan, a la vez, la cima de la guia y su distincion sostenible.</p>
+    </div>
+    <div class="menu">
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Francia</span><span class="count">9</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<path d="M26 64 L26 78 Q60 92 94 78 L94 64"/>
+<ellipse cx="60" cy="64" rx="34" ry="12"/>
+<path d="M60 64 Q48 56 40 62" stroke="#C8912F"/>
+<path d="M60 64 Q54 54 46 56" stroke="#C8912F"/>
+<path d="M60 64 Q62 53 54 50" stroke="#C8912F"/>
+<path d="M60 64 Q70 54 78 56" stroke="#C8912F"/>
+<path d="M60 64 Q74 56 80 62" stroke="#C8912F"/>
+<path d="M60 64 Q66 53 72 51" stroke="#C8912F"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Arpège</span><span class="dots"></span><span class="loc">Paris</span></li>
+          <li class="dish"><span class="nm">Christopher Coutanceau</span><span class="dots"></span><span class="loc">La Rochelle</span></li>
+          <li class="dish"><span class="nm">L&#x27;Oustau de Baumanière</span><span class="dots"></span><span class="loc">Les Baux-de-Provence</span></li>
+          <li class="dish"><span class="nm">La Marine</span><span class="dots"></span><span class="loc">L&#x27;Herbaudière</span></li>
+          <li class="dish"><span class="nm">Le Clos des Sens</span><span class="dots"></span><span class="loc">Annecy</span></li>
+          <li class="dish"><span class="nm">Le Coquillage</span><span class="dots"></span><span class="loc">Saint-Méloir-des-Ondes</span></li>
+          <li class="dish"><span class="nm">Mirazur</span><span class="dots"></span><span class="loc">Menton</span></li>
+          <li class="dish"><span class="nm">Restaurant Marcon</span><span class="dots"></span><span class="loc">Saint-Bonnet-le-Froid</span></li>
+          <li class="dish"><span class="nm">Troisgros - Le Bois sans Feuilles</span><span class="dots"></span><span class="loc">Ouches</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">España</span><span class="count">6</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<path d="M34 70 L40 92 Q60 98 80 92 L86 70 Z"/>
+<path d="M30 70 Q60 80 90 70" stroke="#C8912F"/>
+<path d="M30 70 Q60 60 90 70"/>
+<line x1="40" y1="66" x2="46" y2="58" stroke="#C8912F"/>
+<line x1="60" y1="64" x2="60" y2="54" stroke="#C8912F"/>
+<line x1="80" y1="66" x2="74" y2="58" stroke="#C8912F"/>
+<path d="M92 60 Q102 56 100 46 Q98 40 94 46 Q92 54 92 60" />
+<line x1="93" y1="60" x2="98" y2="86"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Aponiente</span><span class="dots"></span><span class="loc">El Puerto de Santa María</span></li>
+          <li class="dish"><span class="nm">Azurmendi</span><span class="dots"></span><span class="loc">Larrabetzu</span></li>
+          <li class="dish"><span class="nm">Casa Marcial</span><span class="dots"></span><span class="loc">Arriondas</span></li>
+          <li class="dish"><span class="nm">Cenador de Amós</span><span class="dots"></span><span class="loc">Villaverde de Pontones</span></li>
+          <li class="dish"><span class="nm">Cocina Hermanos Torres</span><span class="dots"></span><span class="loc">Barcelona</span></li>
+          <li class="dish"><span class="nm">El Celler de Can Roca</span><span class="dots"></span><span class="loc">Girona</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Estados Unidos</span><span class="count">5</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<path d="M26 90 L60 52 L94 90 Z"/>
+<path d="M26 90 Q60 96 94 90"/>
+<line x1="42" y1="72" x2="58" y2="84"/>
+<line x1="54" y1="64" x2="74" y2="80"/>
+<line x1="66" y1="72" x2="52" y2="84"/>
+<line x1="78" y1="64" x2="58" y2="80"/>
+<path d="M50 46 Q54 40 50 34" stroke="#C8912F"/>
+<path d="M64 44 Q68 38 64 32" stroke="#C8912F"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Atelier Crenn</span><span class="dots"></span><span class="loc">San Francisco</span></li>
+          <li class="dish"><span class="nm">Providence</span><span class="dots"></span><span class="loc">Hollywood</span></li>
+          <li class="dish"><span class="nm">Quince</span><span class="dots"></span><span class="loc">San Francisco</span></li>
+          <li class="dish"><span class="nm">SingleThread</span><span class="dots"></span><span class="loc">Healdsburg</span></li>
+          <li class="dish"><span class="nm">The French Laundry</span><span class="dots"></span><span class="loc">Yountville</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Italia</span><span class="count">4</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<rect x="32" y="50" width="56" height="40" rx="3"/>
+<line x1="32" y1="64" x2="88" y2="64"/>
+<line x1="32" y1="78" x2="88" y2="78"/>
+<circle cx="42" cy="56" r="1.6" fill="#3a2a22" stroke="none"/>
+<circle cx="56" cy="55" r="1.6" fill="#3a2a22" stroke="none"/>
+<circle cx="70" cy="56" r="1.6" fill="#3a2a22" stroke="none"/>
+<circle cx="80" cy="55" r="1.6" fill="#3a2a22" stroke="none"/>
+<circle cx="49" cy="58" r="1.4" fill="#3a2a22" stroke="none"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Atelier Moessmer Norbert Niederkofler</span><span class="dots"></span><span class="loc">Brunico</span></li>
+          <li class="dish"><span class="nm">Dal Pescatore</span><span class="dots"></span><span class="loc">Runate</span></li>
+          <li class="dish"><span class="nm">Osteria Francescana</span><span class="dots"></span><span class="loc">Modena</span></li>
+          <li class="dish"><span class="nm">Piazza Duomo</span><span class="dots"></span><span class="loc">Alba</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Japón</span><span class="count">3</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<path d="M30 86 Q30 70 46 70 Q62 70 62 86 Z"/>
+<path d="M58 86 Q58 68 76 68 Q94 68 94 86 Z"/>
+<path d="M44 92 Q44 78 60 78 Q76 78 76 92 Z"/>
+<path d="M76 60 Q86 50 96 54 Q90 64 78 64" stroke="#1f6b2e"/>
+<line x1="84" y1="56" x2="90" y2="58" stroke="#1f6b2e"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Kashiwaya Osaka Senriyama</span><span class="dots"></span><span class="loc">Osaka</span></li>
+          <li class="dish"><span class="nm">L&#x27;Effervescence</span><span class="dots"></span><span class="loc">Tokyo</span></li>
+          <li class="dish"><span class="nm">Miyamaso</span><span class="dots"></span><span class="loc">Kyoto</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Reino Unido</span><span class="count">2</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<path d="M34 88 Q34 58 60 58 Q86 58 86 88 Z"/>
+<path d="M34 76 Q44 84 54 76 Q64 84 74 76 Q82 82 86 76" stroke="#C8912F"/>
+<path d="M40 76 L40 86" stroke="#C8912F"/>
+<path d="M70 76 L70 88" stroke="#C8912F"/>
+<path d="M60 58 L60 48" stroke="#1f6b2e"/>
+<path d="M60 52 Q66 48 70 50" stroke="#1f6b2e"/>
+<path d="M60 50 Q54 46 50 48" stroke="#1f6b2e"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">L&#x27;Enclume</span><span class="dots"></span><span class="loc">Cartmel</span></li>
+          <li class="dish"><span class="nm">Moor Hall</span><span class="dots"></span><span class="loc">Aughton</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Suiza</span><span class="count">2</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<path d="M28 88 L88 88 L88 66 Q60 58 28 66 Z"/>
+<path d="M28 66 Q60 74 88 66"/>
+<circle cx="44" cy="78" r="4" stroke="#C8912F"/>
+<circle cx="58" cy="81" r="4" stroke="#C8912F"/>
+<circle cx="72" cy="78" r="4" stroke="#C8912F"/>
+<circle cx="46" cy="62" r="1.5" fill="#3a2a22" stroke="none"/>
+<circle cx="60" cy="60" r="1.5" fill="#3a2a22" stroke="none"/>
+<circle cx="74" cy="62" r="1.5" fill="#3a2a22" stroke="none"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Schloss Schauenstein</span><span class="dots"></span><span class="loc">Fürstenau</span></li>
+          <li class="dish"><span class="nm">Sven Wassmer Memories</span><span class="dots"></span><span class="loc">Bad Ragaz</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Alemania</span><span class="count">1</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<path d="M28 90 L28 62 L88 50 L88 90 Z"/>
+<path d="M28 74 L88 64"/>
+<path d="M28 82 L88 76"/>
+<path d="M28 62 Q44 56 60 60 Q72 50 88 50"/>
+<circle cx="60" cy="46" r="5" fill="#BD2333" stroke="#BD2333"/>
+<path d="M60 41 Q64 34 70 34" stroke="#1f6b2e"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Rutz</span><span class="dots"></span><span class="loc">Berlin</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Brasil</span><span class="count">1</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="48" cy="50" r="15"/>
+<circle cx="74" cy="56" r="13"/>
+<g stroke="#C8912F">
+<line x1="44" y1="44" x2="46" y2="47"/><line x1="52" y1="46" x2="54" y2="49"/>
+<line x1="46" y1="54" x2="48" y2="57"/><line x1="54" y1="54" x2="52" y2="56"/>
+<line x1="71" y1="52" x2="73" y2="55"/><line x1="78" y1="54" x2="76" y2="56"/>
+</g>
+<path d="M38 64 L86 64 L80 92 Q60 98 44 92 Z"/>
+<line x1="46" y1="66" x2="50" y2="90"/>
+<line x1="58" y1="66" x2="58" y2="92"/>
+<line x1="70" y1="66" x2="68" y2="92"/>
+<line x1="78" y1="66" x2="74" y2="90"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Tuju</span><span class="dots"></span><span class="loc">São Paulo</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Eslovenia</span><span class="count">1</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<path d="M30 88 Q30 56 60 56 Q90 56 90 88 Z"/>
+<path d="M60 84 C60 84 48 84 48 74 C48 66 72 66 72 74 C72 82 56 82 56 76 C56 72 64 72 64 75" stroke="#3a2a22"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Hiša Franko</span><span class="dots"></span><span class="loc">Kobarid</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Hong Kong</span><span class="count">1</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/>
+<path d="M28 60 Q30 84 60 86 Q90 84 92 60"/>
+<path d="M28 60 q3 -7 6 0 q3 -7 6 0 q3 -7 6 0 q3 -7 6 0 q3 -7 6 0 q3 -7 6 0 q3 -7 6 0 q3 -7 6 0 q3 -7 6 0 q3 -7 6 0 q3 -7 6 0"/>
+<ellipse cx="60" cy="58" rx="26" ry="9" stroke="#C8912F"/>
+<ellipse cx="60" cy="57" rx="14" ry="5" stroke="#C8912F"/>
+<circle cx="60" cy="56" r="3" fill="#C8912F" stroke="#C8912F"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Amber</span><span class="dots"></span><span class="loc">Hong Kong</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Noruega</span><span class="count">1</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M40 30 L88 78 L80 86 L32 38 Z"/>
+<line x1="44" y1="40" x2="74" y2="70"/>
+<line x1="38" y1="50" x2="64" y2="76"/>
+<line x1="54" y1="34" x2="82" y2="62"/>
+<path d="M40 30 Q28 24 26 36 Q30 44 42 40 Q34 34 40 30" stroke="#C8912F"/>
+<path d="M33 33 Q30 31 31 35" stroke="#C8912F"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">Maaemo</span><span class="dots"></span><span class="loc">Oslo</span></li>
+        </ul>
+      </div>
+      <div class="course reveal">
+        <h3 class="course-name"><span class="cn">Países Bajos</span><span class="count">1</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="60" cy="60" r="40"/>
+<line x1="32" y1="44" x2="88" y2="44"/>
+<line x1="26" y1="60" x2="94" y2="60"/>
+<line x1="32" y1="76" x2="88" y2="76"/>
+<line x1="44" y1="22" x2="44" y2="98"/>
+<line x1="60" y1="20" x2="60" y2="100"/>
+<line x1="76" y1="22" x2="76" y2="98"/>
+</g></svg></span></h3>
+        <ul class="dishes">
+          <li class="dish"><span class="nm">De Librije</span><span class="dots"></span><span class="loc">Zwolle</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pfoot reveal">
+      <p class="q">El postre perfecto <b>no deja huella.</b></p>
+    </div>
+  </div></section>
+</div>
+
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="cm-michelin-star" viewBox="0 0 192 192">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="12" d="M95.465 169.996s38.829 1.406 12.322-53.413m-12.322 53.413s-38.827 1.406-12.32-53.413m-52.482 15.83s18.06 34.4 52.482-15.83m-52.482 15.83S10.16 99.41 70.906 95.193m36.881 20.827c32.168 51.703 51.731 18.135 51.731 18.135"/>
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="12" d="M120.957 95.193c60.501 6.893 38.559 38.963 38.559 38.963"/>
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M30.224 58.455S10.116 91.698 70.907 95.194M30.224 58.455S47.874 23.844 82.89 73.66"/>
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="12" d="M81.558 24.746c-7.573 5.736-12.679 18.872 1.622 48.916m81.783-1.96c-.684 9.718-8.909 21.583-44.006 23.342"/>
+    <path fill="currentColor" d="M117.829 27.777c.938 0 1.841.112 2.66.274 2.714.543 5.163 2.052 6.755 4.317.218.313.42.64.596.976a11.216 11.216 0 0 1 1.241 5.62 11.167 11.167 0 0 1 5.849-1.756c.259 0 .518.014.778.036 2.757.24 5.294 1.601 7.121 3.677 1.528 1.736 3.05 4.234 2.876 7.19.008 12.85-13.715 19.744-32.842 19.744l-.425-.001c-9.798-16.684-10.812-32.198.389-38.681 1.579-1.045 3.343-1.396 5.002-1.396Zm0-11.777c-4.073 0-7.926 1.084-11.173 3.139-6.364 3.773-10.724 9.56-12.619 16.757-2.841 10.786.01 23.9 8.245 37.922l3.393 5.777 6.699.036.488.001c11.706 0 21.888-2.285 29.445-6.608C152 67.48 157.379 58.751 157.48 48.42c.217-5.434-1.787-10.71-5.811-15.281-3.867-4.395-9.137-7.098-14.844-7.62-3.311-4.669-8.288-7.87-14.028-9.016a25.576 25.576 0 0 0-4.968-.503Z"/>
+  </symbol>
+</svg>
+<section class="cm-section" id="cm-game-section">
+  <div class="cm-wrap cm-game-wrap">
+    <div class="cm-sep"><span class="cm-ln"></span><span class="cm-dot">◆</span><span class="cm-ln"></span></div>
+    <div class="cm-eyebrow">
+      <svg class="cm-star-icon cm-red" aria-hidden="true"><use href="#cm-michelin-star"></use></svg>
+      <span>El juego — precio & bolsillo</span>
+    </div>
+    <h1 class="cm-title">¿Y para vos qué significa?</h1>
+    <p class="cm-lead">Ingresá tu salario mensual y traducí una cena de alta gama a días de trabajo.</p>
+
+    <div class="cm-personal">
+      <div class="cm-round-icon"><span>€</span></div>
+      <div>
+        <h3>Traducilo a tu bolsillo</h3>
+        <p class="cm-personal-help">Compará tu ingreso mensual con una cena de la gama alta.</p>
+        <div class="cm-salary-grid">
+          <label>
+            <div class="cm-input-label">Tu salario mensual</div>
+            <div class="cm-field">
+              <input id="cm-salary" type="text" inputmode="decimal" autocomplete="off" placeholder="Ej: 1.500.000" value="">
+            </div>
+          </label>
+          <label>
+            <div class="cm-input-label">Moneda</div>
+            <div class="cm-field"><select id="cm-currency">
+              <option value="ARS" selected>$ ARS</option>
+              <option value="EUR">€ EUR</option>
+              <option value="USD">$ USD</option>
+              <option value="GBP">£ GBP</option>
+              <option value="BRL">R$ BRL</option>
+              <option value="MXN">$ MXN</option>
+            </select></div>
+          </label>
+        </div>
+      </div>
+      <div class="cm-divider"></div>
+      <div class="cm-result" id="cm-salaryResult"></div>
+    </div>
+  </div>
+</section>
+<div id="bo-spacer" aria-hidden="true" style="height:100vh"></div>
+<div aria-hidden="true" style="height:100vh"></div>
+
+<script>
+(function(){
+  const DATA = { total:3842, s1:3145, s2:540, s3:157 };
+  const SCALE = 5;  
+
+  const mi_STAGE=document.getElementById('mi-stage');
+  const mi_cv=document.getElementById('mi-plate'), mi_ctx=mi_cv.getContext('2d');
+  const mi_cap=document.getElementById('mi-cap'), mi_hint=document.getElementById('mi-hint');
+  const mi_cover=document.getElementById('mi-cover'), mi_outro=document.getElementById('mi-outro');
+
+
+  const MI_MUTED=[178,140,95];  
+  const MI_C1=[189, 35, 51];      
+  const MI_C2=[247, 198, 79];       
+  const MI_C3=[207, 125, 12];      
+
+  function mi_mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
+  const mi_rand=mi_mulberry32(20240603);
+  const mi_lerp=(a,b,t)=>a+(b-a)*t;
+
+  const MI_N1=Math.round(DATA.s1/SCALE), MI_N2=Math.round(DATA.s2/SCALE), MI_N3=Math.round(DATA.s3/SCALE);
+  let mi_cats=[];
+  for(let i=0;i<MI_N1;i++)mi_cats.push(1);
+  for(let i=0;i<MI_N2;i++)mi_cats.push(2);
+  for(let i=0;i<MI_N3;i++)mi_cats.push(3);
+  for(let i=mi_cats.length-1;i>0;i--){const j=Math.floor(mi_rand()*(i+1));[mi_cats[i],mi_cats[j]]=[mi_cats[j],mi_cats[i]];}
+  const mi_dots=mi_cats.map(cat=>{
+    const r=Math.sqrt(mi_rand())*0.95, th=mi_rand()*Math.PI*2, npts=7+Math.floor(mi_rand()*3), shape=[];
+    for(let k=0;k<npts;k++){const ang=(k/npts)*Math.PI*2+(mi_rand()-0.5)*0.42, rad=0.72+mi_rand()*0.32; shape.push({x:Math.cos(ang)*rad,y:Math.sin(ang)*rad});}
+    return {nx:Math.cos(th)*r, ny:Math.sin(th)*r, sz:0.65+mi_rand()*0.8, cat, shape, ph:mi_rand()*Math.PI*2};
+  });
+
+  let mi_W=0,mi_H=0,mi_DPR=1,mi_lastDrawn=-1;
+  function mi_resize(){mi_DPR=Math.min(window.devicePixelRatio||1,2);mi_W=window.innerWidth;mi_H=window.innerHeight;mi_cv.width=mi_W*mi_DPR;mi_cv.height=mi_H*mi_DPR;mi_cv.style.width=mi_W+'px';mi_cv.style.height=mi_H+'px';mi_ctx.setTransform(mi_DPR,0,0,mi_DPR,0,0);mi_lastDrawn=-1;}
+
+  function mi_smooth(a,b,x){if(b===a)return x<a?0:1;let t=(x-a)/(b-a);t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);}
+  const mi_mix=(c1,c2,t)=>[mi_lerp(c1[0],c2[0],t),mi_lerp(c1[1],c2[1],t),mi_lerp(c1[2],c2[2],t)];
+  const mi_rgba=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
+  const mi_fmt=(n)=>Math.round(n).toLocaleString('es-AR');
+
+  function mi_dotStyle(cat,p){
+    const base=0.72, intro=mi_smooth(0,0.04,p);
+    if(cat===1){const h=mi_smooth(0.10,0.18,p)-mi_smooth(0.24,0.32,p), gone=mi_smooth(0.24,0.32,p);
+      return {a:Math.max((1-gone)*base,h)*intro, col:mi_mix(MI_MUTED,MI_C1,Math.min(1,h)), scale:(1+0.18*h)*(1-0.45*gone), lift:gone*30, h};}
+    if(cat===2){const h=mi_smooth(0.38,0.46,p)-mi_smooth(0.52,0.58,p), gone=mi_smooth(0.52,0.58,p);
+      return {a:Math.max((1-gone)*base,h)*intro, col:mi_mix(MI_MUTED,MI_C2,Math.min(1,h)), scale:(1+0.28*h)*(1-0.45*gone), lift:gone*30, h};}
+    const h=mi_smooth(0.62,0.74,p);
+    return {a:Math.max(base,h)*intro, col:mi_mix(MI_MUTED,MI_C3,h), scale:1+0.7*h, lift:0, h};
+  }
+
+  function mi_trace(x,y,r,shape,ox,oy){const n=shape.length;mi_ctx.beginPath();mi_ctx.moveTo(x+(shape[0].x+shape[n-1].x)/2*r+ox,y+(shape[0].y+shape[n-1].y)/2*r+oy);for(let i=0;i<n;i++){const c=shape[i],d=shape[(i+1)%n];mi_ctx.quadraticCurveTo(x+c.x*r+ox,y+c.y*r+oy,x+(c.x+d.x)/2*r+ox,y+(c.y+d.y)/2*r+oy);}mi_ctx.closePath();}
+  function mi_crumb(x,y,r,shape,col,a){
+    mi_trace(x,y,r,shape,r*0.13,r*0.22);mi_ctx.fillStyle=`rgba(74,48,28,${a*0.12})`;mi_ctx.fill();
+    mi_trace(x,y,r,shape,0,0);mi_ctx.fillStyle=mi_rgba(col,a);mi_ctx.fill();
+    mi_ctx.beginPath();mi_ctx.ellipse(x+r*0.22,y+r*0.26,r*0.46,r*0.38,-0.5,0,Math.PI*2);
+    mi_ctx.fillStyle=`rgba(${(col[0]*0.76)|0},${(col[1]*0.68)|0},${(col[2]*0.56)|0},${a*0.34})`;mi_ctx.fill();
+    mi_ctx.beginPath();mi_ctx.ellipse(x-r*0.22,y-r*0.26,r*0.46,r*0.36,-0.5,0,Math.PI*2);
+    mi_ctx.fillStyle=`rgba(255,249,235,${a*0.22})`;mi_ctx.fill();
+    mi_ctx.beginPath();mi_ctx.ellipse(x-r*0.30,y-r*0.32,r*0.18,r*0.14,-0.5,0,Math.PI*2);
+    mi_ctx.fillStyle=`rgba(255,252,244,${a*0.26})`;mi_ctx.fill();
+    mi_trace(x,y,r,shape,0,0);mi_ctx.lineWidth=Math.max(0.4,r*0.05);
+    mi_ctx.strokeStyle=`rgba(${(col[0]*0.64)|0},${(col[1]*0.55)|0},${(col[2]*0.43)|0},${a*0.16})`;mi_ctx.stroke();
+  }
+
+  function mi_draw(p,time){
+    mi_ctx.clearRect(0,0,mi_W,mi_H);
+    const cx=mi_W/2, topReserve=mi_H*0.38, cy=topReserve+(mi_H-topReserve)*0.42, Rp=Math.min(mi_W*0.38,(mi_H-topReserve)*0.42);
+
+    let vg=mi_ctx.createRadialGradient(cx,cy,Rp*0.6,cx,cy,Math.max(mi_W,mi_H)*0.8);
+    vg.addColorStop(0,'rgba(40,25,15,0)');vg.addColorStop(1,'rgba(40,25,15,0.10)');
+    mi_ctx.fillStyle=vg;mi_ctx.fillRect(0,0,mi_W,mi_H);
+
+    let sh=mi_ctx.createRadialGradient(cx,cy+Rp*0.16,Rp*0.4,cx,cy+Rp*0.16,Rp*1.2);
+    sh.addColorStop(0,'rgba(34,28,20,0.2)');sh.addColorStop(1,'rgba(34,28,20,0)');
+    mi_ctx.fillStyle=sh;mi_ctx.beginPath();mi_ctx.ellipse(cx,cy+Rp*0.15,Rp*1.16,Rp*0.62,0,0,Math.PI*2);mi_ctx.fill();
+
+    let pg=mi_ctx.createRadialGradient(cx-Rp*0.28,cy-Rp*0.3,Rp*0.1,cx,cy,Rp);
+    pg.addColorStop(0,'#FFFFFF');pg.addColorStop(0.68,'#FBF7EF');pg.addColorStop(1,'#E9DECB');
+    mi_ctx.fillStyle=pg;mi_ctx.beginPath();mi_ctx.arc(cx,cy,Rp,0,Math.PI*2);mi_ctx.fill();
+
+    mi_ctx.beginPath();mi_ctx.arc(cx,cy,Rp,0,Math.PI*2);mi_ctx.lineWidth=Math.max(1,Rp*0.012);mi_ctx.strokeStyle='rgba(34,28,20,0.10)';mi_ctx.stroke();
+    mi_ctx.beginPath();mi_ctx.arc(cx,cy,Rp*0.965,0,Math.PI*2);mi_ctx.lineWidth=Math.max(1,Rp*0.006);mi_ctx.strokeStyle='rgba(200,145,47,0.6)';mi_ctx.stroke();
+    mi_ctx.beginPath();mi_ctx.arc(cx,cy,Rp*0.885,0,Math.PI*2);mi_ctx.lineWidth=Math.max(.5,Rp*0.0025);mi_ctx.strokeStyle='rgba(200,145,47,0.32)';mi_ctx.stroke();
+
+    const wellR=Rp*0.70;
+    let wg=mi_ctx.createRadialGradient(cx,cy,wellR*0.82,cx,cy,wellR);
+    wg.addColorStop(0,'rgba(34,28,20,0)');wg.addColorStop(1,'rgba(34,28,20,0.09)');
+    mi_ctx.fillStyle=wg;mi_ctx.beginPath();mi_ctx.arc(cx,cy,wellR,0,Math.PI*2);mi_ctx.fill();
+    mi_ctx.beginPath();mi_ctx.arc(cx,cy,wellR,0,Math.PI*2);mi_ctx.lineWidth=1;mi_ctx.strokeStyle='rgba(34,28,20,0.07)';mi_ctx.stroke();
+
+    mi_ctx.lineCap='round';
+    mi_ctx.beginPath();mi_ctx.arc(cx,cy,Rp*0.93,Math.PI*1.04,Math.PI*1.5);mi_ctx.lineWidth=Rp*0.03;mi_ctx.strokeStyle='rgba(255,255,255,0.55)';mi_ctx.stroke();
+    mi_ctx.beginPath();mi_ctx.arc(cx,cy,Rp*0.5,Math.PI*1.1,Math.PI*1.32);mi_ctx.lineWidth=Rp*0.012;mi_ctx.strokeStyle='rgba(255,255,255,0.35)';mi_ctx.stroke();
+    mi_ctx.lineCap='butt';
+
+    const R=wellR*0.92, baseDotR=Math.max(2,Rp*0.019);
+
+    const ghostA=mi_smooth(0.80,0.92,p)*0.06;
+    if(ghostA>0.002){
+      mi_ctx.strokeStyle=`rgba(120,98,70,${ghostA})`;mi_ctx.lineWidth=1;
+      for(const d of mi_dots){ if(d.cat===3)continue; const x=cx+d.nx*R,y=cy+d.ny*R; mi_ctx.beginPath();mi_ctx.arc(x,y,baseDotR*d.sz*0.8,0,Math.PI*2);mi_ctx.stroke(); }
+    }
+
+    mi_ctx.globalCompositeOperation='lighter';
+    for(const d of mi_dots){
+      if(d.cat!==3)continue; const s=mi_dotStyle(3,p); if(s.h<0.05)continue;
+      const x=cx+d.nx*R,y=cy+d.ny*R, glow=s.h*(0.72+0.28*Math.sin(time*1.6+d.ph)), gr=baseDotR*d.sz*s.scale*3.2;
+      let g=mi_ctx.createRadialGradient(x,y,0,x,y,gr);
+      g.addColorStop(0,`rgba(247,176,54,${0.34*glow})`);g.addColorStop(1,'rgba(247,176,54,0)');
+      mi_ctx.fillStyle=g;mi_ctx.beginPath();mi_ctx.arc(x,y,gr,0,Math.PI*2);mi_ctx.fill();
+    }
+    mi_ctx.globalCompositeOperation='source-over';
+
+    for(const d of mi_dots){
+      const s=mi_dotStyle(d.cat,p); if(s.a<=0.01)continue;
+      const x=cx+d.nx*R, y=cy+d.ny*R - s.lift, rr=baseDotR*d.sz*s.scale;
+      mi_crumb(x,y,rr,d.shape,s.col,s.a);
+    }
+  }
+
+  const MI_STAR_SVG=()=>'<svg class="mstar" viewBox="-448.54 -291.81 422.24 458.93" aria-hidden="true"><path fill="#D20A2B" d="M-251.17-277.81c8.56,0,17.11,0,25.67,0c6.13,2,12.58,3.34,18.32,6.12c24.38,11.83,38.26,31.33,40.4,58.5 c0.74,9.41,0.12,18.92,0.12,30.14c4.96-3.79,7.81-6.04,10.74-8.18c36.96-26.93,82.08-17.74,104.89,21.8 c4.57,7.92,7.21,16.96,10.73,25.49c0,7.95,0,15.89,0,23.84c-6.43,19.23-17.42,34.99-34.94,45.71 c-6.64,4.06-13.41,7.91-21.16,12.47c27.79,11.08,48.32,28.15,56.1,57.34c0,8.56,0,17.11,0,25.67c-1.1,2.64-2.34,5.22-3.28,7.91 c-9.44,27.13-26.49,46.44-55.72,51.91c-19.59,3.66-37.06-3.64-53.59-13.45c-4.25-2.52-8.45-5.13-12.44-7.55 c-1.21,14.13-1.19,27.46-3.67,40.3c-5.61,28.98-29.98,50.41-56.4,51.14c-7.98,0.59-15.96,1.18-23.94,1.77c-1.22,0-2.44,0-3.67,0 c-1.72-1.01-3.32-2.42-5.18-2.98c-26.6-8.03-43.29-25.58-48.45-52.77c-2.27-11.98-1.69-24.5-2.39-36.7 c-7.3,4.34-14.29,9.2-21.85,12.88c-37.63,18.35-77.18,4.95-95.74-32.48c-3.41-6.89-5.32-14.52-7.92-21.81c0-7.95,0-15.89,0-23.84 c6.34-18.49,16.44-34.2,33.37-44.78c7.13-4.45,14.4-8.68,20.68-12.46c-11.03-7.5-23.84-13.65-33.09-23.23 c-8.9-9.22-14.12-22-20.96-33.22c0-8.56,0-17.11,0-25.67c3.09-7.73,5.49-15.82,9.39-23.12c13.06-24.4,33.53-38.85,61.37-38.69 c11.62,0.07,23.43,5.51,34.71,9.71c7.17,2.67,13.52,7.54,21.02,11.87c0-10.05-0.76-19.19,0.14-28.18 c2.84-28.42,15.37-50.35,43.32-61.11C-260.21-275.15-255.65-276.37-251.17-277.81z M-177.65-65.96 c17.34-3.5,35.03-5.72,51.82-10.88c15.2-4.67,30.41-10.97,43.83-19.4c16.43-10.32,21.8-27.04,17.91-46.37 c-6.38-31.71-37.48-49.18-66.79-36.07c-11.72,5.24-23.08,12.85-32.3,21.77c-14.39,13.93-26.81,29.89-40.39,45.37 c-2.4-1.36-5.76-3.27-9.43-5.34c1.83-4.01,3.53-7.53,5.07-11.11c11.14-25.89,20.46-52.15,19.13-81.04 c-1.24-26.87-15.07-42.34-41.59-45.82c-25.7-3.37-47.69,8.8-52.71,32.88c-3.07,14.73-2.56,31.18,0.56,45.97 c4.26,20.26,12.52,39.68,19.26,60.03c-2.49,1.37-5.82,3.21-7.93,4.37c-13.89-15.78-26.1-32.04-40.82-45.55 c-10.72-9.84-23.94-18.15-37.5-23.42c-23.08-8.97-43.64,1.21-56.05,24.6c-11.68,22.01-7.52,45.19,11.97,59.64 c8.18,6.06,17.57,11.52,27.26,14.32c22.55,6.51,45.61,11.25,68.94,16.81c0,1.64,0,4.23,0,7.21c-10.95,2-21.58,3.88-32.19,5.89 c-20.71,3.92-41.21,8.58-59.18,20.33c-10.75,7.03-19.22,16.07-21.86,29.22c-4.28,21.29,3.15,38.42,19.43,51.93 c15.82,13.13,33.22,12.01,50.68,3.98c19.61-9.01,34.37-24.08,47.8-40.48c7.1-8.67,13.63-17.79,20.46-26.77 c3.71,2.21,7.07,4.2,8.19,4.86c-7.28,24.78-15.84,47.97-20.74,71.91c-9,43.95,16.23,71.78,58.26,66.53 c18.27-2.28,32.74-13.72,35.15-32.08c2.02-15.43,2.27-31.88-0.93-46.99c-4.22-19.94-12.58-39-19.31-58.88 c2.62-1.52,5.93-3.43,9.14-5.3c7.25,9.52,13.72,18.78,20.97,27.39c15.23,18.08,31.53,34.99,54.89,42.65 c24.26,7.96,45.38-1.31,57.82-25.23c11.41-21.94,6.74-44.7-13.07-59.42c-6.99-5.2-14.87-10.27-23.13-12.48 c-21.34-5.73-43.03-10.28-64.76-14.33C-177.06-56.6-179.34-59.2-177.65-65.96z"/><path fill="#D94D5D" d="M-225.39,151.35c-0.03,0.59-0.07,1.18-0.1,1.77c-7.95,0-15.89,0-23.84,0 C-241.35,152.53-233.37,151.94-225.39,151.35z"/></svg>';
+
+  function mi_captionHTML(p){
+    const GOLD='#b07810';
+    const blocks=[
+      { env:(1-mi_smooth(0.04,0.08,p)),                     stars:0, eyebrow:'Las estrelladas', big:mi_fmt(DATA.total), small:'restaurantes con estrella Michelin' },
+      { env:mi_smooth(0.10,0.14,p)*(1-mi_smooth(0.28,0.32,p)), stars:1, big:mi_fmt(DATA.s1*mi_smooth(0.10,0.18,p)), small:'una cocina de gran calidad' },
+      { env:mi_smooth(0.39,0.43,p)*(1-mi_smooth(0.55,0.59,p)), stars:2, big:mi_fmt(DATA.s2*mi_smooth(0.38,0.46,p)), small:'una cocina excelente · vale un desvío' },
+      { env:mi_smooth(0.63,0.67,p)*(1-mi_smooth(0.85,0.89,p)), stars:3, big:mi_fmt(DATA.s3*mi_smooth(0.62,0.74,p)), small:'una cocina excepcional · vale el viaje' },
+      { env:mi_smooth(0.88,0.92,p),                         stars:3, big:'157 / 3.842', small:'la cima · apenas el 4%' },
+    ];
+    let best=blocks[0]; for(const b of blocks) if(b.env>best.env) best=b;
+    let inner;
+    if(best.stars>0){let s='';for(let i=0;i<best.stars;i++)s+=MI_STAR_SVG(GOLD);inner=`<span class="stars">${s}</span>`;}
+    else inner=`<span class="eyebrow">${best.eyebrow}</span>`;
+    return `<div style="opacity:${best.env.toFixed(3)}"><div class="ribbon"><span class="ln"></span>${inner}<span class="ln r"></span></div><div class="big">${best.big}</div><div class="small">${best.small}</div></div>`;
+  }
+
+  /* ===== integración al scroll global: pad propio + rango [start,end) ===== */
+  (function(){
+    var mi_pad=document.createElement('div'); mi_pad.id='mi-pad'; mi_pad.style.height='460vh'; mi_pad.setAttribute('aria-hidden','true');
+    var mi_anchor=document.getElementById('mi-root');
+    mi_anchor.parentNode.insertBefore(mi_pad, mi_anchor);
+
+    var mi_active=false, mi_start=Infinity, mi_padH=1;
+    var mi_FADE=60; // px de crossfade en los bordes del tramo, para que no sea un corte duro
+    function mi_clamp(v){return v<0?0:v>1?1:v;}
+    function mi_measure(){ mi_start=mi_pad.offsetTop; mi_padH=mi_pad.offsetHeight; }
+    mi_measure();
+    window.addEventListener('resize', mi_measure);
+    window.addEventListener('load', mi_measure);
+    // re-medir con delays: fuentes/imágenes y los pads de otras secciones pueden
+    // terminar de asentar el layout después del evento load.
+    setTimeout(mi_measure, 150);
+    setTimeout(mi_measure, 400);
+    setTimeout(mi_measure, 900);
+    setTimeout(mi_measure, 1800);
+    setTimeout(mi_measure, 3000);
+    // observer real: dispara cada vez que cambia el tamaño de body (la causa real
+    // del desajuste es que otros scripts insertan pads y reordenan el documento
+    // después de que este script ya corrió)
+    if(window.ResizeObserver){
+      new ResizeObserver(mi_measure).observe(document.body);
+    }
+
+    function mi_setActive(on){
+      if(on===mi_active) return; mi_active=on;
+      mi_STAGE.style.display = on?'block':'none';
+      document.getElementById('mi-grain').style.display = on?'block':'none';
+      if(on) mi_resize();
+    }
+
+    function mi_loop(now){
+      requestAnimationFrame(mi_loop);
+      var sy=window.scrollY||window.pageYOffset||0;
+      // guard real: migas cede ante las copas, que vienen después
+      // (ya no depende del estado de tiempo: su propio rango de scroll, medido directamente, alcanza)
+      var mi_wineEl=document.querySelector('.scroller');
+      var mi_wineAlreadyIn = mi_wineEl && parseFloat(mi_wineEl.style.opacity||'0') > 0.05;
+      var inRange = !mi_wineAlreadyIn && sy>=mi_start-mi_FADE && sy<mi_start+mi_padH+mi_FADE;
+      mi_setActive(inRange);
+      if(!inRange) return;
+      var p=mi_clamp((sy-mi_start)/Math.max(1,mi_padH));
+      // crossfade: se desvanece a 0 cerca de cada borde del tramo, en vez de cortar de golpe
+      var edgeFade=Math.min(mi_clamp((sy-mi_start+mi_FADE)/mi_FADE), mi_clamp((mi_start+mi_padH+mi_FADE-sy)/mi_FADE));
+      mi_STAGE.style.opacity=edgeFade.toFixed(3);
+      /* cartel: entra desde abajo (+60px→0) sincronizado con el fade del padre; sale hacia arriba (0→-220px) en p 2%→10% */
+      var miCoverIn=mi_clamp((sy-mi_start+mi_FADE)/mi_FADE);   // 0→1 durante los 60px de approach
+      var miCoverOut=mi_smooth(0.02,0.10,p);                    // 0→1 durante la salida (sin cambio)
+      mi_cover.style.opacity=(miCoverIn*(1-miCoverOut)).toFixed(3);
+      mi_cover.style.transform='translateY('+((1-miCoverIn)*60-miCoverOut*220).toFixed(1)+'px)';
+      var time=now/1000, shimmer=p>0.80;
+      if(p!==mi_lastDrawn || shimmer){
+        mi_draw(p,time);
+        mi_cap.innerHTML=mi_captionHTML(p);
+        mi_hint.style.opacity=(1-mi_smooth(0.02,0.06,p)).toFixed(2);
+        mi_outro.style.opacity=mi_smooth(0.93,0.99,p).toFixed(3);
+        mi_cv.style.opacity=((0.35+0.65*mi_smooth(0.02,0.09,p))*(1-mi_smooth(0.91,0.985,p))).toFixed(3);
+        mi_cap.style.opacity=(mi_smooth(0.05,0.09,p)*(1-mi_smooth(0.92,0.96,p))).toFixed(3);
+        mi_lastDrawn=p;
+      }
+    }
+    window.addEventListener('resize', function(){ if(mi_active) mi_resize(); });
+    mi_resize();
+    requestAnimationFrame(mi_loop);
+  })();
+})();
+
+(function(){
+  /* ===== DATOS — expansión de la guía (de tu CSV) ===== */
+  const TI_EVENTS=[
+    {y:1900, p:'Francia', c:'Europa'},
+    {y:1952, p:'España', c:'Europa'},
+    {y:1956, p:'Italia', c:'Europa'},
+    {y:1957, p:'Bélgica y Luxemburgo', c:'Europa'},
+    {y:1964, p:'Alemania', c:'Europa'},
+    {y:1974, p:'Gran Bretaña e Irlanda', c:'Europa'},
+    {y:1994, p:'Suiza', c:'Europa'},
+    {y:1995, p:'Portugal', c:'Europa'},
+    {y:2005, p:'EE.UU. (Nueva York)', c:'América'},
+    {y:2007, p:'Japón (Tokio)', c:'Asia'},
+    {y:2007, p:'Países Bajos', c:'Europa'},
+    {y:2008, p:'Hong Kong y Macao', c:'Asia'},
+    {y:2015, p:'Brasil (Río y São Paulo)', c:'América'},
+    {y:2015, p:'Países Nórdicos', c:'Europa'},
+    {y:2016, p:'China (Shanghái)', c:'Asia'},
+    {y:2016, p:'Corea del Sur (Seúl)', c:'Asia'},
+    {y:2016, p:'Singapur', c:'Asia'},
+    {y:2017, p:'Tailandia (Bangkok)', c:'Asia'},
+    {y:2017, p:'Croacia', c:'Europa'},
+    {y:2018, p:'Taiwán (Taipéi)', c:'Asia'},
+    {y:2020, p:'Malta', c:'Europa'},
+    {y:2020, p:'Eslovenia', c:'Europa'},
+    {y:2022, p:'Canadá (Toronto)', c:'América'},
+    {y:2022, p:'Dubái (EAU)', c:'Asia'},
+    {y:2022, p:'Estonia (Tallin)', c:'Europa'},
+    {y:2022, p:'Turquía (Estambul)', c:'Europa'},
+    {y:2022, p:'Hungría', c:'Europa'},
+    {y:2023, p:'Argentina (Buenos Aires y Mendoza)', c:'América'},
+    {y:2023, p:'Vietnam (Hanói y HCMC)', c:'Asia'},
+    {y:2023, p:'Malasia (KL y Penang)', c:'Asia'},
+    {y:2023, p:'Abu Dabi (EAU)', c:'Asia'},
+    {y:2023, p:'Grecia (Atenas)', c:'Europa'},
+    {y:2023, p:'Chequia (Praga)', c:'Europa'},
+    {y:2023, p:'Polonia (Varsovia)', c:'Europa'},
+    {y:2024, p:'México', c:'América'},
+    {y:2024, p:'Serbia (Belgrado)', c:'Europa'},
+    {y:2024, p:'Lituania', c:'Europa'},
+    {y:2024, p:'Catar (Doha)', c:'Asia'},
+    {y:2025, p:'Austria', c:'Europa'},
+    {y:2025, p:'Letonia (Riga)', c:'Europa'},
+    {y:2025, p:'Filipinas (Manila y Cebú)', c:'Asia'},
+  ];
+  const TI_Y0=1900, TI_Y1=2026;
+  const TI_CONTS=['Europa','América','Asia'];
+  const TI_COL={ 'Europa':[189,35,51], 'América':[60,48,40], 'Asia':[200,145,47] };
+  const TI_MAXVAL=TI_EVENTS.filter(e=>e.c==='Europa').length; // 8
+  // El scroll dedica este % a CONSTRUIR todo (barras + año + línea de tiempo,
+  // hasta 2026 con cada barra completa). Recién después entra el cartel #ti-outro.
+  const TI_BUILD_END=0.85;
+  /* ==================================================== */
+
+  const ti_STAGE=document.getElementById('ti-stage');
+  const ti_cv=document.getElementById('ti-cv'), ti_ctx=ti_cv.getContext('2d');
+  const ti_cap=document.getElementById('ti-cap'), ti_hint=document.getElementById('ti-hint');
+  const ti_cover=document.getElementById('ti-cover'), ti_outro=document.getElementById('ti-outro');
+
+  let ti_W=0,ti_H=0,ti_DPR=1,ti_lastDrawn=-1;
+  function ti_resize(){ti_DPR=Math.min(window.devicePixelRatio||1,2);ti_W=window.innerWidth;ti_H=window.innerHeight;ti_cv.width=ti_W*ti_DPR;ti_cv.height=ti_H*ti_DPR;ti_cv.style.width=ti_W+'px';ti_cv.style.height=ti_H+'px';ti_ctx.setTransform(ti_DPR,0,0,ti_DPR,0,0);ti_lastDrawn=-1;}
+  function ti_smooth(a,b,x){if(b===a)return x<a?0:1;let t=(x-a)/(b-a);t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);}
+  const ti_lerp=(a,b,t)=>a+(b-a)*t;
+  const ti_rgba=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+  // valor (con crecimiento suave) de cada continente al año dado
+  function ti_valueAt(cont, year){ let v=0; for(const e of TI_EVENTS) if(e.c===cont) v+=ti_smooth(e.y-4,e.y,year); return v; }
+  function ti_xYear(year, x0, x1){ return ti_lerp(x0,x1, (year-TI_Y0)/(TI_Y1-TI_Y0)); }
+
+  function ti_draw(p,time){
+    ti_ctx.clearRect(0,0,ti_W,ti_H);
+    const year = ti_lerp(TI_Y0,TI_Y1,p);
+
+    const baseY=ti_H*0.72, barTop=ti_H*0.32, unit=(baseY-barTop)/TI_MAXVAL;
+    const groupW=Math.min(ti_W*0.52,420), bw=groupW/TI_CONTS.length*0.5, gap=groupW/TI_CONTS.length;
+    const startX=ti_W/2-groupW/2+gap/2;
+
+    // línea base
+    ti_ctx.strokeStyle='rgba(34,28,20,0.18)'; ti_ctx.lineWidth=1;
+    ti_ctx.beginPath(); ti_ctx.moveTo(ti_W/2-groupW/2-10,baseY); ti_ctx.lineTo(ti_W/2+groupW/2+10,baseY); ti_ctx.stroke();
+
+    // columnas
+    TI_CONTS.forEach((cont,i)=>{
+      const v=ti_valueAt(cont,year), h=v*unit, cx=startX+i*gap, col=TI_COL[cont];
+      if(h>0.5){
+        ti_ctx.fillStyle=ti_rgba(col,0.9);
+        ti_ctx.fillRect(cx-bw/2, baseY-h, bw, h);
+        ti_ctx.fillStyle=ti_rgba(col,1); ti_ctx.fillRect(cx-bw/2, baseY-h, bw, 3); // cap
+      }
+      // número arriba
+      const n=Math.round(v);
+      if(n>0){ ti_ctx.fillStyle=ti_rgba(col,1); ti_ctx.font='700 '+Math.max(16,ti_W*0.016)+'px Playfair Display, serif'; ti_ctx.textAlign='center';
+        ti_ctx.fillText(n, cx, baseY-h-12); }
+      // etiqueta continente
+      ti_ctx.fillStyle='rgba(60,48,40,0.85)'; ti_ctx.font='600 '+Math.max(10,ti_W*0.0095)+'px Inter, sans-serif'; ti_ctx.textAlign='center';
+      ti_ctx.fillText(cont.toUpperCase(), cx, baseY+20);
+    });
+
+    // ===== línea de tiempo abajo =====
+    const tlY=ti_H*0.86, x0=ti_W*0.10, x1=ti_W*0.90;
+    ti_ctx.strokeStyle='rgba(34,28,20,0.25)'; ti_ctx.lineWidth=1.5;
+    ti_ctx.beginPath(); ti_ctx.moveTo(x0,tlY); ti_ctx.lineTo(x1,tlY); ti_ctx.stroke();
+    // marcas de década
+    ti_ctx.fillStyle='rgba(60,48,40,0.6)'; ti_ctx.font='500 '+Math.max(9,ti_W*0.008)+'px Inter, sans-serif'; ti_ctx.textAlign='center';
+    for(const yr of [1900,1925,1950,1975,2000,2026]){ const x=ti_xYear(yr,x0,x1);
+      ti_ctx.strokeStyle='rgba(34,28,20,0.25)'; ti_ctx.beginPath(); ti_ctx.moveTo(x,tlY-4); ti_ctx.lineTo(x,tlY+4); ti_ctx.stroke();
+      ti_ctx.fillText(yr, x, tlY+20); }
+    // ticks de eventos (se encienden al pasar)
+    for(const e of TI_EVENTS){ const x=ti_xYear(e.y,x0,x1), on=year>=e.y-1;
+      ti_ctx.fillStyle=on?'rgba(200,145,47,0.95)':'rgba(180,160,130,0.5)';
+      ti_ctx.beginPath(); ti_ctx.arc(x,tlY,on?4:2.5,0,Math.PI*2); ti_ctx.fill(); }
+    // playhead
+    const px=ti_xYear(year,x0,x1);
+    ti_ctx.strokeStyle='rgba(189,35,51,0.8)'; ti_ctx.lineWidth=2;
+    ti_ctx.beginPath(); ti_ctx.moveTo(px,baseY+30); ti_ctx.lineTo(px,tlY); ti_ctx.stroke();
+    ti_ctx.fillStyle='rgba(189,35,51,1)'; ti_ctx.beginPath(); ti_ctx.arc(px,tlY,5.5,0,Math.PI*2); ti_ctx.fill();
+  }
+
+  function ti_captionHTML(pb){
+    const year=Math.round(ti_lerp(TI_Y0,TI_Y1,pb));
+    let last=null; for(const e of TI_EVENTS) if(e.y<=year) last=e;
+    const small = last ? `${last.p} · ${last.y}` : 'la guía nace en Francia';
+    return `<div class="big">${year}</div><div class="small">${small}</div>`;
+  }
+
+  /* ===== integración al scroll global: pad propio + rango [start,end) ===== */
+  (function(){
+    var ti_pad=document.createElement('div'); ti_pad.id='ti-pad'; ti_pad.style.height='620vh'; ti_pad.setAttribute('aria-hidden','true');
+    var ti_anchor=document.getElementById('ti-root');
+    ti_anchor.parentNode.insertBefore(ti_pad, ti_anchor);
+    var ti_outgap=document.createElement('div'); ti_outgap.id='ti-outgap'; ti_outgap.style.height='40vh'; ti_outgap.setAttribute('aria-hidden','true');
+    ti_anchor.parentNode.insertBefore(ti_outgap, ti_anchor.nextSibling);
+
+    var ti_active=false, ti_start=Infinity, ti_padH=1;
+    var ti_FADE=60;
+    function ti_clamp(v){return v<0?0:v>1?1:v;}
+    var TI_LEAD=80; // px de colchón extra antes de que arranque tiempo, para que no pegue justo al final de migas
+    function ti_measure(){ ti_start=ti_pad.offsetTop+TI_LEAD; ti_padH=Math.max(1,ti_pad.offsetHeight-TI_LEAD); }
+    ti_measure();
+    window.addEventListener('resize', ti_measure);
+    window.addEventListener('load', ti_measure);
+    setTimeout(ti_measure, 150);
+    setTimeout(ti_measure, 400);
+    setTimeout(ti_measure, 900);
+    setTimeout(ti_measure, 1800);
+    setTimeout(ti_measure, 3000);
+    if(window.ResizeObserver){
+      new ResizeObserver(ti_measure).observe(document.body);
+    }
+
+    function ti_setActive(on){
+      if(on===ti_active) return; ti_active=on;
+      ti_STAGE.style.display = on?'block':'none';
+      document.getElementById('ti-grain').style.display = on?'block':'none';
+      if(on) ti_resize();
+    }
+
+    function ti_loop(now){
+      requestAnimationFrame(ti_loop);
+      var sy=window.scrollY||window.pageYOffset||0;
+      // guard real: si el plato de migas (que viene después de tiempo) ya empezó a aparecer, tiempo se retira.
+      // (ya no depende del estado del mapa: su propio rango de scroll, medido directamente, alcanza)
+      var miEl=document.getElementById('mi-stage');
+      var miAlreadyIn = miEl && miEl.style.display==='block' && parseFloat(miEl.style.opacity||'0') > 0.05;
+      var inRange = !miAlreadyIn && sy>=ti_start-ti_FADE && sy<ti_start+ti_padH+ti_FADE;
+      ti_setActive(inRange);
+      if(!inRange) return;
+      var p=ti_clamp((sy-ti_start)/Math.max(1,ti_padH));
+      // si el plato de migas está a punto de aparecer pero todavía no se nota, anticipamos el fundido
+      // de salida de tiempo para que el cruce sea progresivo, no un corte
+      var miOp = (miEl && miEl.style.display==='block') ? parseFloat(miEl.style.opacity||'0') : 0;
+      var edgeFade=Math.min(ti_clamp((sy-ti_start+ti_FADE)/ti_FADE), ti_clamp((ti_start+ti_padH+ti_FADE-sy)/ti_FADE)) * (1-miOp);
+      ti_STAGE.style.opacity=edgeFade.toFixed(3);
+      /* cartel: entra desde abajo (+60px→0) sincronizado con el fade del padre; sale hacia arriba (0→-220px) en p 2%→10% */
+      var tiCoverIn=ti_clamp((sy-ti_start+ti_FADE)/ti_FADE);   // 0→1 durante los 60px de approach
+      var tiCoverOut=ti_smooth(0.02,0.10,p);                    // 0→1 durante la salida (sin cambio)
+      ti_cover.style.opacity=(tiCoverIn*(1-tiCoverOut)).toFixed(3);
+      ti_cover.style.transform='translateY('+((1-tiCoverIn)*60-tiCoverOut*220).toFixed(1)+'px)';
+      if(p!==ti_lastDrawn){
+        const pb=Math.min(p/TI_BUILD_END,1);                 // progreso de construcción (barras + año + timeline)
+        const out=ti_smooth(0.87,0.93,p);                    // entrada del cartel de cierre, después de TI_BUILD_END, con margen para leerse
+        ti_draw(pb,now/1000); ti_cap.innerHTML=ti_captionHTML(pb);
+        ti_hint.style.opacity=(1-ti_smooth(0.02,0.06,p)).toFixed(2);
+        // el cartel final recién entra cuando ya está TODO construido (p > TI_BUILD_END)
+        ti_outro.style.opacity=out.toFixed(3);
+        // el título/año queda FIJO arriba (ya no se desvanece con el cartel)
+        ti_cap.style.opacity=ti_smooth(0.05,0.09,p).toFixed(3);
+        // al entrar el cartel, las barras se apagan casi por completo para no competir
+        ti_cv.style.opacity=((0.08+0.92*ti_smooth(0.03,0.15,p))*(1-0.92*out)).toFixed(3);
+        ti_lastDrawn=p;
+      }
+    }
+    window.addEventListener('resize', function(){ if(ti_active) ti_resize(); });
+    ti_resize();
+    requestAnimationFrame(ti_loop);
+  })();
+})();
+
+(function(){
+const FAM=[{"name": "Moderna", "n": 814, "prestige": 0.092, "two": 65, "three": 10}, {"name": "Creativa", "n": 774, "prestige": 0.323, "two": 190, "three": 60}, {"name": "Francesa", "n": 412, "prestige": 0.221, "two": 67, "three": 24}, {"name": "Japonesa", "n": 401, "prestige": 0.209, "two": 67, "three": 17}, {"name": "Italiana", "n": 201, "prestige": 0.109, "two": 18, "three": 4}, {"name": "China", "n": 198, "prestige": 0.182, "two": 29, "three": 7}, {"name": "Contemporánea", "n": 181, "prestige": 0.138, "two": 22, "three": 3}, {"name": "Mediterránea", "n": 164, "prestige": 0.098, "two": 10, "three": 6}, {"name": "Otras regionales", "n": 163, "prestige": 0.147, "two": 20, "three": 4}, {"name": "Otras", "n": 127, "prestige": 0.134, "two": 17, "three": 0}, {"name": "Clásica", "n": 74, "prestige": 0.162, "two": 11, "three": 1}, {"name": "Británica", "n": 74, "prestige": 0.108, "two": 5, "three": 3}, {"name": "Norteamericana", "n": 70, "prestige": 0.143, "two": 8, "three": 2}, {"name": "Asiática", "n": 69, "prestige": 0.159, "two": 8, "three": 3}, {"name": "Mar y carne", "n": 66, "prestige": 0.167, "two": 3, "three": 8}, {"name": "Latinoamericana", "n": 54, "prestige": 0.093, "two": 4, "three": 1}];
+const maxN=Math.max(...FAM.map(f=>f.n));
+const BTOP=20,BBOT=112,BH=BBOT-BTOP;
+function glass(f){
+  const w=Math.round(26+Math.pow(f.n/maxN,0.8)*145);
+  const h=Math.round(w*1.76);
+  const goldH=(f.prestige*BH);
+  const gtot=f.two+f.three;
+  const threeH=gtot>0?goldH*(f.three/gtot):0;
+  const twoH=goldH-threeH;
+  return {w,h,svg:`
+  <svg width="${w}" height="${h}" viewBox="0 0 100 176">
+    <defs>
+      <linearGradient id="gl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="rgba(255,255,255,.15)"/><stop offset=".5" stop-color="rgba(255,255,255,.45)"/><stop offset="1" stop-color="rgba(255,255,255,.1)"/></linearGradient>
+      <linearGradient id="wine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8324a"/><stop offset="1" stop-color="#8c1622"/></linearGradient>
+      <clipPath id="cl"><path d="M28,20 C20,52 24,100 50,112 C76,100 80,52 72,20 Z"/></clipPath>
+    </defs>
+    <path d="M28,20 C20,52 24,100 50,112 C76,100 80,52 72,20 Z" fill="url(#gl)" stroke="rgba(70,45,40,.45)" stroke-width="1.4"/>
+    <ellipse cx="50" cy="20" rx="22" ry="4" fill="none" stroke="rgba(70,45,40,.45)" stroke-width="1.4"/>
+    <g clip-path="url(#cl)"><g class="liquid">
+      <rect x="0" y="${BTOP+goldH}" width="100" height="${BH-goldH+30}" fill="url(#wine)"/>
+      <rect x="0" y="${BTOP+threeH}" width="100" height="${twoH}" fill="#f7c64f"/>
+      <rect x="0" y="${BTOP}" width="100" height="${threeH}" fill="#cf7d0c"/>
+    </g></g>
+    <path d="M34,26 C30,50 33,88 46,104" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round"/>
+    <rect x="47.5" y="112" width="5" height="50" rx="2" fill="rgba(110,80,70,.18)" stroke="rgba(70,45,40,.38)" stroke-width="1"/>
+    <ellipse cx="50" cy="166" rx="24" ry="5.5" fill="rgba(110,80,70,.14)" stroke="rgba(70,45,40,.4)" stroke-width="1.2"/>
+  </svg>`};
+}
+const r1=document.getElementById('r1'), r2=document.getElementById('r2');
+FAM.forEach((f,i)=>{
+  const g=glass(f);
+  const el=document.createElement('div');
+  el.className='glass'; el.dataset.fam=f.name;
+  el.innerHTML=g.svg+`<div class="cap"><div class="nm">${f.name}</div><div class="detail"><div class="ct s1">${f.n-f.two-f.three} · 1★</div><div class="ct au2">${f.two} · 2★</div><div class="ct au3">${f.three} · 3★</div></div></div>`;
+  el.querySelector('.liquid').style.setProperty('--empty',BH+'px');
+  (i<8?r1:r2).appendChild(el);
+});
+const glasses=[...document.querySelectorAll('.glass')];
+const shelf=document.getElementById('shelf');
+function sizeRows(){
+  [r2].forEach(row=>{
+    const kids=[...row.children];
+    if(!kids.length) return;
+    row.style.gridTemplateColumns='';
+    let mx=0; kids.forEach(k=>{mx=Math.max(mx,k.offsetWidth)});
+    row.style.gridTemplateColumns=`repeat(${kids.length}, ${mx}px)`;
+  });
+}
+sizeRows();
+function fit(){
+  const wrap=document.getElementById('shelfwrap').clientWidth;
+  const stageH=document.getElementById('stage').clientHeight*0.68;
+  const s=Math.min(wrap/shelf.scrollWidth, stageH/shelf.scrollHeight)*0.92;
+  shelf.style.setProperty('--fit', s);
+}
+addEventListener('resize',fit);addEventListener('load',()=>{sizeRows();fit();});fit();
+function pour(on){glasses.forEach(el=>el.querySelector('.liquid').style.setProperty('--empty',(on?0:BH)+'px'));}
+function applyStage(s){
+  pour(s>=1);
+  document.getElementById('scrim').style.opacity=(s===0?'.78':'0');
+  shelf.style.setProperty('--shift', s===5 ? '-15vw' : '0px');
+  shelf.classList.toggle('allcaps', s>=6);
+  window.__legendWantedByStage = !(s>=3 && s<=5);
+  glasses.forEach(el=>{el.classList.remove('dim','spot','gilded');el.style.transform='';});
+  const focus=(names,gild)=>glasses.forEach(el=>{
+    if(names.includes(el.dataset.fam)){el.classList.add('spot');if(gild)el.classList.add('gilded');el.style.transform='scale(1.13)';}
+    else el.classList.add('dim');});
+  if(s===3) focus(['Moderna'],false);
+  if(s===4) focus(['Creativa'],true);
+  if(s===5) focus(['Francesa','Japonesa','Italiana','China'],false);
+}
+let cur=-1;
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const s=+e.target.dataset.stage;if(s!==cur){cur=s;applyStage(s);}}});},{threshold:0.55});
+document.querySelectorAll('[data-stage]').forEach(s=>io.observe(s));
+
+var pRev=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');pRev.unobserve(e.target);}});},{threshold:.16});
+document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(el);});
+/* legend/glasses chrome now handled by the map loop */
+})();
+</script>
+<script src="d3.min.js"></script>
+<script>
+(async function(){
+/* reserva síncrona del espacio de scroll del mapa: se ejecuta ANTES del await
+   para que bookintro (que corre sync mientras el fetch está pendiente) inserte
+   bookpad DESPUÉS de estos nodos — dejando el orden correcto bookpad→mscroller→mapgap */
+const scroller=document.createElement('div'); scroller.id='mscroller';
+for(let i=0;i<6;i++){const sec=document.createElement('section');sec.className='mstep';scroller.appendChild(sec);}
+document.body.insertBefore(scroller, document.body.firstChild);
+var _gap=document.createElement('div'); _gap.id='mapgap'; _gap.style.height='30vh'; _gap.setAttribute('aria-hidden','true');
+document.body.insertBefore(_gap, scroller.nextSibling);
+
+const GEO = await fetch('world.json').then(r=>r.json());
+const COUNTS = {"United Arab Emirates": {"n": 22, "s1": 17, "s2": 3, "s3": 2, "csv": "Abu Dhabi"}, "Andorra": {"n": 1, "s1": 1, "s2": 0, "s3": 0, "csv": "Andorra"}, "Argentina": {"n": 10, "s1": 9, "s2": 1, "s3": 0, "csv": "Argentina"}, "Austria": {"n": 100, "s1": 79, "s2": 19, "s3": 2, "csv": "Austria"}, "Belgium": {"n": 123, "s1": 103, "s2": 18, "s3": 2, "csv": "Belgium"}, "Brazil": {"n": 24, "s1": 19, "s2": 3, "s3": 2, "csv": "Brazil"}, "Canada": {"n": 38, "s1": 36, "s2": 2, "s3": 0, "csv": "Canada"}, "China": {"n": 150, "s1": 122, "s2": 25, "s3": 3, "csv": "Chinese Mainland"}, "Croatia": {"n": 13, "s1": 12, "s2": 1, "s3": 0, "csv": "Croatia"}, "Czechia": {"n": 9, "s1": 8, "s2": 1, "s3": 0, "csv": "Czechia"}, "Denmark": {"n": 37, "s1": 27, "s2": 8, "s3": 2, "csv": "Denmark"}, "Estonia": {"n": 2, "s1": 1, "s2": 1, "s3": 0, "csv": "Estonia"}, "Finland": {"n": 7, "s1": 6, "s2": 1, "s3": 0, "csv": "Finland"}, "France": {"n": 659, "s1": 548, "s2": 81, "s3": 30, "csv": "France"}, "Germany": {"n": 328, "s1": 272, "s2": 45, "s3": 11, "csv": "Germany"}, "Greece": {"n": 12, "s1": 11, "s2": 1, "s3": 0, "csv": "Greece"}, "Hong Kong": {"n": 77, "s1": 57, "s2": 13, "s3": 7, "csv": "Hong Kong SAR China"}, "Hungary": {"n": 10, "s1": 8, "s2": 2, "s3": 0, "csv": "Hungary"}, "Iceland": {"n": 3, "s1": 3, "s2": 0, "s3": 0, "csv": "Iceland"}, "Ireland": {"n": 23, "s1": 18, "s2": 5, "s3": 0, "csv": "Ireland"}, "Italy": {"n": 386, "s1": 333, "s2": 38, "s3": 15, "csv": "Italy"}, "Japan": {"n": 360, "s1": 279, "s2": 61, "s3": 20, "csv": "Japan"}, "Latvia": {"n": 2, "s1": 2, "s2": 0, "s3": 0, "csv": "Latvia"}, "Liechtenstein": {"n": 1, "s1": 1, "s2": 0, "s3": 0, "csv": "Liechtenstein"}, "Lithuania": {"n": 3, "s1": 3, "s2": 0, "s3": 0, "csv": "Lithuania"}, "Luxembourg": {"n": 11, "s1": 9, "s2": 2, "s3": 0, "csv": "Luxembourg"}, "Macau": {"n": 21, "s1": 13, "s2": 6, "s3": 2, "csv": "Macau"}, "Malaysia": {"n": 9, "s1": 8, "s2": 1, "s3": 0, "csv": "Malaysia"}, "Malta": {"n": 7, "s1": 6, "s2": 1, "s3": 0, "csv": "Malta"}, "Mexico": {"n": 23, "s1": 21, "s2": 2, "s3": 0, "csv": "Mexico"}, "Netherlands": {"n": 116, "s1": 96, "s2": 19, "s3": 1, "csv": "Netherlands"}, "Norway": {"n": 20, "s1": 17, "s2": 1, "s3": 2, "csv": "Norway"}, "Poland": {"n": 7, "s1": 6, "s2": 1, "s3": 0, "csv": "Poland"}, "Portugal": {"n": 53, "s1": 44, "s2": 9, "s3": 0, "csv": "Portugal"}, "Principality of Monaco": {"n": 9, "s1": 5, "s2": 3, "s3": 1, "csv": "Principality of Monaco"}, "Qatar": {"n": 3, "s1": 3, "s2": 0, "s3": 0, "csv": "Qatar"}, "Serbia": {"n": 2, "s1": 2, "s2": 0, "s3": 0, "csv": "Serbia"}, "Singapore": {"n": 38, "s1": 28, "s2": 7, "s3": 3, "csv": "Singapore"}, "Slovenia": {"n": 9, "s1": 7, "s2": 1, "s3": 1, "csv": "Slovenia"}, "South Korea": {"n": 46, "s1": 35, "s2": 10, "s3": 1, "csv": "South Korea"}, "Spain": {"n": 302, "s1": 249, "s2": 37, "s3": 16, "csv": "Spain"}, "Sweden": {"n": 22, "s1": 17, "s2": 4, "s3": 1, "csv": "Sweden"}, "Switzerland": {"n": 134, "s1": 104, "s2": 26, "s3": 4, "csv": "Switzerland"}, "Taiwan": {"n": 53, "s1": 43, "s2": 7, "s3": 3, "csv": "Taiwan"}, "Thailand": {"n": 43, "s1": 33, "s2": 8, "s3": 2, "csv": "Thailand"}, "The Philippines": {"n": 9, "s1": 8, "s2": 1, "s3": 0, "csv": "The Philippines"}, "T\u00fcrkiye": {"n": 17, "s1": 15, "s2": 2, "s3": 0, "csv": "T\u00fcrkiye"}, "United States of America": {"n": 275, "s1": 221, "s2": 40, "s3": 14, "csv": "USA"}, "United Kingdom": {"n": 204, "s1": 171, "s2": 23, "s3": 10, "csv": "United Kingdom"}, "Vietnam": {"n": 9, "s1": 9, "s2": 0, "s3": 0, "csv": "Vietnam"}};
+
+function fillFor(n){
+  if(!n) return '#e8dcc2';
+  if(n>=500) return '#7A1622';
+  if(n>=100) return '#BD2333';
+  if(n>=25)  return '#c9685a';
+  if(n>=5)   return '#d68b72';
+  return '#e3b69e';
+}
+
+const EUROPE=new Set(['France','Italy','Germany','Spain','United Kingdom','Switzerland','Belgium','Netherlands','Austria','Portugal','Denmark','Sweden','Norway','Finland','Ireland','Greece','Poland','Czech Republic','Hungary','Croatia','Slovenia','Luxembourg','Estonia','Iceland','Serbia','Malta']);
+const ASIA=new Set(['Japan','China','South Korea','Thailand','Taiwan','Vietnam','India','Malaysia','Indonesia','Singapore','Hong Kong']);
+const NA=new Set(['United States of America','Canada','Mexico']);
+const SA=new Set(['Brazil','Argentina']);
+
+const STEPS=[
+  {kind:'intro', view:'global',
+   title:"¿Dónde se concentra el prestigio?",
+   bajada:"3.842 restaurantes con estrellas Michelin, repartidos de forma desigual por el planeta."},
+  {kind:'focus', view:'europe', region:EUROPE, kick:"Europa", ttl:"Dónde comenzó todo", big:"2.615",
+   sub:"estrellas en Europa, de lejos el continente más rico. <b>Francia</b> es el claro lider mundial.",
+   note:"Europa occidental sigue siendo el corazón histórico de la alta cocina."},
+  {kind:'focus', view:'asia', region:ASIA, kick:"Asia", ttl:"El nuevo polo de Oriente", big:"857",
+   sub:"estrellas en Asia, el segundo polo mundial. <b>Japón</b> está emergiendo como uno de los grandes de la cocina.",
+   note:"En pocas décadas Asia pasó de la periferia al centro de la gastronomía mundial."},
+  {kind:'focus', view:'northamerica', region:NA, kick:"América del Norte", ttl:"El mercado que crece", big:"336",
+   sub:"estrellas en América del Norte. <b>Estados Unidos</b> esta cada vez más cerca de la calidad europea.",
+   note:"El prestigio abarca todo Norteamérica en diferentes escalas."},
+  {kind:'focus', view:'southamerica', region:SA, kick:"América del Sur", ttl:"La gran ausente", big:"34",
+   sub:"estrellas en América del Sur: solo <b>Brasil</b> y <b>Argentina</b>. El resto sigue fuera del mapa.",
+   note:"La guía apenas llegó a Sudamérica. Para casi todo el continente, el prestigio todavía tiene fronteras."},
+  {kind:'close', view:'global',
+   title:"El talento no conoce fronteras",
+   body:"El prestigio tiene una clara concentración en Europa, siendo la zona con mayor cantidad de estrellas acumuladas, pero Asia no se queda atrás. Además, lentamente se esta viendo un surgimiento de calidad en todo América. Cada año la guia suma nuevos países y el mapa de la excelencia se sigue redibujando.",
+   showTop:true},
+];
+
+
+
+/* ranking top 10 */
+const ranked=Object.entries(COUNTS).map(([k,v])=>({name:k,n:v.n})).sort((a,b)=>b.n-a.n).slice(0,10);
+const esName={'United States of America':'EE. UU.','United Kingdom':'Reino Unido','France':'Francia','Italy':'Italia','Japan':'Japón','Germany':'Alemania','Spain':'España','China':'China','Switzerland':'Suiza','Belgium':'Bélgica','Netherlands':'Países Bajos','Austria':'Austria'};
+const topMax=ranked[0].n;
+const topHTML=ranked.map((r,i)=>`<div class="bar-row ${i<3?'hl':''}"><span class="bl">${esName[r.name]||r.name}</span><span class="bt"><span class="bf" style="width:0" data-w="${(r.n/topMax*100).toFixed(1)}%"></span></span><span class="bv">${r.n}</span></div>`).join('');
+
+/* mapa */
+const graphic=document.getElementById('graphic');
+const svg=d3.select('#map');
+const proj=d3.geoNaturalEarth1();
+const path=d3.geoPath(proj);
+const g=svg.append('g');
+const feats=GEO.features;
+const countries=g.selectAll('path').data(feats).join('path')
+  .attr('class','country').attr('fill',d=>fillFor((COUNTS[d.properties.name]||{}).n||0)).attr('fill-opacity',1);
+
+/* etiquetas */
+const LBL=[
+  {name:'France',es:'Francia',ll:[2.3,46.6]},{name:'Spain',es:'España',ll:[-3.7,40]},
+  {name:'Italy',es:'Italia',ll:[12.5,42.8]},{name:'Germany',es:'Alemania',ll:[10.4,51]},
+  {name:'United Kingdom',es:'R. Unido',ll:[-2,53]},
+  {name:'Japan',es:'Japón',ll:[138,37]},{name:'China',es:'China',ll:[104,35]},{name:'South Korea',es:'Corea',ll:[128,36.5]},
+  {name:'United States of America',es:'EE. UU.',ll:[-98,39]},{name:'Canada',es:'Canadá',ll:[-110,58]},{name:'Mexico',es:'México',ll:[-102,23]},
+  {name:'Brazil',es:'Brasil',ll:[-50,-12]},{name:'Argentina',es:'Argentina',ll:[-64,-36]}
+];
+const labelsBox=document.getElementById('labels');
+LBL.forEach(l=>{l.el=document.createElement('div');l.el.className='lab';
+  l.el.innerHTML=`<div class="nm">${l.es}</div><div class="vl">${(COUNTS[l.name]||{}).n||0}</div>`;
+  labelsBox.appendChild(l.el);});
+
+const VIEW={
+  global:{c:[8,22],k:0.72,ax:.5,ay:.6},
+  europe:{c:[8,48],k:2.9,ax:.62,ay:.5},
+  asia:{c:[133,36],k:2.3,ax:.65,ay:.5},
+  northamerica:{c:[-98,44],k:1.9,ax:.6,ay:.5},
+  southamerica:{c:[-58,-24],k:1.8,ax:.6,ay:.46}
+};
+
+/* refs overlays */
+const cover=document.getElementById('cover'), coverT=document.getElementById('coverT'), coverB=document.getElementById('coverB');
+const pc=document.getElementById('mpc'), closing=document.getElementById('closing');
+const clT=document.getElementById('clT'), clB=document.getElementById('clB'), clTop=document.getElementById('clTop');
+const legend=document.getElementById('legend');
+const scrim=document.getElementById('mscrim');
+const cue=document.getElementById('cue'), nav=document.getElementById('nav');
+const dotsBox=document.getElementById('dots'), prevBtn=document.getElementById('prev'), nextBtn=document.getElementById('next');
+
+/* navegación por scroll: progreso continuo ligado a la posición de scroll */
+let p=0, target=0, activeStep=-1;
+/* scroller y _gap ya fueron creados e insertados de forma síncrona antes del await fetch */
+
+function setActive(i){
+  activeStep=i; const s=STEPS[i];
+  cover.classList.toggle('on', s.kind==='intro');
+  pc.classList.toggle('on', s.kind==='focus');
+  closing.classList.toggle('on', s.kind==='close');
+  legend.style.opacity = s.kind==='close' ? 0 : 1;
+  if(s.kind==='intro'){coverT.textContent=s.title; coverB.textContent=s.bajada;}
+  if(s.kind==='focus'){pc.innerHTML=`<div class="kick">${s.kick}</div><div class="ttl">${s.ttl}</div><div class="mbig">${s.big}</div><div class="msub">${s.sub}</div><div class="note">${s.note}</div>`;}
+  if(s.kind==='close'){clT.textContent=s.title; clB.textContent=s.body; clTop.innerHTML=topHTML;
+    requestAnimationFrame(()=>{clTop.querySelectorAll('.bf').forEach(b=>{b.style.width=b.dataset.w;});});}
+  LBL.forEach(l=>{const vis = s.kind==='focus' && s.region.has(l.name); l.el.classList.toggle('on',vis);});
+  countries.transition().duration(700)
+    .attr('fill-opacity', d=> (s.region && !s.region.has(d.properties.name)) ? 0.18 : 1)
+    .attr('stroke', d=> (s.region && s.region.has(d.properties.name)) ? '#7A1622' : '#cbb892')
+    .attr('stroke-width', d=> (s.region && s.region.has(d.properties.name)) ? 1.2 : 0.4);
+}
+
+/* loop */
+let W=0,H=0,lastTr='';
+/* refs y medidas cacheadas: NO leer layout en cada frame (causa del scroll lento) */
+var _wineEl=document.querySelector('.scroller');
+var _shelf=document.getElementById('shelfwrap');
+var _legend=document.querySelector('.legend');
+var _footEl=document.querySelector('.foot');
+var _vh=0,_msH=1,_wineTop=1,_footTop=1e9,_lastSy=-1,_lastGOp=-1,_lastSo=-1,_lastWine=null,_lastLegendWant=null,_mapEnd=1;
+function measure(){
+  _vh=window.innerHeight||document.documentElement.clientHeight;
+  var msEl=document.getElementById('mscroller');
+  _msH=msEl?msEl.offsetHeight:1;
+  _wineTop=_wineEl?_wineEl.offsetTop:(document.documentElement.scrollHeight-_vh);
+  _footTop=_footEl?(_wineTop+_footEl.offsetTop):1e9;
+  // fin real del territorio del mapa: dónde termina el mapgap que sigue al mscroller
+  var gapEl=document.getElementById('mapgap');
+  _mapEnd = gapEl ? (gapEl.offsetTop + gapEl.offsetHeight) : (msEl ? (msEl.offsetTop + _msH) : 1);
+  _lastSy=-1; /* forzar un re-render tras medir */
+}
+function targetTransform(){
+  const i0=Math.floor(p),i1=Math.min(i0+1,STEPS.length-1),f=p-i0;
+  const v0=VIEW[STEPS[i0].view],v1=VIEW[STEPS[i1].view];
+  const k=v0.k+(v1.k-v0.k)*f;
+  const c=[v0.c[0]+(v1.c[0]-v0.c[0])*f, v0.c[1]+(v1.c[1]-v0.c[1])*f];
+  const ax=v0.ax+(v1.ax-v0.ax)*f;
+  const ay=v0.ay+(v1.ay-v0.ay)*f;
+  const pcp=proj(c);
+  return {k, x:W*ax-k*pcp[0], y:H*ay-k*pcp[1]};
+}
+function frame(){
+  requestAnimationFrame(frame);
+  const sy=(window.scrollY||window.pageYOffset||0);
+  if(sy===_lastSy) return;                 // sin movimiento => sin trabajo (scroll fluido)
+  _lastSy=sy;
+  const vh=_vh, msH=_msH, wineTop=_wineTop, mapEnd=_mapEnd;
+  const sc=Math.max(0,Math.min(msH,sy-(window.__bookPad||0)));
+  p=(sc/Math.max(1,msH))*(STEPS.length-1);
+  scrim.style.opacity = 0.82*(1-Math.max(0,Math.min(1,p)));
+  /* crossfade mapa -> migas: el mapa se apaga al llegar al final de su propio gap, no al de las copas */
+  const gFadeB=mapEnd, gFadeA=mapEnd-vh*0.4;
+  const gOp=Math.max(0,Math.min(1,(gFadeB-sy)/Math.max(1,(gFadeB-gFadeA))));
+  if(gOp!==_lastGOp){_lastGOp=gOp; graphic.style.opacity=gOp;}
+  if(_wineEl){const so=Math.max(0,Math.min(1,(sy-(wineTop-vh*0.5))/(vh*0.35))); if(so!==_lastSo){_lastSo=so; _wineEl.style.opacity=so;}}
+  const want=(sy >= (wineTop - vh*0.45)) && (sy < _footTop - vh*0.5) && !window.__postresIn;
+  const legendWant = want && (window.__legendWantedByStage!==false);
+  if(want!==_lastWine){_lastWine=want; if(_shelf)_shelf.style.opacity=want?1:0;}
+  if(legendWant!==_lastLegendWant){_lastLegendWant=legendWant; if(_legend)_legend.style.opacity=legendWant?1:0;}
+  const a=Math.round(p); if(a!==activeStep) setActive(a);
+  // el cover (intro) se desliza hacia arriba y se desvanece de forma continua con el scroll,
+  // en vez de depender de la transición CSS fija de .on/.off
+  const coverOut=Math.max(0,Math.min(1,p/0.5));
+  cover.style.opacity=(1-coverOut).toFixed(3);
+  cover.style.transform='translateY('+(-coverOut*220).toFixed(1)+'px)';
+  const t=targetTransform();
+  const tr=`translate(${t.x.toFixed(2)},${t.y.toFixed(2)}) scale(${t.k.toFixed(4)})`;
+  if(tr!==lastTr){
+    lastTr=tr;
+    g.attr('transform',tr);
+    LBL.forEach(l=>{const b=proj(l.ll);
+      l.el.style.transform=`translate(${(t.x+t.k*b[0]).toFixed(1)}px,${(t.y+t.k*b[1]).toFixed(1)}px) translate(-50%,-145%)`;});
+  }
+}
+function resize(){
+  W=graphic.clientWidth; H=graphic.clientHeight;
+  svg.attr('width',W).attr('height',H);
+  proj.fitExtent([[20,30],[W-20,H-30]],{type:'FeatureCollection',features:feats});
+  countries.attr('d',path);
+  measure();
+}
+window.addEventListener('resize',resize);
+graphic.style.pointerEvents='none';
+resize(); setActive(0); frame();
+window.addEventListener('load',measure);
+// re-medir agresivamente: el layout puede seguir asentándose después de load
+// (otras secciones insertan sus propios pads de forma asíncrona)
+setTimeout(measure, 150);
+setTimeout(measure, 400);
+setTimeout(measure, 900);
+setTimeout(measure, 1800);
+setTimeout(measure, 3000);
+if(window.ResizeObserver){ new ResizeObserver(measure).observe(document.body); }
+/* flag de postres para el chrome */
+try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window.__postresIn=e.isIntersecting;});},{threshold:0,rootMargin:'0px 0px 120px 0px'});var _pn=document.getElementById('postres'); if(_pn)_pio.observe(_pn);}catch(e){}
+})();
+</script>
+<script>
+/* Intro: el libro se abre y la carta "sale" de él al scrollear.
+   Animado sobre scrollY [0, 1.5vh] para no tocar la matemática de scroll del mapa. */
+(function(){
+  var bi=document.getElementById('bookintro');
+  if(!bi) return;
+  var biText=bi.querySelector('.bi-text');
+  var biCue=bi.querySelector('.bi-cue');
+  var biFront=bi.querySelector('.book-front');
+  var biScene=bi.querySelector('.book-scene');
+  var biMan=bi.querySelector('.bib-man');
+  /* espaciador propio del libro: le da su tramo de scroll sin mover el mapa */
+  var pad=document.createElement('div'); pad.id='bookpad'; pad.style.height='130vh'; pad.setAttribute('aria-hidden','true');
+  document.body.insertBefore(pad, document.body.firstChild);
+  function syncPad(){ window.__bookPad = pad.offsetHeight; }
+  syncPad();
+  window.addEventListener('resize', syncPad);
+  window.dispatchEvent(new Event('resize'));   // que el mapa recalcule medidas con el pad presente
+  var lastP=-1;
+  function clamp(v){return v<0?0:v>1?1:v;}
+  function loop(){
+    requestAnimationFrame(loop);
+    var sy=window.scrollY||window.pageYOffset||0;
+    var pad_h=window.__bookPad||(window.innerHeight||1)*1.3;
+    var p=clamp(sy/pad_h);
+    if(p>=1){                                   // pasaste la intro: ocultar del todo (sin fantasma)
+      if(bi.style.display!=='none') bi.style.display='none';
+      lastP=1; return;
+    }
+    if(bi.style.display==='none') bi.style.display='flex';  // volviste a la intro: reaparece
+    if(p===lastP) return;
+    /* 1) texto y cue se desvanecen (0 -> .25) */
+    var tp=clamp(p/0.25);
+    var tOp=String(1-tp), tTr='translateY('+(-tp*220).toFixed(1)+'px)';
+    biText.style.opacity=tOp; biText.style.transform=tTr;
+    biCue.style.opacity=tOp;
+    /* 2) la tapa se abre sobre el lomo, y el muñeco la acompaña con una leve inclinación (.18 -> .62) */
+    var op=clamp((p-0.18)/0.44), oe=op*op*(3-2*op);
+    biFront.style.transform='rotateY('+(-oe*156).toFixed(1)+'deg)';
+    if(biMan) biMan.style.transform='rotate('+(-oe*10).toFixed(1)+'deg)';
+    /* 2b) el muñeco se desvanece una vez que el libro ya está abierto (.55 -> .75) */
+    if(biMan){
+      var mp=clamp((p-0.55)/0.2), me=mp*mp*(3-2*mp);
+      biMan.style.opacity=String(1-me);
+    }
+    /* 3) con el libro ya abierto, crece y se funde con el mapa (.62 -> 1) */
+    var fp=clamp((p-0.62)/0.38), fe=fp*fp*(3-2*fp);
+    biScene.style.transform='scale('+(1+fe*1.7).toFixed(3)+') translateY('+(-fe*4).toFixed(1)+'vh)';
+    bi.style.opacity=String(1-fe);
+    bi.style.visibility='visible';
+    lastP=p;
+  }
+  loop();
+})();
+
+/* Postres: agrupar 1-2 en "Otros" y convertir países en botones desplegables */
+(function(){
+  var menu=document.querySelector('#postres .menu');
+  if(!menu) return;
+  var courses=[].slice.call(menu.querySelectorAll('.course'));
+  var otros=[];
+  courses.forEach(function(c){
+    var cEl=c.querySelector('.count');
+    var cnt=cEl?parseInt(cEl.textContent,10)||0:0;
+    var nm=c.querySelector('.cn')?c.querySelector('.cn').textContent:'';
+    if(cnt<=2){
+      [].slice.call(c.querySelectorAll('.dish')).forEach(function(d){
+        var loc=d.querySelector('.loc');
+        if(loc) loc.textContent=loc.textContent+' · '+nm;
+        otros.push(d);
+      });
+      c.parentNode.removeChild(c);
+    }
+  });
+  if(otros.length){
+    var course=document.createElement('div');
+    course.className='course';
+    var h3=document.createElement('h3');
+    h3.className='course-name';
+    h3.innerHTML='<span class="cn">Otros</span><span class="count">'+otros.length+'</span>';
+    var ul=document.createElement('ul');
+    ul.className='dishes';
+    otros.forEach(function(d){ ul.appendChild(d); });
+    course.appendChild(h3); course.appendChild(ul);
+    menu.appendChild(course);
+  }
+  [].slice.call(menu.querySelectorAll('.course')).forEach(function(c){
+    var head=c.querySelector('.course-name');
+    if(!head) return;
+    var chev=document.createElement('span'); chev.className='chev';
+    head.appendChild(chev);
+    head.setAttribute('role','button');
+    head.setAttribute('tabindex','0');
+    head.setAttribute('aria-expanded','false');
+    function toggle(){
+      var open=c.classList.toggle('open');
+      head.setAttribute('aria-expanded', open?'true':'false');
+    }
+    head.addEventListener('click', toggle);
+    head.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); }
+    });
+  });
+})();
+
+(function(){
+  const salary = document.getElementById('cm-salary');
+  const currency = document.getElementById('cm-currency');
+  const result = document.getElementById('cm-salaryResult');
+  currency.value = 'ARS';
+
+  const references = {
+    EUR:{symbol:'€', amount:250, locale:'es-ES'},
+    USD:{symbol:'US$', amount:250, locale:'en-US'},
+    GBP:{symbol:'£', amount:220, locale:'en-GB'},
+    ARS:{symbol:'$AR', amount:250000, locale:'es-AR'},
+    BRL:{symbol:'R$', amount:1200, locale:'pt-BR'},
+    MXN:{symbol:'MX$', amount:5000, locale:'es-MX'}
+  };
+
+  function money(value, code){
+    const cfg = references[code];
+    return `${cfg.symbol} ${Number(value).toLocaleString(cfg.locale,{maximumFractionDigits:0})}`;
+  }
+
+  function parseSalaryInput(value){
+    const raw = String(value).trim();
+    if (!raw) return NaN;
+
+    let s = raw.replace(/\s/g, '').replace(/[^\d.,]/g, '');
+    if (!s) return NaN;
+
+    const lastComma = s.lastIndexOf(',');
+    const lastDot = s.lastIndexOf('.');
+
+    if (lastComma !== -1 && lastDot !== -1) {
+      const decimalSep = lastComma > lastDot ? ',' : '.';
+      const thousandSep = decimalSep === ',' ? '.' : ',';
+      const decimals = s.split(decimalSep).pop().length;
+
+      if (decimals <= 2) {
+        s = s.replaceAll(thousandSep, '').replace(decimalSep, '.');
+      } else {
+        s = s.replace(/[.,]/g, '');
+      }
+    } else if (lastComma !== -1 || lastDot !== -1) {
+      const sep = lastComma !== -1 ? ',' : '.';
+      const parts = s.split(sep);
+
+      if (parts.length > 2) {
+        s = parts.join('');
+      } else {
+        const digitsAfterSeparator = parts[1]?.length ?? 0;
+
+        if (digitsAfterSeparator <= 2) {
+          s = parts[0] + '.' + parts[1];
+        } else {
+          s = parts.join('');
+        }
+      }
+    }
+
+    return Number(s);
+  }
+
+  function updateSalary(){
+    const code = currency.value;
+    const cfg = references[code];
+    const rawSalary = salary.value.trim();
+    const monthly = parseSalaryInput(rawSalary);
+
+    if (!rawSalary || monthly <= 0 || Number.isNaN(monthly)) {
+      result.innerHTML = `
+        <span class="cm-result-kicker">Cena de alta gama de referencia: ${money(cfg.amount, code)}</span>
+        <span class="cm-result-main"><b>0</b> días de trabajo</span>
+        <span class="cm-result-sub">Equivale al <b>0%</b> de tu ingreso mensual.</span>
+        <small>Ingresá tu salario mensual para calcular la comparación.</small>
+      `;
+      return;
+    }
+
+    const daily = monthly / 30;
+    const days = cfg.amount / daily;
+    const pct = cfg.amount / monthly * 100;
+    result.innerHTML = `
+      <span class="cm-result-kicker">Cena de alta gama de referencia: ${money(cfg.amount, code)}</span>
+      <span class="cm-result-main"><b>${days.toLocaleString('es-AR',{maximumFractionDigits:1})}</b> días de trabajo</span>
+      <span class="cm-result-sub">Equivale al <b>${pct.toLocaleString('es-AR',{maximumFractionDigits:1})}%</b> de tu ingreso mensual.</span>
+      <small>Orientativo: la guía usa niveles de precio, no montos exactos.</small>
+    `;
+  }
+
+  salary.addEventListener('input', updateSalary);
+  currency.addEventListener('change', updateSalary);
+  salary.addEventListener('blur', () => {
+    const parsed = parseSalaryInput(salary.value);
+    if (!Number.isNaN(parsed) && parsed > 0) {
+      salary.value = Math.round(parsed).toLocaleString('es-AR');
+    }
+    updateSalary();
+  });
+  updateSalary();
+})();
+
+(function(){
+  const data = [
+    {stars:1,n:3144,profile:'Más diverso',gold:false,rows:[
+      ['€',0.1,3,'low'],['€€',2.9,91,'mid'],['€€€',34.6,1088,'high'],['€€€€',62.4,1962,'lux']
+    ]},
+    {stars:2,n:540,profile:'Alto',gold:false,rows:[
+      ['€',0.0,0,'low'],['€€',0.4,2,'mid'],['€€€',6.1,33,'high'],['€€€€',93.5,505,'lux']
+    ]},
+    {stars:3,n:157,profile:'Lujo',gold:true,rows:[
+      ['€',0.0,0,'low'],['€€',0.0,0,'mid'],['€€€',3.8,6,'high'],['€€€€',96.2,151,'lux']
+    ]}
+  ];
+
+  const tickets = document.getElementById('cm-tickets');
+  tickets.innerHTML = data.map(d => `
+    <article class="cm-ticket ${d.gold ? 'cm-is-gold' : ''}">
+      <div class="cm-ticket-head">
+        <span class="cm-stars-img">
+          ${Array.from({length:d.stars}).map(() => `<svg class="${d.gold ? 'cm-gold' : 'cm-red'}" aria-hidden="true"><use href="#cm-michelin-star"></use></svg>`).join('')}
+        </span>
+        <span class="cm-star-title-text">
+          <span class="cm-star-number">${d.stars}</span>
+          <span class="cm-star-word">${d.stars === 1 ? 'estrella' : 'estrellas'}</span>
+        </span>
+      </div>
+      <div class="cm-n-count">${d.n.toLocaleString('es-AR')} restaurantes en esta categoría</div>
+      <div class="cm-dash"></div>
+      ${d.rows.map(([label,pct,count,cls]) => `
+        <div class="cm-price-row" title="${pct.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})}% · ${count.toLocaleString('es-AR')} restaurantes">
+          <div class="cm-price-label">${label}</div>
+          <div class="cm-track"><div class="cm-fill cm-${cls}" style="--width:${pct}%"></div></div>
+          <div class="cm-pct">${pct.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})}%<span class="cm-count">${count.toLocaleString('es-AR')}</span></div>
+        </div>`).join('')}
+      <div class="cm-profile">Perfil: <strong>${d.profile}</strong></div>
+    </article>
+  `).join('');
+})();
+</script>
+<div id="bookoutro">
+  <div class="bo-stage">
+    <div class="bo-book">
+      <div class="bo-face bo-back"><div class="bo-pginner"></div></div>
+      <div class="bo-face bo-front"><img src="guia-michelin-outro.svg" alt="" aria-hidden="true" style="display:block;width:100%;height:100%"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var bo=document.getElementById('bookoutro');
+  if(!bo) return;
+  var boFront=bo.querySelector('.bo-front');
+  var ticketsEl=document.getElementById('bo-spacer');
+  if(!ticketsEl) return;
+
+  var startY=0, rangeH=1;
+  function measure(){
+    startY = ticketsEl.offsetTop;
+    rangeH = Math.max(1, ticketsEl.offsetHeight);
+  }
+  measure();
+  window.addEventListener('resize', measure);
+  window.addEventListener('load', measure);
+  setTimeout(measure, 150);
+  setTimeout(measure, 400);
+  setTimeout(measure, 900);
+  setTimeout(measure, 1800);
+  setTimeout(measure, 3000);
+  if(window.ResizeObserver){ new ResizeObserver(measure).observe(document.body); }
+
+  var FADE=80;
+  var active=false, lastP=-1;
+  function clamp(v){return v<0?0:v>1?1:v;}
+
+  function setActive(on){
+    if(on===active) return; active=on;
+    bo.style.display = on?'flex':'none';
+  }
+
+  function loop(){
+    requestAnimationFrame(loop);
+    var sy=window.scrollY||window.pageYOffset||0;
+    // guard real: si tiempo o migas todavía están visibles, el cierre del libro no se activa,
+    // sin importar lo que diga el cálculo de rango propio (puede estar desfasado por timing de layout)
+    var tiEl=document.getElementById('ti-stage');
+    var tiVisible = tiEl && tiEl.style.display==='block' && parseFloat(tiEl.style.opacity||'0') > 0.05;
+    var miEl=document.getElementById('mi-stage');
+    var miVisible = miEl && miEl.style.display==='block' && parseFloat(miEl.style.opacity||'0') > 0.05;
+    var inRange = !tiVisible && !miVisible && sy>=startY-FADE && sy<startY+rangeH+FADE;
+    setActive(inRange);
+    if(!inRange) return;
+    var p=clamp((sy-startY)/rangeH);
+    if(p===lastP) return;
+    var edgeFade=Math.min(clamp((sy-startY+FADE)/FADE), clamp((startY+rangeH+FADE-sy)/FADE));
+    bo.style.opacity=edgeFade.toFixed(3);
+    boFront.style.transform='perspective(1700px) rotateY('+(-156*(1-p)).toFixed(1)+'deg)';
+    lastP=p;
+  }
+  loop();
+})();
+</script>
+</body></html>

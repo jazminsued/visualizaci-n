@@ -326,19 +326,11 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
     background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>"); }
   /* paneles de apertura y cierre */
   #ti-stage .panel{ position:absolute; inset:0; z-index:6; display:flex; align-items:center; justify-content:center; padding:0 7vw; pointer-events:none; }
-  #ti-cover .box{ max-width:920px; }
-  #ti-cover h1{ font-size:clamp(30px,5vw,58px); }
+  #ti-cover .box{ max-width:820px; }
+  #ti-cover h1{ font-size:clamp(28px,4vw,50px); white-space:nowrap; }
   #ti-stage .panel .box{ max-width:560px; text-align:center; background:rgba(255,252,245,.62); backdrop-filter:blur(4px); border-radius:16px; padding:clamp(26px,4vw,40px) clamp(28px,4.4vw,46px); box-shadow:0 24px 60px rgba(90,60,40,.12); }
-  #ti-outro{ position:absolute; inset:0; z-index:8; pointer-events:none;
-    background:radial-gradient(140% 120% at 50% 4%, #f6efdd, #efe5d0 50%, #ead9bb);
-    display:flex; flex-direction:column; align-items:center; justify-content:center; padding:clamp(20px,4vh,52px) 6vw;
-    opacity:0; }
-  #ti-outro .meyebrow{ font-weight:600; letter-spacing:.22em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:clamp(12px,2.2vh,22px); }
-  #ti-outro h2{ font-family:'Playfair Display'; font-weight:700; color:var(--ink); font-size:clamp(24px,min(4.4vw,6vh),52px);
-    line-height:1.06; text-align:center; max-width:18ch; margin:0; }
-  #ti-outro .body{ font-weight:400; color:#4a403a; font-size:clamp(13px,min(1.7vw,2.2vh),18px);
-    line-height:1.5; text-align:center; max-width:54ch; margin-top:clamp(14px,2.6vh,28px); }
-  #ti-outro .body b{ color:var(--red); }
+  #ti-outro{ opacity:0; }
+  #ti-outro .box{ background:none; border:none; box-shadow:none; backdrop-filter:none; max-width:760px; }
   #ti-stage .panel .eyebrow{ font-weight:600; letter-spacing:.26em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:14px; }
   #ti-stage .panel h1{ font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(34px,5.6vw,66px); line-height:1.02; color:var(--ink); margin-bottom:14px; }
   #ti-stage .panel h1 .r{ color:var(--red); }
@@ -521,14 +513,14 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
     <div class="hint" id="ti-hint"></div>
     <div class="panel" id="ti-cover"><div class="box">
       <div class="eyebrow">Tercer servicio</div>
-      <h1>¿Cómo conquistó el<br>mundo la <span class="r">guía</span>?</h1>
-      <div class="sub">Una línea de tiempo: 1900 – 2026.</div>
+      <h1>¿Cómo conquistó el mundo<br>la <span class="r">guía</span>?</h1>
+      <div class="sub">Año tras año, cada vez más países se sumaron a la guía michelin.</div>
+      <div class="cue">Scroll ↓</div>
     </div></div>
-    <div class="panel" id="ti-outro">
-      <div class="meyebrow">Fin del tercer servicio</div>
-      <h2>El talento no conoce<br>fronteras.</h2>
-      <div class="body">En un siglo, de un país a más de <b>cuarenta</b>. El <b>rojo</b> dejó de ser solo europeo &mdash; 41 ediciones · 3 continentes · 125 años.</div>
-    </div>
+    <div class="panel" id="ti-outro"><div class="box">
+      <div class="big">En un siglo, de un país<br>a más de <span class="g">cuarenta</span>.<br>El <span class="r">rojo</span> dejó de ser solo europeo.</div>
+      <div class="sub" style="margin-top:16px">41 ediciones · 3 continentes · 125 años</div>
+    </div></div>
   </div>
 </div>
 <div id="mi-root">
@@ -1145,81 +1137,70 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
   const TI_Y0=1900, TI_Y1=2026;
   const TI_CONTS=['Europa','América','Asia'];
   const TI_COL={ 'Europa':[189,35,51], 'América':[60,48,40], 'Asia':[200,145,47] };
-  const TI_MAXVAL=TI_EVENTS.filter(e=>e.c==='Europa').length; // 8
-  // El scroll dedica este % a CONSTRUIR todo (barras + año + línea de tiempo,
-  // hasta 2026 con cada barra completa). Recién después entra el cartel #ti-outro.
+  const TI_MAXVAL=TI_EVENTS.filter(e=>e.c==='Europa').length;
   const TI_BUILD_END=0.85;
   /* ==================================================== */
 
-  const ti_STAGE=document.getElementById('ti-stage');
-  const ti_cv=document.getElementById('ti-cv'), ti_ctx=ti_cv.getContext('2d');
-  const ti_cap=document.getElementById('ti-cap'), ti_hint=document.getElementById('ti-hint');
-  const ti_cover=document.getElementById('ti-cover'), ti_outro=document.getElementById('ti-outro');
+  const expan_STAGE=document.getElementById('ti-stage');
+  const expan_cv=document.getElementById('ti-cv'), expan_ctx=expan_cv.getContext('2d');
+  const expan_cap=document.getElementById('ti-cap'), expan_hint=document.getElementById('ti-hint');
+  const expan_cover=document.getElementById('ti-cover'), expan_outro=document.getElementById('ti-outro');
 
-  let ti_W=0,ti_H=0,ti_DPR=1,ti_lastDrawn=-1;
-  function ti_resize(){ti_DPR=Math.min(window.devicePixelRatio||1,2);ti_W=window.innerWidth;ti_H=window.innerHeight;ti_cv.width=ti_W*ti_DPR;ti_cv.height=ti_H*ti_DPR;ti_cv.style.width=ti_W+'px';ti_cv.style.height=ti_H+'px';ti_ctx.setTransform(ti_DPR,0,0,ti_DPR,0,0);ti_lastDrawn=-1;}
-  function ti_smooth(a,b,x){if(b===a)return x<a?0:1;let t=(x-a)/(b-a);t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);}
-  const ti_lerp=(a,b,t)=>a+(b-a)*t;
-  const ti_rgba=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
+  let expan_W=0,expan_H=0,expan_DPR=1,expan_lastDrawn=-1;
+  function expan_resize(){expan_DPR=Math.min(window.devicePixelRatio||1,2);expan_W=window.innerWidth;expan_H=window.innerHeight;expan_cv.width=expan_W*expan_DPR;expan_cv.height=expan_H*expan_DPR;expan_cv.style.width=expan_W+'px';expan_cv.style.height=expan_H+'px';expan_ctx.setTransform(expan_DPR,0,0,expan_DPR,0,0);expan_lastDrawn=-1;}
+  function expan_smooth(a,b,x){if(b===a)return x<a?0:1;let t=(x-a)/(b-a);t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);}
+  const expan_lerp=(a,b,t)=>a+(b-a)*t;
+  const expan_rgba=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
 
-  // valor (con crecimiento suave) de cada continente al año dado
-  function ti_valueAt(cont, year){ let v=0; for(const e of TI_EVENTS) if(e.c===cont) v+=ti_smooth(e.y-4,e.y,year); return v; }
-  function ti_xYear(year, x0, x1){ return ti_lerp(x0,x1, (year-TI_Y0)/(TI_Y1-TI_Y0)); }
+  function expan_valueAt(cont, year){ let v=0; for(const e of TI_EVENTS) if(e.c===cont) v+=expan_smooth(e.y-4,e.y,year); return v; }
+  function expan_xYear(year, x0, x1){ return expan_lerp(x0,x1, (year-TI_Y0)/(TI_Y1-TI_Y0)); }
 
-  function ti_draw(p,time){
-    ti_ctx.clearRect(0,0,ti_W,ti_H);
-    const year = ti_lerp(TI_Y0,TI_Y1,p);
+  function expan_draw(p,time){
+    expan_ctx.clearRect(0,0,expan_W,expan_H);
+    const year = expan_lerp(TI_Y0,TI_Y1,p);
 
-    const baseY=ti_H*0.72, barTop=ti_H*0.32, unit=(baseY-barTop)/TI_MAXVAL;
-    const groupW=Math.min(ti_W*0.52,420), bw=groupW/TI_CONTS.length*0.5, gap=groupW/TI_CONTS.length;
-    const startX=ti_W/2-groupW/2+gap/2;
+    const baseY=expan_H*0.72, barTop=expan_H*0.32, unit=(baseY-barTop)/TI_MAXVAL;
+    const groupW=Math.min(expan_W*0.52,420), bw=groupW/TI_CONTS.length*0.5, gap=groupW/TI_CONTS.length;
+    const startX=expan_W/2-groupW/2+gap/2;
 
-    // línea base
-    ti_ctx.strokeStyle='rgba(34,28,20,0.18)'; ti_ctx.lineWidth=1;
-    ti_ctx.beginPath(); ti_ctx.moveTo(ti_W/2-groupW/2-10,baseY); ti_ctx.lineTo(ti_W/2+groupW/2+10,baseY); ti_ctx.stroke();
+    expan_ctx.strokeStyle='rgba(34,28,20,0.18)'; expan_ctx.lineWidth=1;
+    expan_ctx.beginPath(); expan_ctx.moveTo(expan_W/2-groupW/2-10,baseY); expan_ctx.lineTo(expan_W/2+groupW/2+10,baseY); expan_ctx.stroke();
 
-    // columnas
     TI_CONTS.forEach((cont,i)=>{
-      const v=ti_valueAt(cont,year), h=v*unit, cx=startX+i*gap, col=TI_COL[cont];
+      const v=expan_valueAt(cont,year), h=v*unit, cx=startX+i*gap, col=TI_COL[cont];
       if(h>0.5){
-        ti_ctx.fillStyle=ti_rgba(col,0.9);
-        ti_ctx.fillRect(cx-bw/2, baseY-h, bw, h);
-        ti_ctx.fillStyle=ti_rgba(col,1); ti_ctx.fillRect(cx-bw/2, baseY-h, bw, 3); // cap
+        expan_ctx.fillStyle=expan_rgba(col,0.9);
+        expan_ctx.fillRect(cx-bw/2, baseY-h, bw, h);
+        expan_ctx.fillStyle=expan_rgba(col,1); expan_ctx.fillRect(cx-bw/2, baseY-h, bw, 3);
       }
-      // número arriba
       const n=Math.round(v);
-      if(n>0){ ti_ctx.fillStyle=ti_rgba(col,1); ti_ctx.font='700 '+Math.max(16,ti_W*0.016)+'px Playfair Display, serif'; ti_ctx.textAlign='center';
-        ti_ctx.fillText(n, cx, baseY-h-12); }
-      // etiqueta continente
-      ti_ctx.fillStyle='rgba(60,48,40,0.85)'; ti_ctx.font='600 '+Math.max(10,ti_W*0.0095)+'px Inter, sans-serif'; ti_ctx.textAlign='center';
-      ti_ctx.fillText(cont.toUpperCase(), cx, baseY+20);
+      if(n>0){ expan_ctx.fillStyle=expan_rgba(col,1); expan_ctx.font='700 '+Math.max(16,expan_W*0.016)+'px Playfair Display, serif'; expan_ctx.textAlign='center';
+        expan_ctx.fillText(n, cx, baseY-h-12); }
+      expan_ctx.fillStyle='rgba(60,48,40,0.85)'; expan_ctx.font='600 '+Math.max(10,expan_W*0.0095)+'px Inter, sans-serif'; expan_ctx.textAlign='center';
+      expan_ctx.fillText(cont.toUpperCase(), cx, baseY+20);
     });
 
-    // ===== línea de tiempo abajo =====
-    const tlY=ti_H*0.86, x0=ti_W*0.10, x1=ti_W*0.90;
-    ti_ctx.strokeStyle='rgba(34,28,20,0.25)'; ti_ctx.lineWidth=1.5;
-    ti_ctx.beginPath(); ti_ctx.moveTo(x0,tlY); ti_ctx.lineTo(x1,tlY); ti_ctx.stroke();
-    // marcas de década
-    ti_ctx.fillStyle='rgba(60,48,40,0.6)'; ti_ctx.font='500 '+Math.max(9,ti_W*0.008)+'px Inter, sans-serif'; ti_ctx.textAlign='center';
-    for(const yr of [1900,1925,1950,1975,2000,2026]){ const x=ti_xYear(yr,x0,x1);
-      ti_ctx.strokeStyle='rgba(34,28,20,0.25)'; ti_ctx.beginPath(); ti_ctx.moveTo(x,tlY-4); ti_ctx.lineTo(x,tlY+4); ti_ctx.stroke();
-      ti_ctx.fillText(yr, x, tlY+20); }
-    // ticks de eventos (se encienden al pasar)
-    for(const e of TI_EVENTS){ const x=ti_xYear(e.y,x0,x1), on=year>=e.y-1;
-      ti_ctx.fillStyle=on?'rgba(200,145,47,0.95)':'rgba(180,160,130,0.5)';
-      ti_ctx.beginPath(); ti_ctx.arc(x,tlY,on?4:2.5,0,Math.PI*2); ti_ctx.fill(); }
-    // playhead
-    const px=ti_xYear(year,x0,x1);
-    ti_ctx.strokeStyle='rgba(189,35,51,0.8)'; ti_ctx.lineWidth=2;
-    ti_ctx.beginPath(); ti_ctx.moveTo(px,baseY+30); ti_ctx.lineTo(px,tlY); ti_ctx.stroke();
-    ti_ctx.fillStyle='rgba(189,35,51,1)'; ti_ctx.beginPath(); ti_ctx.arc(px,tlY,5.5,0,Math.PI*2); ti_ctx.fill();
+    const tlY=expan_H*0.86, x0=expan_W*0.10, x1=expan_W*0.90;
+    expan_ctx.strokeStyle='rgba(34,28,20,0.25)'; expan_ctx.lineWidth=1.5;
+    expan_ctx.beginPath(); expan_ctx.moveTo(x0,tlY); expan_ctx.lineTo(x1,tlY); expan_ctx.stroke();
+    expan_ctx.fillStyle='rgba(60,48,40,0.6)'; expan_ctx.font='500 '+Math.max(9,expan_W*0.008)+'px Inter, sans-serif'; expan_ctx.textAlign='center';
+    for(const yr of [1900,1925,1950,1975,2000,2026]){ const x=expan_xYear(yr,x0,x1);
+      expan_ctx.strokeStyle='rgba(34,28,20,0.25)'; expan_ctx.beginPath(); expan_ctx.moveTo(x,tlY-4); expan_ctx.lineTo(x,tlY+4); expan_ctx.stroke();
+      expan_ctx.fillText(yr, x, tlY+20); }
+    for(const e of TI_EVENTS){ const x=expan_xYear(e.y,x0,x1), on=year>=e.y-1;
+      expan_ctx.fillStyle=on?expan_rgba(TI_COL[e.c],0.95):'rgba(180,160,130,0.5)';
+      expan_ctx.beginPath(); expan_ctx.arc(x,tlY,on?4.5:3,0,Math.PI*2); expan_ctx.fill(); }
+    const px=expan_xYear(year,x0,x1);
+    expan_ctx.strokeStyle='rgba(189,35,51,0.8)'; expan_ctx.lineWidth=2;
+    expan_ctx.beginPath(); expan_ctx.moveTo(px,baseY+30); expan_ctx.lineTo(px,tlY); expan_ctx.stroke();
+    expan_ctx.fillStyle='rgba(189,35,51,1)'; expan_ctx.beginPath(); expan_ctx.arc(px,tlY,5.5,0,Math.PI*2); expan_ctx.fill();
   }
 
-  function ti_captionHTML(pb){
-    const year=Math.round(ti_lerp(TI_Y0,TI_Y1,pb));
+  function expan_captionHTML(pb){
+    const year=Math.round(expan_lerp(TI_Y0,TI_Y1,pb));
     let last=null; for(const e of TI_EVENTS) if(e.y<=year) last=e;
     const small = last ? `${last.p} · ${last.y}` : 'la guía nace en Francia';
-    return `<div class="big">${year}</div><div class="small">${small}</div>`;
+    return `<div class="eyebrow">La expansión de la guía</div><div class="big">${year}</div><div class="small">${small}</div>`;
   }
 
   /* ===== integración al scroll global: pad propio + rango [start,end) ===== */
@@ -1230,68 +1211,60 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
     var ti_outgap=document.createElement('div'); ti_outgap.id='ti-outgap'; ti_outgap.style.height='40vh'; ti_outgap.setAttribute('aria-hidden','true');
     ti_anchor.parentNode.insertBefore(ti_outgap, ti_anchor.nextSibling);
 
-    var ti_active=false, ti_start=Infinity, ti_padH=1;
-    var ti_FADE=60;
-    function ti_clamp(v){return v<0?0:v>1?1:v;}
-    var TI_LEAD=80; // px de colchón extra antes de que arranque tiempo, para que no pegue justo al final de migas
-    function ti_measure(){ ti_start=ti_pad.offsetTop+TI_LEAD; ti_padH=Math.max(1,ti_pad.offsetHeight-TI_LEAD); }
-    ti_measure();
-    window.addEventListener('resize', ti_measure);
-    window.addEventListener('load', ti_measure);
-    setTimeout(ti_measure, 150);
-    setTimeout(ti_measure, 400);
-    setTimeout(ti_measure, 900);
-    setTimeout(ti_measure, 1800);
-    setTimeout(ti_measure, 3000);
+    var expan_active=false, expan_start=Infinity, expan_padH=1;
+    var expan_FADE=60;
+    function expan_clamp(v){return v<0?0:v>1?1:v;}
+    var EXPAN_LEAD=80;
+    function expan_measure(){ expan_start=ti_pad.offsetTop+EXPAN_LEAD; expan_padH=Math.max(1,ti_pad.offsetHeight-EXPAN_LEAD); }
+    expan_measure();
+    window.addEventListener('resize', expan_measure);
+    window.addEventListener('load', expan_measure);
+    setTimeout(expan_measure, 150);
+    setTimeout(expan_measure, 400);
+    setTimeout(expan_measure, 900);
+    setTimeout(expan_measure, 1800);
+    setTimeout(expan_measure, 3000);
     if(window.ResizeObserver){
-      new ResizeObserver(ti_measure).observe(document.body);
+      new ResizeObserver(expan_measure).observe(document.body);
     }
 
-    function ti_setActive(on){
-      if(on===ti_active) return; ti_active=on;
-      ti_STAGE.style.display = on?'block':'none';
+    function expan_setActive(on){
+      if(on===expan_active) return; expan_active=on;
+      expan_STAGE.style.display = on?'block':'none';
       document.getElementById('ti-grain').style.display = on?'block':'none';
-      if(on) ti_resize();
+      if(on) expan_resize();
     }
 
-    function ti_loop(now){
-      requestAnimationFrame(ti_loop);
+    function expan_loop(now){
+      requestAnimationFrame(expan_loop);
       var sy=window.scrollY||window.pageYOffset||0;
-      // guard real: si el plato de migas (que viene después de tiempo) ya empezó a aparecer, tiempo se retira.
-      // (ya no depende del estado del mapa: su propio rango de scroll, medido directamente, alcanza)
       var miEl=document.getElementById('mi-stage');
       var miAlreadyIn = miEl && miEl.style.display==='block' && parseFloat(miEl.style.opacity||'0') > 0.05;
-      var inRange = !miAlreadyIn && sy>=ti_start-ti_FADE && sy<ti_start+ti_padH+ti_FADE;
-      ti_setActive(inRange);
+      var inRange = !miAlreadyIn && sy>=expan_start-expan_FADE && sy<expan_start+expan_padH+expan_FADE;
+      expan_setActive(inRange);
       if(!inRange) return;
-      var p=ti_clamp((sy-ti_start)/Math.max(1,ti_padH));
-      // si el plato de migas está a punto de aparecer pero todavía no se nota, anticipamos el fundido
-      // de salida de tiempo para que el cruce sea progresivo, no un corte
+      var p=expan_clamp((sy-expan_start)/Math.max(1,expan_padH));
       var miOp = (miEl && miEl.style.display==='block') ? parseFloat(miEl.style.opacity||'0') : 0;
-      var edgeFade=Math.min(ti_clamp((sy-ti_start+ti_FADE)/ti_FADE), ti_clamp((ti_start+ti_padH+ti_FADE-sy)/ti_FADE)) * (1-miOp);
-      ti_STAGE.style.opacity=edgeFade.toFixed(3);
-      /* cartel: entra desde abajo (+60px→0) sincronizado con el fade del padre; sale hacia arriba (0→-220px) en p 2%→10% */
-      var tiCoverIn=ti_clamp((sy-ti_start+ti_FADE)/ti_FADE);   // 0→1 durante los 60px de approach
-      var tiCoverOut=ti_smooth(0.02,0.10,p);                    // 0→1 durante la salida (sin cambio)
-      ti_cover.style.opacity=(tiCoverIn*(1-tiCoverOut)).toFixed(3);
-      ti_cover.style.transform='translateY('+((1-tiCoverIn)*60-tiCoverOut*220).toFixed(1)+'px)';
-      if(p!==ti_lastDrawn){
-        const pb=Math.min(p/TI_BUILD_END,1);                 // progreso de construcción (barras + año + timeline)
-        const out=ti_smooth(0.87,0.93,p);                    // entrada del cartel de cierre, después de TI_BUILD_END, con margen para leerse
-        ti_draw(pb,now/1000); ti_cap.innerHTML=ti_captionHTML(pb);
-        ti_hint.style.opacity=(1-ti_smooth(0.02,0.06,p)).toFixed(2);
-        // el cartel final recién entra cuando ya está TODO construido (p > TI_BUILD_END)
-        ti_outro.style.opacity=out.toFixed(3);
-        // el título/año queda FIJO arriba (ya no se desvanece con el cartel)
-        ti_cap.style.opacity=ti_smooth(0.05,0.09,p).toFixed(3);
-        // al entrar el cartel, las barras se apagan casi por completo para no competir
-        ti_cv.style.opacity=((0.08+0.92*ti_smooth(0.03,0.15,p))*(1-0.92*out)).toFixed(3);
-        ti_lastDrawn=p;
+      var edgeFade=Math.min(expan_clamp((sy-expan_start+expan_FADE)/expan_FADE), expan_clamp((expan_start+expan_padH+expan_FADE-sy)/expan_FADE)) * (1-miOp);
+      expan_STAGE.style.opacity=edgeFade.toFixed(3);
+      var expanCoverIn=expan_clamp((sy-expan_start+expan_FADE)/expan_FADE);
+      var expanCoverOut=expan_smooth(0.02,0.10,p);
+      expan_cover.style.opacity=(expanCoverIn*(1-expanCoverOut)).toFixed(3);
+      expan_cover.style.transform='translateY('+((1-expanCoverIn)*60-expanCoverOut*220).toFixed(1)+'px)';
+      if(p!==expan_lastDrawn){
+        const pb=Math.min(p/TI_BUILD_END,1);
+        const out=expan_smooth(0.87,0.95,p);
+        expan_draw(pb,now/1000); expan_cap.innerHTML=expan_captionHTML(pb);
+        expan_hint.style.opacity=(1-expan_smooth(0.02,0.06,p)).toFixed(2);
+        expan_outro.style.opacity=out.toFixed(3);
+        expan_cap.style.opacity=(expan_smooth(0.05,0.09,p)*(1-expan_smooth(0.87,0.93,p))).toFixed(3);
+        expan_cv.style.opacity=((0.08+0.92*expan_smooth(0.03,0.15,p))*(1-out)).toFixed(3);
+        expan_lastDrawn=p;
       }
     }
-    window.addEventListener('resize', function(){ if(ti_active) ti_resize(); });
-    ti_resize();
-    requestAnimationFrame(ti_loop);
+    window.addEventListener('resize', function(){ if(expan_active) expan_resize(); });
+    expan_resize();
+    requestAnimationFrame(expan_loop);
   })();
 })();
 

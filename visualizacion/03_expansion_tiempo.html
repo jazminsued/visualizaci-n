@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La expansión de la guía · línea de tiempo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{ --cream:#ECE3D0; --ink:#2a211c; --red:#BD2333; --gold:#F7B036; --goldink:#b07810; --line:#c3b394; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%); color:var(--ink); font-family:'Inter',system-ui,sans-serif; }
+  #grain{ position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.4; mix-blend-mode:multiply;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>"); }
+  /* paneles de apertura y cierre (sin recuadro, para encajar dentro de la carta) */
+  .panel{ position:absolute; inset:0; z-index:6; display:flex; align-items:center; justify-content:center; padding:0 7vw; pointer-events:none; }
+  #cover{ transition: opacity 0.1s linear, transform 0.1s linear; }
+  #outro{ opacity:0; }
+  #cover .box{ max-width:820px; }
+  #cover h1{ font-size:clamp(28px,4vw,50px); white-space:nowrap; }
+  .panel .box{ max-width:560px; text-align:center; background:rgba(255,252,245,.62); backdrop-filter:blur(4px); border-radius:16px; padding:clamp(26px,4vw,40px) clamp(28px,4.4vw,46px); box-shadow:0 24px 60px rgba(90,60,40,.12); }
+  /* cartel de cierre: sin recuadro, texto limpio sobre el fondo */
+  #outro .box{ background:none; border:none; box-shadow:none; backdrop-filter:none; max-width:760px; }
+  .panel .eyebrow{ font-weight:600; letter-spacing:.26em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:14px; }
+  .panel h1{ font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(34px,5.6vw,66px); line-height:1.02; color:var(--ink); margin-bottom:14px; }
+  .panel h1 .r{ color:var(--red); }
+  .panel .sub{ font-family:'Inter',serif; font-style:italic; font-weight:500; font-size:clamp(17px,2.3vw,24px); color:#6a5644; }
+  .panel .cue{ margin-top:18px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#a8714e; animation:bob 1.8s infinite; }
+  .panel .big{ font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(23px,3.3vw,40px); line-height:1.18; color:var(--ink); }
+  .panel .big .r{ color:var(--red); } .panel .big .g{ color:var(--goldink); }
+
+  .viewport{ position:relative; z-index:2; height:100vh; overflow-y:auto; overflow-x:hidden; background:transparent; }
+  .track{ height:520%; position:relative; }
+  .stage{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; }
+  canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+  .cap{ position:absolute; top:6%; left:0; right:0; text-align:center; padding:0 7vw; pointer-events:none; z-index:3; }
+  .eyebrow{ font-weight:600; letter-spacing:.3em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:10px; }
+  .big{ font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(40px,6.4vw,76px); line-height:.95; color:var(--ink); }
+  .small{ font-family:'Playfair Display',serif; font-style:italic; font-weight:500; font-size:clamp(14px,2.1vw,20px); color:#6a5644; margin-top:8px; }
+  .coursetag{ position:absolute; bottom:3.5%; left:0; right:0; text-align:center; z-index:3; pointer-events:none; font-size:10.5px; letter-spacing:.42em; text-transform:uppercase; color:var(--goldink); font-weight:600; }
+  .hint{ position:absolute; bottom:7.5%; left:0; right:0; text-align:center; color:#a8714e; font-size:11px; letter-spacing:.2em; text-transform:uppercase; animation:bob 1.8s infinite; z-index:3; pointer-events:none; }
+  @keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+</style>
+</head>
+<body>
+<div id="grain"></div>
+<div class="viewport" id="vp">
+  <div class="track" id="track">
+    <div class="stage" id="stage">
+      <canvas id="cv"></canvas>
+      <div class="cap" id="cap"></div>
+      <div class="hint" id="hint"></div>
+      <div class="panel" id="cover"><div class="box">
+        <div class="eyebrow">Tercer servicio</div>
+        <h1>¿Cómo conquistó el mundo<br>la <span class="r">guía</span>?</h1>
+        <div class="sub">Año tras año, cada vez más países se sumaron a la guía michelin.</div>
+        <div class="cue">Scroll &#8595;</div>
+      </div></div>
+      <div class="panel" id="outro"><div class="box">
+        <div class="big">En un siglo, de un país<br>a más de <span class="g">cuarenta</span>.<br>El <span class="r">rojo</span> dejó de ser solo europeo.</div>
+        <div class="sub" style="margin-top:16px">41 ediciones · 3 continentes · 125 años</div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ===== DATOS — expansión de la guía (de tu CSV) ===== */
+  const EVENTS=[
+    {y:1900, p:'Francia', c:'Europa'},
+    {y:1952, p:'España', c:'Europa'},
+    {y:1956, p:'Italia', c:'Europa'},
+    {y:1957, p:'Bélgica y Luxemburgo', c:'Europa'},
+    {y:1964, p:'Alemania', c:'Europa'},
+    {y:1974, p:'Gran Bretaña e Irlanda', c:'Europa'},
+    {y:1994, p:'Suiza', c:'Europa'},
+    {y:1995, p:'Portugal', c:'Europa'},
+    {y:2005, p:'EE.UU. (Nueva York)', c:'América'},
+    {y:2007, p:'Japón (Tokio)', c:'Asia'},
+    {y:2007, p:'Países Bajos', c:'Europa'},
+    {y:2008, p:'Hong Kong y Macao', c:'Asia'},
+    {y:2015, p:'Brasil (Río y São Paulo)', c:'América'},
+    {y:2015, p:'Países Nórdicos', c:'Europa'},
+    {y:2016, p:'China (Shanghái)', c:'Asia'},
+    {y:2016, p:'Corea del Sur (Seúl)', c:'Asia'},
+    {y:2016, p:'Singapur', c:'Asia'},
+    {y:2017, p:'Tailandia (Bangkok)', c:'Asia'},
+    {y:2017, p:'Croacia', c:'Europa'},
+    {y:2018, p:'Taiwán (Taipéi)', c:'Asia'},
+    {y:2020, p:'Malta', c:'Europa'},
+    {y:2020, p:'Eslovenia', c:'Europa'},
+    {y:2022, p:'Canadá (Toronto)', c:'América'},
+    {y:2022, p:'Dubái (EAU)', c:'Asia'},
+    {y:2022, p:'Estonia (Tallin)', c:'Europa'},
+    {y:2022, p:'Turquía (Estambul)', c:'Europa'},
+    {y:2022, p:'Hungría', c:'Europa'},
+    {y:2023, p:'Argentina (Buenos Aires y Mendoza)', c:'América'},
+    {y:2023, p:'Vietnam (Hanói y HCMC)', c:'Asia'},
+    {y:2023, p:'Malasia (KL y Penang)', c:'Asia'},
+    {y:2023, p:'Abu Dabi (EAU)', c:'Asia'},
+    {y:2023, p:'Grecia (Atenas)', c:'Europa'},
+    {y:2023, p:'Chequia (Praga)', c:'Europa'},
+    {y:2023, p:'Polonia (Varsovia)', c:'Europa'},
+    {y:2024, p:'México', c:'América'},
+    {y:2024, p:'Serbia (Belgrado)', c:'Europa'},
+    {y:2024, p:'Lituania', c:'Europa'},
+    {y:2024, p:'Catar (Doha)', c:'Asia'},
+    {y:2025, p:'Austria', c:'Europa'},
+    {y:2025, p:'Letonia (Riga)', c:'Europa'},
+    {y:2025, p:'Filipinas (Manila y Cebú)', c:'Asia'},
+  ];
+  const Y0=1900, Y1=2026;
+  const CONTS=['Europa','América','Asia'];
+  const COL={ 'Europa':[189,35,51], 'América':[60,48,40], 'Asia':[200,145,47] };
+  const MAXVAL=EVENTS.filter(e=>e.c==='Europa').length; // 8
+  // El scroll dedica este % a CONSTRUIR todo (barras + año + línea de tiempo,
+  // hasta 2026 con cada barra completa). Recién después entra el cartel #outro.
+  const BUILD_END=0.85;
+  /* ==================================================== */
+
+  const VP=document.getElementById('vp'), TRACK=document.getElementById('track'), STAGE=document.getElementById('stage');
+  const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  const cap=document.getElementById('cap'), hint=document.getElementById('hint');
+  const cover=document.getElementById('cover'), outro=document.getElementById('outro');
+
+  const FLEUR=`<svg width="15" height="15" viewBox="0 0 16 16"><path d="M8 1l2.4 5.6L16 8l-5.6 1.4L8 15l-2.4-5.6L0 8l5.6-1.4z" fill="none" stroke="#C8912F" stroke-width="1"/><circle cx="8" cy="8" r="1.1" fill="#C8912F"/></svg>`;
+
+
+  let W=0,H=0,DPR=1;
+  function resize(){DPR=Math.min(window.devicePixelRatio||1,2);W=STAGE.clientWidth;H=STAGE.clientHeight;cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);lastDrawn=-1;}
+  function smooth(a,b,x){if(b===a)return x<a?0:1;let t=(x-a)/(b-a);t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);}
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const rgba=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+  // valor (con crecimiento suave) de cada continente al año dado
+  function valueAt(cont, year){ let v=0; for(const e of EVENTS) if(e.c===cont) v+=smooth(e.y-4,e.y,year); return v; }
+  function xYear(year, x0, x1){ return lerp(x0,x1, (year-Y0)/(Y1-Y0)); }
+
+  function draw(p,time){
+    ctx.clearRect(0,0,W,H);
+    const year = lerp(Y0,Y1,p);
+
+    const baseY=H*0.72, barTop=H*0.32, unit=(baseY-barTop)/MAXVAL;
+    const groupW=Math.min(W*0.52,420), bw=groupW/CONTS.length*0.5, gap=groupW/CONTS.length;
+    const startX=W/2-groupW/2+gap/2;
+
+    // línea base
+    ctx.strokeStyle='rgba(34,28,20,0.18)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(W/2-groupW/2-10,baseY); ctx.lineTo(W/2+groupW/2+10,baseY); ctx.stroke();
+
+    // columnas
+    CONTS.forEach((cont,i)=>{
+      const v=valueAt(cont,year), h=v*unit, cx=startX+i*gap, col=COL[cont];
+      if(h>0.5){
+        ctx.fillStyle=rgba(col,0.9);
+        ctx.fillRect(cx-bw/2, baseY-h, bw, h);
+        ctx.fillStyle=rgba(col,1); ctx.fillRect(cx-bw/2, baseY-h, bw, 3); // cap
+      }
+      // número arriba
+      const n=Math.round(v);
+      if(n>0){ ctx.fillStyle=rgba(col,1); ctx.font='700 '+Math.max(16,W*0.016)+'px Playfair Display, serif'; ctx.textAlign='center';
+        ctx.fillText(n, cx, baseY-h-12); }
+      // etiqueta continente
+      ctx.fillStyle='rgba(60,48,40,0.85)'; ctx.font='600 '+Math.max(10,W*0.0095)+'px Inter, sans-serif'; ctx.textAlign='center';
+      ctx.fillText(cont.toUpperCase(), cx, baseY+20);
+    });
+
+    // ===== línea de tiempo abajo =====
+    const tlY=H*0.86, x0=W*0.10, x1=W*0.90;
+    ctx.strokeStyle='rgba(34,28,20,0.25)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(x0,tlY); ctx.lineTo(x1,tlY); ctx.stroke();
+    // marcas de década
+    ctx.fillStyle='rgba(60,48,40,0.6)'; ctx.font='500 '+Math.max(9,W*0.008)+'px Inter, sans-serif'; ctx.textAlign='center';
+    for(const yr of [1900,1925,1950,1975,2000,2026]){ const x=xYear(yr,x0,x1);
+      ctx.strokeStyle='rgba(34,28,20,0.25)'; ctx.beginPath(); ctx.moveTo(x,tlY-4); ctx.lineTo(x,tlY+4); ctx.stroke();
+      ctx.fillText(yr, x, tlY+20); }
+    // ticks de eventos (se encienden al pasar)
+    for(const e of EVENTS){ const x=xYear(e.y,x0,x1), on=year>=e.y-1;
+      const contCol=on?rgba(COL[e.c],0.95):'rgba(180,160,130,0.5)';
+      ctx.fillStyle=contCol;
+      ctx.beginPath(); ctx.arc(x,tlY,on?4.5:3,0,Math.PI*2); ctx.fill(); }
+    // playhead
+    const px=xYear(year,x0,x1);
+    ctx.strokeStyle='rgba(189,35,51,0.8)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(px,baseY+30); ctx.lineTo(px,tlY); ctx.stroke();
+    ctx.fillStyle='rgba(189,35,51,1)'; ctx.beginPath(); ctx.arc(px,tlY,5.5,0,Math.PI*2); ctx.fill();
+  }
+
+  function captionHTML(pb){
+    const year=Math.round(lerp(Y0,Y1,pb));
+    let last=null; for(const e of EVENTS) if(e.y<=year) last=e;
+    const small = last ? `${last.p} · ${last.y}` : 'la guía nace en Francia';
+    return `<div class="eyebrow">La expansión de la guía</div><div class="big">${year}</div><div class="small">${small}</div>`;
+  }
+
+  let p=0, lastDrawn=-1;
+  function setProgress(){const max=TRACK.scrollHeight-VP.clientHeight;p=max>0?Math.min(1,Math.max(0,VP.scrollTop/max)):0;}
+  VP.addEventListener('scroll',setProgress,{passive:true});
+  window.addEventListener('resize',resize);
+
+  function loop(now){
+    if(p!==lastDrawn){
+      const pb=Math.min(p/BUILD_END,1);                 // progreso de construcción (barras + año + timeline)
+      const out=smooth(0.87,0.95,p);                    // entrada del cartel de cierre
+      draw(pb,now/1000); cap.innerHTML=captionHTML(pb);
+      hint.style.opacity=(1-smooth(0.02,0.06,p)).toFixed(2);
+      const coverOut=smooth(0.02,0.10,p);
+      cover.style.opacity='1';
+      cover.style.transform=`translateY(${-coverOut*110}vh)`;
+      // el cartel final recién entra cuando ya está TODO construido (p > BUILD_END)
+      outro.style.opacity=out.toFixed(3);
+      // el título/año queda FIJO arriba (ya no se desvanece con el cartel)
+      cap.style.opacity=(smooth(0.05,0.09,p)*(1-smooth(0.87,0.93,p))).toFixed(3);      // al entrar el cartel, las barras se apagan casi por completo para no competir
+      cv.style.opacity=((0.08+0.92*smooth(0.03,0.15,p))*(1-out)).toFixed(3);
+      lastDrawn=p; }
+    requestAnimationFrame(loop);
+  }
+  resize();setProgress();requestAnimationFrame(loop);
+</script>
+</body>
+</html>

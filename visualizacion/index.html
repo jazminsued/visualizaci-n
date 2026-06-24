@@ -360,6 +360,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
   #ti-stage .hint{ position:absolute; bottom:7.5%; left:0; right:0; text-align:center; color:#a8714e; font-size:11px; letter-spacing:.2em; text-transform:uppercase; animation:ti-bob 1.8s infinite; z-index:3; pointer-events:none; }
   @keyframes ti-bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
+#cm-tickets-section{position:fixed;inset:0;z-index:20;display:none;overflow:hidden;opacity:0}
 .cm-section{
   position:relative;
   isolation:isolate;
@@ -1823,6 +1824,35 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
       <div class="cm-profile">Perfil: <strong>${d.profile}</strong></div>
     </article>
   `).join('');
+})();
+(function(){
+  var cmt_el=document.getElementById('cm-tickets-section');
+  if(!cmt_el) return;
+  var cmt_pad=document.createElement('div'); cmt_pad.id='cmt-pad'; cmt_pad.style.height='300vh'; cmt_pad.setAttribute('aria-hidden','true');
+  cmt_el.parentNode.insertBefore(cmt_pad,cmt_el);
+  var cmt_start=Infinity, cmt_padH=1, cmt_FADE=80, cmt_active=false;
+  function cmt_clamp(v){return v<0?0:v>1?1:v;}
+  function cmt_measure(){cmt_start=cmt_pad.offsetTop;cmt_padH=Math.max(1,cmt_pad.offsetHeight);}
+  cmt_measure();
+  window.addEventListener('resize',cmt_measure);
+  window.addEventListener('load',cmt_measure);
+  setTimeout(cmt_measure,150); setTimeout(cmt_measure,400); setTimeout(cmt_measure,900);
+  setTimeout(cmt_measure,1800); setTimeout(cmt_measure,3000);
+  if(window.ResizeObserver){new ResizeObserver(cmt_measure).observe(document.body);}
+  function cmt_setActive(on){if(on===cmt_active)return;cmt_active=on;cmt_el.style.display=on?'block':'none';}
+  (function cmt_loop(){
+    requestAnimationFrame(cmt_loop);
+    var sy=window.scrollY||window.pageYOffset||0;
+    var tiEl=document.getElementById('ti-stage');
+    var tiVisible=tiEl&&tiEl.style.display==='block'&&parseFloat(tiEl.style.opacity||'0')>0.05;
+    var miEl=document.getElementById('mi-stage');
+    var miVisible=miEl&&miEl.style.display==='block'&&parseFloat(miEl.style.opacity||'0')>0.05;
+    var inRange=!tiVisible&&!miVisible&&sy>=cmt_start-cmt_FADE&&sy<cmt_start+cmt_padH+cmt_FADE;
+    cmt_setActive(inRange);
+    if(!inRange)return;
+    var edgeFade=Math.min(cmt_clamp((sy-cmt_start+cmt_FADE)/cmt_FADE),cmt_clamp((cmt_start+cmt_padH+cmt_FADE-sy)/cmt_FADE));
+    cmt_el.style.opacity=edgeFade.toFixed(3);
+  })();
 })();
 </script>
 <div id="bookoutro">

@@ -1633,8 +1633,7 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
     course.className='course';
     var h3=document.createElement('h3');
     h3.className='course-name';
-    h3.innerHTML='<span class="cn">Otros</span><span class="count">'+otros.length+'</span>';
-    var ul=document.createElement('ul');
+    h3.innerHTML='<span class="cn">Otros</span><span class="count">'+otros.length+'</span><span class="ico"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#3a2a22" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="60" cy="98" rx="36" ry="5"/><path d="M38 90 L38 58 Q38 48 48 46 L90 80 Q92 85 87 88 Z"/><line x1="38" y1="70" x2="84" y2="83" stroke="#C8912F"/><line x1="38" y1="80" x2="87" y2="86" stroke="#C8912F"/><circle cx="46" cy="42" r="5" fill="#BD2333" stroke="none"/><path d="M46 37 Q50 30 56 32" stroke="#1f6b2e"/></g></svg></span>';    var ul=document.createElement('ul');
     ul.className='dishes';
     otros.forEach(function(d){ ul.appendChild(d); });
     course.appendChild(h3); course.appendChild(ul);

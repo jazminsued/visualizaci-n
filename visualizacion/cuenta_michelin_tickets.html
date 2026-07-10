@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-
 :root{
   --cream:#ECE3D0;
   --ink:#2a2320;
@@ -16,145 +15,505 @@
   --red-deep:#7A1622;
   --gold:#F7B036;
   --goldink:#b07810;
-  --line:#c3b394;
-  --paper:#fffdf5;
   --muted:#5b4d42;
   --track:#e4d8c4;
+  --cm-background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%);
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--cream);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-.cm-section{
-  position:relative;
-  isolation:isolate;
-  width:100%;
-  min-height:100vh;
-  overflow:hidden;
-  padding:clamp(52px,7vh,84px) clamp(34px,6vw,86px) clamp(58px,8vh,92px);
-  background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%);
+html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+
+/* Marco fijo y matte exterior: misma construcción que #frame y #matte del proyecto. */
+#cm-tickets-frame{
+  position:fixed;
+  inset:clamp(14px,2.6vw,30px);
+  z-index:7;
+  pointer-events:none;
+  border:1px solid #c3b394;
+  border-radius:4px;
 }
-.cm-section::before{
+#cm-tickets-frame::before{
+  content:"";
+  position:absolute;
+  inset:13px;
+  border:1.5px double #C8912F;
+  opacity:.7;
+  border-radius:3px;
+}
+#cm-tickets-matte{
+  position:fixed;
+  inset:0;
+  z-index:6;
+  pointer-events:none;
+  background:var(--cm-background);
+  background-attachment:fixed;
+  --cm-frame-inset:calc(clamp(14px,2.6vw,30px) + 12px);
+  clip-path:polygon(0 0, 0 100%, var(--cm-frame-inset) 100%, var(--cm-frame-inset) var(--cm-frame-inset), calc(100% - var(--cm-frame-inset)) var(--cm-frame-inset), calc(100% - var(--cm-frame-inset)) calc(100% - var(--cm-frame-inset)), var(--cm-frame-inset) calc(100% - var(--cm-frame-inset)), var(--cm-frame-inset) 100%, 100% 100%, 100% 0);
+}
+
+/*
+  Estructura alineada con las escenas #mi-stage y #ti-stage del proyecto:
+  una escena fija, tres estados guiados por scroll y un único fondo continuo.
+*/
+#cm-tickets-stage{
+  position:fixed;
+  inset:0;
+  z-index:2;
+  display:none;
+  width:100%;
+  height:100vh;
+  height:100svh;
+  overflow:hidden;
+  background:var(--cm-background);
+}
+#cm-tickets-stage::before{
   content:"";
   position:absolute;
   inset:0;
-  z-index:-1;
-  opacity:.38;
+  z-index:0;
   pointer-events:none;
+  opacity:.4;
   mix-blend-mode:multiply;
   background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
 }
-.cm-wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto}
-.cm-sep{display:flex;align-items:center;justify-content:center;gap:16px;max-width:620px;margin:0 auto 38px}
-.cm-sep .cm-ln{flex:1;height:1px;background:linear-gradient(90deg,transparent,#C8912F);opacity:.65}
-.cm-sep .cm-ln:last-child{background:linear-gradient(90deg,#C8912F,transparent)}
-.cm-sep .cm-dot{color:#C8912F;font-size:10px;letter-spacing:.3em}
-.cm-eyebrow{display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Inter',sans-serif;font-weight:600;letter-spacing:.34em;text-transform:uppercase;font-size:clamp(10.5px,1.2vw,13px);color:var(--red);margin-bottom:18px;text-align:center}
-.cm-star-icon{width:20px;height:20px;display:block;flex:0 0 auto;color:var(--red)}
-.cm-red{color:var(--red)}
-.cm-gold{color:var(--gold)}
-.cm-title{font-family:'Playfair Display',serif;font-weight:900;text-align:center;font-size:clamp(40px,6.5vw,76px);line-height:.96;letter-spacing:-.035em;color:#17110e;margin:0 auto 16px;max-width:16ch}
-.cm-lead{max-width:920px;margin:0 auto 38px;color:var(--muted);font-size:clamp(15px,1.6vw,18px);line-height:1.55;text-align:center}
-.cm-lead b{color:var(--red-deep);font-weight:600}
-@media(max-width:900px){
-  .cm-section{padding:48px 18px 58px;min-height:auto}
-  .cm-title{text-align:left;max-width:100%;font-size:clamp(38px,10vw,58px)}
-  .cm-eyebrow,.cm-lead{text-align:left;justify-content:flex-start}
-  .cm-sep{margin-bottom:28px}
+#cm-tickets-scroll{height:460vh;min-height:460svh;position:relative;z-index:1;pointer-events:none}
+
+.cm-panel{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(20px,4vh,52px) 7vw;
+  pointer-events:none;
+  will-change:opacity,transform;
+}
+.cm-cover-box{
+  width:min(560px,100%);
+  text-align:center;
+  background:rgba(255,252,245,.62);
+  backdrop-filter:blur(4px);
+  border-radius:16px;
+  padding:clamp(26px,4vw,40px) clamp(28px,4.4vw,46px);
+  box-shadow:0 24px 60px rgba(90,60,40,.12);
+}
+.cm-cover-eyebrow,.cm-outro-eyebrow{
+  font-weight:600;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  font-size:11px;
+  color:var(--red);
+  margin-bottom:14px;
+}
+.cm-cover-title{
+  margin:0;
+  color:var(--ink);
+  font-family:'Playfair Display',Georgia,serif;
+  font-weight:700;
+  font-size:clamp(34px,5.6vw,66px);
+  line-height:1.02;
+}
+.cm-cover-title .cm-red-text{color:var(--red)}
+.cm-cover-sub{
+  margin:14px 0 0;
+  color:#4a403a;
+  font-size:clamp(14px,1.6vw,18px);
+  font-weight:400;
+  line-height:1.55;
 }
 
+#cm-tickets-chart{
+  z-index:2;
+  align-items:stretch;
+  justify-content:center;
+  padding:clamp(20px,3vh,36px) clamp(18px,5vw,78px);
+  opacity:0;
+}
+#cm-tickets-chart .cm-chart-cap,#cm-tickets-chart .cm-tickets{will-change:opacity,transform}
+.cm-chart-wrap{
+  width:min(1180px,100%);
+  min-height:100%;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  padding:clamp(50px,7.7vh,78px) 0 clamp(26px,4.4vh,42px);
+}
+.cm-chart-cap{
+  position:relative;
+  z-index:1;
+  text-align:center;
+  margin:0 auto clamp(36px,5vh,48px);
+}
+.cm-chart-eyebrow{
+  font-weight:600;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  font-size:11px;
+  color:var(--red);
+}
+.cm-chart-title{
+  margin:7px auto 0;
+  max-width:24ch;
+  color:var(--ink);
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(27px,3.3vw,44px);
+  font-weight:700;
+  letter-spacing:-.02em;
+  line-height:1.02;
+}
+.cm-chart-title .cm-red-text{color:var(--red)}
+.cm-chart-sub{
+  max-width:64ch;
+  margin:10px auto 0;
+  color:#6a5644;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(14px,1.6vw,18px);
+  font-style:italic;
+  font-weight:500;
+  line-height:1.35;
+}
+.cm-chart-sub b{color:var(--red-deep);font-weight:600}
 
-.cm-tickets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.8vw,32px);align-items:stretch}
-.cm-ticket{position:relative;min-height:390px;padding:28px 28px 24px;background:rgba(255,252,245,.86);backdrop-filter:blur(4px);border:1px solid rgba(189,35,51,.30);box-shadow:0 18px 50px rgba(90,60,40,.14);border-radius:6px;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
-.cm-ticket:hover{transform:translateY(-5px);box-shadow:0 24px 56px rgba(90,60,40,.20);border-color:rgba(189,35,51,.48)}
+.cm-tickets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:min(1120px,100%);gap:clamp(18px,2.2vw,28px);align-items:stretch;align-self:center;margin:clamp(56px,7vh,76px) auto 0}
+.cm-ticket{
+  --cm-entry-y:0px;
+  position:relative;
+  min-height:312px;
+  padding:19px 22px 19px;
+  background:rgba(255,252,245,.86);
+  backdrop-filter:blur(4px);
+  border:1px solid rgba(189,35,51,.30);
+  border-radius:6px;
+  box-shadow:0 18px 50px rgba(90,60,40,.14);
+  transform:translateY(var(--cm-entry-y));
+  transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease;
+}
+.cm-ticket:hover{transform:translateY(calc(var(--cm-entry-y) - 5px));box-shadow:0 24px 56px rgba(90,60,40,.20);border-color:rgba(189,35,51,.48)}
 .cm-ticket.cm-is-gold:hover{border-color:rgba(247,176,54,.68)}
-.cm-ticket::before{content:"";position:absolute;inset:18px;border:1px solid rgba(195,179,148,.76);border-radius:4px;pointer-events:none}
-.cm-ticket-head{position:relative;z-index:1;display:flex;align-items:baseline;gap:10px;margin:8px 0 8px;font-family:'Playfair Display',serif;color:#17110e}
-.cm-stars-img{display:flex;align-items:center;gap:4px;flex:0 0 auto;transform:translateY(-2px)}
-.cm-stars-img svg{width:18px;height:18px;display:block;flex:0 0 auto}
-.cm-star-title-text{display:flex;align-items:baseline;gap:7px;line-height:1;white-space:nowrap}
-.cm-star-number{font-size:clamp(34px,3.4vw,46px);font-weight:900;letter-spacing:-.05em}
-.cm-star-word{font-size:clamp(25px,2.3vw,33px);font-weight:800;letter-spacing:-.035em}
-.cm-n-count{position:relative;z-index:1;font-size:12.5px;color:#6b5c52;margin-bottom:14px;font-variant-numeric:tabular-nums}
-.cm-dash{position:relative;z-index:1;border-bottom:2px dotted rgba(120,90,50,.28);margin-bottom:14px}
-.cm-price-row{position:relative;z-index:1;display:grid;grid-template-columns:68px 1fr 54px;gap:12px;align-items:center;padding:9px 0 12px;border-bottom:1px dotted rgba(120,90,50,.22);border-radius:6px;transition:background .2s ease,transform .2s ease}
+.cm-ticket::before{content:"";position:absolute;inset:15px;border:1px solid rgba(195,179,148,.76);border-radius:4px;pointer-events:none}
+.cm-ticket-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;min-height:66px;margin:0 0 3px}
+.cm-stars-img{display:flex;align-items:center;justify-content:center;gap:clamp(6px,.65vw,8px);width:100%}
+.cm-stars-img svg{width:clamp(40px,3.45vw,46px);height:auto;aspect-ratio:394.24 / 430.93;display:block;flex:0 0 auto}
+.cm-star-one{--cm-star-fill:url(#cm-star-one-gradient)}
+.cm-star-two{--cm-star-fill:#f7c64f}
+.cm-star-three{--cm-star-fill:#cf7d0c}
+.cm-n-count{position:relative;z-index:1;margin-bottom:10px;color:#6b5c52;font-size:12.5px;font-variant-numeric:tabular-nums;text-align:center}
+.cm-dash{position:relative;z-index:1;margin-bottom:9px;border-bottom:2px dotted rgba(120,90,50,.28)}
+.cm-price-row{position:relative;z-index:1;display:grid;grid-template-columns:59px 1fr 48px;gap:9px;align-items:center;padding:7px 0 9px;border-bottom:1px dotted rgba(120,90,50,.22);border-radius:6px;transition:background .2s ease,transform .2s ease}
 .cm-price-row:hover{background:rgba(189,35,51,.045);transform:translateX(3px)}
 .cm-price-row:last-child{border-bottom:0}
-.cm-price-label{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#221915;white-space:nowrap;letter-spacing:-.03em}
-.cm-track{height:16px;background:var(--track);border-radius:999px;overflow:hidden;box-shadow:inset 0 1px 1px rgba(80,50,20,.12)}
+.cm-price-label{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#221915;white-space:nowrap;letter-spacing:-.03em}
+.cm-track{height:13px;background:var(--track);border-radius:999px;overflow:hidden;box-shadow:inset 0 1px 1px rgba(80,50,20,.12)}
 .cm-fill{height:100%;width:var(--width);border-radius:999px;background:var(--red);transition:width .7s ease}
-.cm-fill.cm-low{background:#cfc6b7}.cm-fill.cm-mid{background:#d66f7a}.cm-fill.cm-high{background:var(--red)}.cm-fill.cm-lux{background:var(--red-deep)}
+.cm-fill.cm-mid{background:#d66f7a}.cm-fill.cm-high{background:var(--red)}.cm-fill.cm-lux{background:var(--red-deep)}
 .cm-is-gold .cm-fill.cm-lux{background:linear-gradient(90deg,var(--gold),#cf7d0c)}
-.cm-pct{font-size:14px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;color:#251b16}
-.cm-count{display:block;margin-top:2px;font-size:10px;font-weight:500;color:#7d6b5d}
-.cm-profile{position:relative;z-index:1;margin-top:16px;padding-top:17px;border-top:1px solid rgba(120,90,50,.36);text-align:center;font-family:'Playfair Display',serif;font-size:21px;color:#17110e}
+.cm-pct{font-size:13px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;color:#251b16}
+.cm-count{display:block;margin-top:2px;color:#7d6b5d;font-size:9.5px;font-weight:500}
+.cm-profile{position:relative;z-index:1;margin-top:10px;padding-top:12px;border-top:1px solid rgba(120,90,50,.36);color:#17110e;font-family:'Playfair Display',serif;font-size:19px;text-align:center}
 .cm-profile strong{color:var(--red);font-weight:800}.cm-is-gold .cm-profile strong{color:var(--goldink)}
-@media(max-width:980px){.cm-price-row{grid-template-columns:62px 1fr 48px;gap:8px}.cm-ticket{padding-left:26px;padding-right:26px}.cm-price-label{font-size:20px}}
-@media(max-width:900px){.cm-tickets{grid-template-columns:1fr;max-width:500px;margin:0 auto}}
-@media(max-width:480px){.cm-price-row{grid-template-columns:68px 1fr 48px}.cm-star-number{font-size:34px}.cm-star-word{font-size:28px}}
 
+/* Cierre: misma pantalla completa que #mi-outro y #ti-outro, sin tarjeta ni borde. */
+#cm-tickets-outro{
+  z-index:5;
+  flex-direction:column;
+  text-align:center;
+  background:var(--cm-background);
+  opacity:0;
+}
+.cm-outro-title{
+  max-width:16ch;
+  margin:0;
+  color:var(--ink);
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,min(5.2vw,7.2vh),64px);
+  font-weight:700;
+  line-height:1.04;
+}
+.cm-outro-copy{
+  max-width:56ch;
+  margin:clamp(16px,2.9vh,30px) 0 0;
+  color:#4a403a;
+  font-size:clamp(15px,min(1.9vw,2.55vh),20px);
+  font-weight:400;
+  line-height:1.5;
+}
+.cm-outro-copy b{color:var(--red);font-weight:600}
+
+/* Desktop: un solo bloque visual. El título gana presencia y el espacio hacia los tickets se reduce. */
+@media(min-width:821px){
+  .cm-chart-cap{
+    width:min(860px,100%);
+    margin-bottom:20px;
+  }
+  .cm-chart-title{
+    max-width:none;
+    font-size:clamp(44px,3.35vw,48px);
+    line-height:1.02;
+  }
+  .cm-chart-sub{
+    max-width:760px;
+  }
+  .cm-tickets{
+    margin-top:40px;
+  }
+}
+
+@media(max-width:1080px) and (min-width:821px){
+  .cm-ticket{padding-left:20px;padding-right:20px}
+  .cm-price-row{grid-template-columns:54px 1fr 43px;gap:7px}
+  .cm-price-label{font-size:18px}
+  .cm-track{height:12px}
+  .cm-profile{font-size:18px}
+  .cm-stars-img svg{width:clamp(36px,3.65vw,42px)}
+}
+
+/* En móvil la escena abandona el pinning, pero conserva el mismo fondo y el mismo patrón: apertura, gráfico, cierre. */
+@media(max-width:820px){
+  #cm-tickets-stage{position:relative;display:block!important;height:auto;min-height:0;overflow:visible;opacity:1!important}
+  #cm-tickets-scroll{display:none}
+  .cm-panel{position:relative;inset:auto;min-height:100vh;min-height:100svh;opacity:1!important;transform:none!important}
+  #cm-tickets-chart{display:flex;align-items:flex-start;padding:48px 18px 56px}
+  .cm-chart-wrap{max-width:500px;min-height:0;padding:0}
+  .cm-tickets{grid-template-columns:1fr;width:100%;gap:18px;margin-top:0}
+  .cm-ticket{min-height:0;padding:21px 24px}
+  .cm-ticket-head{min-height:70px}
+  .cm-stars-img svg{width:clamp(40px,12vw,46px)}
+  .cm-chart-cap{margin-bottom:30px}
+}
+@media(max-width:480px){
+  .cm-cover-box{padding:30px 22px 34px}
+  .cm-cover-title{font-size:clamp(32px,10vw,48px)}
+  .cm-price-row{grid-template-columns:60px 1fr 46px;gap:8px}
+}
 </style>
 </head>
 <body>
 <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
-  <symbol id="cm-michelin-star" viewBox="0 0 192 192">
-    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="12" d="M95.465 169.996s38.829 1.406 12.322-53.413m-12.322 53.413s-38.827 1.406-12.32-53.413m-52.482 15.83s18.06 34.4 52.482-15.83m-52.482 15.83S10.16 99.41 70.906 95.193m36.881 20.827c32.168 51.703 51.731 18.135 51.731 18.135"/>
-    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="12" d="M120.957 95.193c60.501 6.893 38.559 38.963 38.559 38.963"/>
-    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M30.224 58.455S10.116 91.698 70.907 95.194M30.224 58.455S47.874 23.844 82.89 73.66"/>
-    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="12" d="M81.558 24.746c-7.573 5.736-12.679 18.872 1.622 48.916m81.783-1.96c-.684 9.718-8.909 21.583-44.006 23.342"/>
-    <path fill="currentColor" d="M117.829 27.777c.938 0 1.841.112 2.66.274 2.714.543 5.163 2.052 6.755 4.317.218.313.42.64.596.976a11.216 11.216 0 0 1 1.241 5.62 11.167 11.167 0 0 1 5.849-1.756c.259 0 .518.014.778.036 2.757.24 5.294 1.601 7.121 3.677 1.528 1.736 3.05 4.234 2.876 7.19.008 12.85-13.715 19.744-32.842 19.744l-.425-.001c-9.798-16.684-10.812-32.198.389-38.681 1.579-1.045 3.343-1.396 5.002-1.396Zm0-11.777c-4.073 0-7.926 1.084-11.173 3.139-6.364 3.773-10.724 9.56-12.619 16.757-2.841 10.786.01 23.9 8.245 37.922l3.393 5.777 6.699.036.488.001c11.706 0 21.888-2.285 29.445-6.608C152 67.48 157.379 58.751 157.48 48.42c.217-5.434-1.787-10.71-5.811-15.281-3.867-4.395-9.137-7.098-14.844-7.62-3.311-4.669-8.288-7.87-14.028-9.016a25.576 25.576 0 0 0-4.968-.503Z"/>
+  <defs>
+    <linearGradient id="cm-star-one-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d8324a"/>
+      <stop offset="100%" stop-color="#8c1622"/>
+    </linearGradient>
+  </defs>
+  <symbol id="cm-michelin-star" viewBox="0 0 394.24 430.93">
+    <g transform="translate(434.54 277.81)">
+      <path fill="var(--cm-star-fill, currentColor)" d="M-251.17-277.81c8.56,0,17.11,0,25.67,0c6.13,2,12.58,3.34,18.32,6.12c24.38,11.83,38.26,31.33,40.4,58.5
+			c0.74,9.41,0.12,18.92,0.12,30.14c4.96-3.79,7.81-6.04,10.74-8.18c36.96-26.93,82.08-17.74,104.89,21.8
+			c4.57,7.92,7.21,16.96,10.73,25.49c0,7.95,0,15.89,0,23.84c-6.43,19.23-17.42,34.99-34.94,45.71
+			c-6.64,4.06-13.41,7.91-21.16,12.47c27.79,11.08,48.32,28.15,56.1,57.34c0,8.56,0,17.11,0,25.67c-1.1,2.64-2.34,5.22-3.28,7.91
+			c-9.44,27.13-26.49,46.44-55.72,51.91c-19.59,3.66-37.06-3.64-53.59-13.45c-4.25-2.52-8.45-5.13-12.44-7.55
+			c-1.21,14.13-1.19,27.46-3.67,40.3c-5.61,28.98-29.98,50.41-56.4,51.14c-7.98,0.59-15.96,1.18-23.94,1.77c-1.22,0-2.44,0-3.67,0
+			c-1.72-1.01-3.32-2.42-5.18-2.98c-26.6-8.03-43.29-25.58-48.45-52.77c-2.27-11.98-1.69-24.5-2.39-36.7
+			c-7.3,4.34-14.29,9.2-21.85,12.88c-37.63,18.35-77.18,4.95-95.74-32.48c-3.41-6.89-5.32-14.52-7.92-21.81c0-7.95,0-15.89,0-23.84
+			c6.34-18.49,16.44-34.2,33.37-44.78c7.13-4.45,14.4-8.68,20.68-12.46c-11.03-7.5-23.84-13.65-33.09-23.23
+			c-8.9-9.22-14.12-22-20.96-33.22c0-8.56,0-17.11,0-25.67c3.09-7.73,5.49-15.82,9.39-23.12c13.06-24.4,33.53-38.85,61.37-38.69
+			c11.62,0.07,23.43,5.51,34.71,9.71c7.17,2.67,13.52,7.54,21.02,11.87c0-10.05-0.76-19.19,0.14-28.18
+			c2.84-28.42,15.37-50.35,43.32-61.11C-260.21-275.15-255.65-276.37-251.17-277.81z M-177.65-65.96
+			c17.34-3.5,35.03-5.72,51.82-10.88c15.2-4.67,30.41-10.97,43.83-19.4c16.43-10.32,21.8-27.04,17.91-46.37
+			c-6.38-31.71-37.48-49.18-66.79-36.07c-11.72,5.24-23.08,12.85-32.3,21.77c-14.39,13.93-26.81,29.89-40.39,45.37
+			c-2.4-1.36-5.76-3.27-9.43-5.34c1.83-4.01,3.53-7.53,5.07-11.11c11.14-25.89,20.46-52.15,19.13-81.04
+			c-1.24-26.87-15.07-42.34-41.59-45.82c-25.7-3.37-47.69,8.8-52.71,32.88c-3.07,14.73-2.56,31.18,0.56,45.97
+			c4.26,20.26,12.52,39.68,19.26,60.03c-2.49,1.37-5.82,3.21-7.93,4.37c-13.89-15.78-26.1-32.04-40.82-45.55
+			c-10.72-9.84-23.94-18.15-37.5-23.42c-23.08-8.97-43.64,1.21-56.05,24.6c-11.68,22.01-7.52,45.19,11.97,59.64
+			c8.18,6.06,17.57,11.52,27.26,14.32c22.55,6.51,45.61,11.25,68.94,16.81c0,1.64,0,4.23,0,7.21c-10.95,2-21.58,3.88-32.19,5.89
+			c-20.71,3.92-41.21,8.58-59.18,20.33c-10.75,7.03-19.22,16.07-21.86,29.22c-4.28,21.29,3.15,38.42,19.43,51.93
+			c15.82,13.13,33.22,12.01,50.68,3.98c19.61-9.01,34.37-24.08,47.8-40.48c7.1-8.67,13.63-17.79,20.46-26.77
+			c3.71,2.21,7.07,4.2,8.19,4.86c-7.28,24.78-15.84,47.97-20.74,71.91c-9,43.95,16.23,71.78,58.26,66.53
+			c18.27-2.28,32.74-13.72,35.15-32.08c2.02-15.43,2.27-31.88-0.93-46.99c-4.22-19.94-12.58-39-19.31-58.88
+			c2.62-1.52,5.93-3.43,9.14-5.3c7.25,9.52,13.72,18.78,20.97,27.39c15.23,18.08,31.53,34.99,54.89,42.65
+			c24.26,7.96,45.38-1.31,57.82-25.23c11.41-21.94,6.74-44.7-13.07-59.42c-6.99-5.2-14.87-10.27-23.13-12.48
+			c-21.34-5.73-43.03-10.28-64.76-14.33C-177.06-56.6-179.34-59.2-177.65-65.96z"/>
+      <path fill="var(--cm-star-fill, currentColor)" d="M-225.39,151.35c-0.03,0.59-0.07,1.18-0.1,1.77c-7.95,0-15.89,0-23.84,0
+			C-241.35,152.53-233.37,151.94-225.39,151.35z"/>
+    </g>
   </symbol>
 </svg>
-<section class="cm-section" id="cm-tickets-section">
-  <div class="cm-wrap">
-    <div class="cm-sep"><span class="cm-ln"></span><span class="cm-dot">◆</span><span class="cm-ln"></span></div>
-    <div class="cm-eyebrow">
-      <svg class="cm-star-icon cm-red" aria-hidden="true"><use href="#cm-michelin-star"></use></svg>
-      <span>La entrada — estrellas & precio</span>
+
+<!-- Marco y matte: conservan el pad visual continuo de las otras escenas. -->
+<div id="cm-tickets-matte" aria-hidden="true"></div>
+<div id="cm-tickets-frame" aria-hidden="true"></div>
+
+<!-- Escena fija: al integrar, insertar este bloque donde hoy se ubica #cm-tickets-section. -->
+<div id="cm-tickets-stage" aria-live="polite">
+  <section class="cm-panel" id="cm-tickets-cover" aria-label="Introducción al gráfico">
+    <div class="cm-cover-box">
+      <h1 class="cm-cover-title">¿Subir una estrella también sube la <span class="cm-red-text">cuenta</span>?</h1>
+      <p class="cm-cover-sub">La guía Michelin no solo clasifica restaurantes por excelencia: el número de estrellas también anticipa cuánto cuesta sentarse a la mesa.</p>
     </div>
-    <h1 class="cm-title">¿Subir una estrella también sube la cuenta?</h1>
-    <p class="cm-lead">A medida que suben las estrellas, también cambia la cuenta: entre los restaurantes de <b>2 y 3 estrellas</b>, casi todos caen en la categoría de precio más alta.</p>
-    <div class="cm-tickets" id="cm-tickets"></div>
-  </div>
-</section>
+  </section>
+
+  <section class="cm-panel" id="cm-tickets-chart" aria-label="Distribución de precios por estrellas Michelin">
+    <div class="cm-chart-wrap">
+      <header class="cm-chart-cap">
+        <div class="cm-chart-eyebrow">Estrellas &amp; precio</div>
+        <h2 class="cm-chart-title">La cuenta por nivel de <span class="cm-red-text">estrella</span></h2>
+        <p class="cm-chart-sub">A mayor reconocimiento, mayor concentración en la categoría de precio más alta.</p>
+      </header>
+      <div class="cm-tickets" id="cm-tickets"></div>
+    </div>
+  </section>
+
+  <section class="cm-panel" id="cm-tickets-outro" aria-label="Conclusión del gráfico">
+    <h2 class="cm-outro-title">El prestigio también se paga.</h2>
+    <p class="cm-outro-copy">En los restaurantes de <b>2 y 3 estrellas</b>, más de <b>9 de cada 10</b> se ubican en la categoría de precio más alta. La cima de la guía no solo es más exclusiva: también es más cara.</p>
+  </section>
+</div>
+
+<!-- Este pad controla el tramo de scroll de la escena fija, como los pads de #mi-stage y #ti-stage. -->
+<div id="cm-tickets-scroll" aria-hidden="true"></div>
 
 <script>
 (function(){
   const data = [
     {stars:1,n:3144,profile:'Más diverso',gold:false,rows:[
-      ['€',0.1,3,'low'],['€€',2.9,91,'mid'],['€€€',34.6,1088,'high'],['€€€€',62.4,1962,'lux']
+      ['€€',2.9,91,'mid'],['€€€',34.6,1088,'high'],['€€€€',62.4,1962,'lux']
     ]},
     {stars:2,n:540,profile:'Alto',gold:false,rows:[
-      ['€',0.0,0,'low'],['€€',0.4,2,'mid'],['€€€',6.1,33,'high'],['€€€€',93.5,505,'lux']
+      ['€€',0.4,2,'mid'],['€€€',6.1,33,'high'],['€€€€',93.5,505,'lux']
     ]},
     {stars:3,n:157,profile:'Lujo',gold:true,rows:[
-      ['€',0.0,0,'low'],['€€',0.0,0,'mid'],['€€€',3.8,6,'high'],['€€€€',96.2,151,'lux']
+      ['€€',0.0,0,'mid'],['€€€',3.8,6,'high'],['€€€€',96.2,151,'lux']
     ]}
   ];
 
   const tickets = document.getElementById('cm-tickets');
-  tickets.innerHTML = data.map(d => `
-    <article class="cm-ticket ${d.gold ? 'cm-is-gold' : ''}">
-      <div class="cm-ticket-head">
-        <span class="cm-stars-img">
-          ${Array.from({length:d.stars}).map(() => `<svg class="${d.gold ? 'cm-gold' : 'cm-red'}" aria-hidden="true"><use href="#cm-michelin-star"></use></svg>`).join('')}
-        </span>
-        <span class="cm-star-title-text">
-          <span class="cm-star-number">${d.stars}</span>
-          <span class="cm-star-word">${d.stars === 1 ? 'estrella' : 'estrellas'}</span>
-        </span>
-      </div>
-      <div class="cm-n-count">${d.n.toLocaleString('es-AR')} restaurantes en esta categoría</div>
-      <div class="cm-dash"></div>
-      ${d.rows.map(([label,pct,count,cls]) => `
-        <div class="cm-price-row" title="${pct.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})}% · ${count.toLocaleString('es-AR')} restaurantes">
-          <div class="cm-price-label">${label}</div>
-          <div class="cm-track"><div class="cm-fill cm-${cls}" style="--width:${pct}%"></div></div>
-          <div class="cm-pct">${pct.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})}%<span class="cm-count">${count.toLocaleString('es-AR')}</span></div>
-        </div>`).join('')}
-      <div class="cm-profile">Perfil: <strong>${d.profile}</strong></div>
-    </article>
-  `).join('');
+  tickets.innerHTML = data.map(d => {
+    const starClass = d.stars === 1 ? 'cm-star-one' : d.stars === 2 ? 'cm-star-two' : 'cm-star-three';
+    return `
+      <article class="cm-ticket ${d.gold ? 'cm-is-gold' : ''}">
+        <div class="cm-ticket-head" aria-label="${d.stars} ${d.stars === 1 ? 'estrella Michelin' : 'estrellas Michelin'}">
+          <span class="cm-stars-img" aria-hidden="true">
+            ${Array.from({length:d.stars}).map(() => `<svg class="${starClass}"><use href="#cm-michelin-star"></use></svg>`).join('')}
+          </span>
+        </div>
+        <div class="cm-n-count">${d.n.toLocaleString('es-AR')} restaurantes en esta categoría</div>
+        <div class="cm-dash"></div>
+        ${d.rows.map(([label,pct,count,cls]) => `
+          <div class="cm-price-row" title="${pct.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})}% · ${count.toLocaleString('es-AR')} restaurantes">
+            <div class="cm-price-label">${label}</div>
+            <div class="cm-track"><div class="cm-fill cm-${cls}" style="--width:${pct}%"></div></div>
+            <div class="cm-pct">${pct.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1})}%<span class="cm-count">${count.toLocaleString('es-AR')}</span></div>
+          </div>`).join('')}
+        <div class="cm-profile">Perfil: <strong>${d.profile}</strong></div>
+      </article>`;
+  }).join('');
+})();
+
+(function(){
+  /*
+    Misma lógica de #mi-stage del proyecto:
+    - pad largo (460vh)
+    - la portada entra desde abajo y se va hacia arriba muy temprano
+    - el gráfico aparece por capas y se mantiene durante el recorrido
+    - el cierre se funde recién al final
+  */
+  const stage = document.getElementById('cm-tickets-stage');
+  const scrollPad = document.getElementById('cm-tickets-scroll');
+  const cover = document.getElementById('cm-tickets-cover');
+  const chart = document.getElementById('cm-tickets-chart');
+  const chartCap = chart.querySelector('.cm-chart-cap');
+  const ticketsWrap = chart.querySelector('.cm-tickets');
+  const ticketCards = [...chart.querySelectorAll('.cm-ticket')];
+  const outro = document.getElementById('cm-tickets-outro');
+  const mobile = window.matchMedia('(max-width: 820px)');
+  const FADE = 60;
+  let start = 0;
+  let range = 1;
+  let active = false;
+  let lastState = '';
+
+  const clamp = value => Math.max(0, Math.min(1, value));
+  const smooth = (a, b, value) => {
+    const t = clamp((value - a) / (b - a));
+    return t * t * (3 - 2 * t);
+  };
+
+  function measure(){
+    start = scrollPad.offsetTop;
+    /* Al ser una versión aislada, se descuenta un viewport para poder llegar
+       al cierre antes del final del documento. Al integrarla, el bloque que
+       siga aporta naturalmente ese último viewport. */
+    range = Math.max(1, scrollPad.offsetHeight - window.innerHeight);
+  }
+
+  function setActive(next){
+    if (next === active) return;
+    active = next;
+    stage.style.display = next ? 'block' : 'none';
+  }
+
+  function render(){
+    requestAnimationFrame(render);
+
+    if (mobile.matches){
+      stage.style.display = 'block';
+      stage.style.opacity = '1';
+      return;
+    }
+
+    const sy = window.scrollY || window.pageYOffset || 0;
+    const inRange = sy >= start - FADE && sy <= start + range + FADE;
+    setActive(inRange);
+    if (!inRange) return;
+
+    const p = clamp((sy - start) / range);
+    const edgeFade = Math.min(
+      clamp((sy - start + FADE) / FADE),
+      clamp((start + range + FADE - sy) / FADE)
+    );
+
+    /* Copia de los rangos de #mi-stage, adaptados a título + tickets. */
+    const coverIn = clamp((sy - start + FADE) / FADE);
+    const coverOut = smooth(.02, .10, p);
+    const graphicIn = smooth(.02, .09, p);
+    const graphicOut = 1 - smooth(.91, .985, p);
+    const captionIn = smooth(.05, .09, p);
+    const captionOut = 1 - smooth(.92, .96, p);
+    const outroIn = smooth(.93, .99, p);
+
+    const state = [
+      p.toFixed(4), edgeFade.toFixed(3), coverOut.toFixed(3),
+      graphicIn.toFixed(3), graphicOut.toFixed(3),
+      captionIn.toFixed(3), captionOut.toFixed(3), outroIn.toFixed(3)
+    ].join('|');
+    if (state === lastState) return;
+    lastState = state;
+
+    stage.style.opacity = edgeFade.toFixed(3);
+
+    cover.style.opacity = (coverIn * (1 - coverOut)).toFixed(3);
+    cover.style.transform = `translateY(${((1 - coverIn) * 60 - coverOut * 220).toFixed(1)}px)`;
+
+    chart.style.opacity = (graphicIn * graphicOut).toFixed(3);
+    chart.style.transform = 'none';
+
+    chartCap.style.opacity = (captionIn * captionOut).toFixed(3);
+    chartCap.style.transform = `translateY(${((1 - captionIn) * 18 - (1 - captionOut) * 30).toFixed(1)}px)`;
+
+    ticketsWrap.style.opacity = (graphicIn * graphicOut).toFixed(3);
+    ticketsWrap.style.transform = `translateY(${((1 - graphicIn) * 28 - (1 - graphicOut) * 46).toFixed(1)}px)`;
+
+    /* La grilla se arma en una secuencia corta, como los elementos que se
+       construyen mientras avanza cada escena del scrollytelling. */
+    ticketCards.forEach((ticket, index) => {
+      const delay = index * .018;
+      const ticketIn = smooth(.07 + delay, .14 + delay, p);
+      const ticketOut = 1 - smooth(.90, .975, p);
+      ticket.style.opacity = (ticketIn * ticketOut).toFixed(3);
+      ticket.style.setProperty('--cm-entry-y', `${((1 - ticketIn) * 26 - (1 - ticketOut) * 34).toFixed(1)}px`);
+    });
+
+    outro.style.opacity = outroIn.toFixed(3);
+  }
+
+  measure();
+  window.addEventListener('resize', measure);
+  window.addEventListener('load', measure);
+  mobile.addEventListener?.('change', measure);
+  [150, 400, 900, 1800, 3000].forEach(delay => setTimeout(measure, delay));
+  if (window.ResizeObserver) new ResizeObserver(measure).observe(document.body);
+  requestAnimationFrame(render);
 })();
 </script>
-
 </body>
 </html>

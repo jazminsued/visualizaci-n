@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El plato Michelin · primer servicio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{ --cream:#ECE3D0; --ink:#2a211c; --red:#BD2333; --gold:#F7B036; --goldink:#b07810; --line:#c3b394; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%); color:var(--ink); font-family:'Inter',system-ui,sans-serif; }
+
+  #grain{ position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.4; mix-blend-mode:multiply;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>"); }
+
+  /* paneles de apertura y cierre (sin recuadro, para encajar dentro de la carta) */
+  .panel{ position:absolute; inset:0; z-index:6; display:flex; align-items:center; justify-content:center; padding:0 7vw; pointer-events:none; }
+  #cover{ transition: opacity 0.1s linear, transform 0.1s linear; }
+  #outro{ opacity:0; }
+  #outro .box{ background:none; border:none; box-shadow:none; backdrop-filter:none; max-width:760px; }
+  #outro .sub{ color:var(--red); }
+  .panel .box{ max-width:780px; text-align:center; background:rgba(255,252,245,.62); backdrop-filter:blur(4px); border-radius:16px; padding:clamp(26px,4vw,40px) clamp(28px,4.4vw,46px); box-shadow:0 24px 60px rgba(90,60,40,.12); }
+  .panel .eyebrow{ font-weight:600; letter-spacing:.26em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:14px; }
+  .panel h1{ font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(34px,5.6vw,66px); line-height:1.02; color:var(--ink); margin-bottom:14px; }
+  .panel h1 .r{ color:var(--red); }
+  .panel .sub{ font-family:'Inter',serif; font-style:italic; font-weight:500; font-size:clamp(17px,2.3vw,24px); color:#6a5644; }
+  .panel .cue{ margin-top:18px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#a8714e; animation:bob 1.8s infinite; }
+  .panel .big{ font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(23px,3.3vw,40px); line-height:1.18; color:var(--ink); }
+  .panel .big .r{ color:var(--red); } .panel .big .g{ color:var(--goldink); }
+
+  .viewport{ position:relative; z-index:2; height:100vh; overflow-y:auto; overflow-x:hidden; background:transparent; }
+  .track{ height:460%; position:relative; }
+  .stage{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; }
+  canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+  .cap{ position:absolute; top:5%; max-height:28vh; left:0; right:0; text-align:center; padding:0 7vw; pointer-events:none; z-index:3; }
+  .ribbon{ display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:16px; }
+  .ribbon .ln{ width:clamp(30px,7vw,76px); height:1px; background:linear-gradient(90deg,transparent,#C8912F); }
+  .ribbon .ln.r{ background:linear-gradient(90deg,#C8912F,transparent); }
+  .stars{ display:inline-flex; align-items:center; gap:.26em; font-size:clamp(18px,2.9vw,27px); line-height:1; }
+  .stars .mstar{ display:block; height:1.16em; width:auto; }
+  .eyebrow{ font-weight:600; letter-spacing:.3em; text-transform:uppercase; font-size:11px; color:var(--red); }
+  .big{ font-family:'Playfair Display',Georgia,serif; font-weight:600; font-size:clamp(40px,6.4vw,78px); line-height:.92; letter-spacing:-.01em; color:var(--ink); }
+  .small{ font-family:'Playfair Display',serif; font-style:italic; font-weight:500; font-size:clamp(14px,2.1vw,20px); color:#6a5644; margin-top:11px; }
+
+  .coursetag{ position:absolute; bottom:6%; left:0; right:0; text-align:center; z-index:3; pointer-events:none; font-size:10.5px; letter-spacing:.42em; text-transform:uppercase; color:var(--goldink); font-weight:600; }
+  .hint{ position:absolute; bottom:10.5%; left:0; right:0; text-align:center; color:#a8714e; font-size:11px; letter-spacing:.2em; text-transform:uppercase; animation:bob 1.8s infinite; z-index:3; pointer-events:none; }
+  @keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+</style>
+</head>
+<body>
+<div id="grain"></div>
+
+<div class="viewport" id="vp">
+  <div class="track" id="track">
+    <div class="stage" id="stage">
+      <canvas id="plate"></canvas>
+      <div class="cap" id="cap"></div>
+      <div class="hint" id="hint"></div>
+      <div class="panel" id="cover"><div class="box">
+        <div class="eyebrow">Primer servicio</div>
+        <h1>El plato de las <span class="r">estrellas</span></h1>
+        <div class="sub">3.842 restaurantes, algunos con 1 estrellas, otros con 2 y unos pocos con 3.</div>
+        <div class="cue">Scroll &#8595;</div>
+      </div></div>
+      <div class="panel" id="outro"><div class="box">
+        <div class="big">De los 3.842, apenas <span class="g">157</span><br>alcanzan las tres estrellas.<br>La cima es una franja angosta.</div>
+        <div class="sub" style="margin-top:16px">157 / 3.842 · apenas el 4%</div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const DATA = { total:3842, s1:3145, s2:540, s3:157 };
+  const SCALE = 5;  
+
+  const VP=document.getElementById('vp'), TRACK=document.getElementById('track'), STAGE=document.getElementById('stage');
+  const cv=document.getElementById('plate'), ctx=cv.getContext('2d');
+  const cap=document.getElementById('cap'), hint=document.getElementById('hint');
+  const cover=document.getElementById('cover'), outro=document.getElementById('outro');
+
+
+  const MUTED=[178,140,95];  
+  const C1=[189, 35, 51];      
+  const C2=[247, 198, 79];       
+  const C3=[207, 125, 12];      
+
+  const FLEUR=`<svg width="15" height="15" viewBox="0 0 16 16"><path d="M8 1l2.4 5.6L16 8l-5.6 1.4L8 15l-2.4-5.6L0 8l5.6-1.4z" fill="none" stroke="#C8912F" stroke-width="1"/><circle cx="8" cy="8" r="1.1" fill="#C8912F"/></svg>`;
+
+
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
+  const rand=mulberry32(20240603);
+  const lerp=(a,b,t)=>a+(b-a)*t;
+
+  const N1=Math.round(DATA.s1/SCALE), N2=Math.round(DATA.s2/SCALE), N3=Math.round(DATA.s3/SCALE);
+  let cats=[];
+  for(let i=0;i<N1;i++)cats.push(1);
+  for(let i=0;i<N2;i++)cats.push(2);
+  for(let i=0;i<N3;i++)cats.push(3);
+  for(let i=cats.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[cats[i],cats[j]]=[cats[j],cats[i]];}
+  const dots=cats.map(cat=>{
+    const r=Math.sqrt(rand())*0.95, th=rand()*Math.PI*2, npts=7+Math.floor(rand()*3), shape=[];
+    for(let k=0;k<npts;k++){const ang=(k/npts)*Math.PI*2+(rand()-0.5)*0.42, rad=0.72+rand()*0.32; shape.push({x:Math.cos(ang)*rad,y:Math.sin(ang)*rad});}
+    return {nx:Math.cos(th)*r, ny:Math.sin(th)*r, sz:0.65+rand()*0.8, cat, shape, ph:rand()*Math.PI*2};
+  });
+
+  let W=0,H=0,DPR=1;
+  function resize(){DPR=Math.min(window.devicePixelRatio||1,2);W=STAGE.clientWidth;H=STAGE.clientHeight;cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);lastDrawn=-1;}
+
+  function smooth(a,b,x){if(b===a)return x<a?0:1;let t=(x-a)/(b-a);t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);}
+  const mix=(c1,c2,t)=>[lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)];
+  const rgba=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
+  const fmt=(n)=>Math.round(n).toLocaleString('es-AR');
+
+  function dotStyle(cat,p){
+    const base=0.72, intro=smooth(0,0.04,p);
+    if(cat===1){const h=smooth(0.10,0.18,p)-smooth(0.24,0.32,p), gone=smooth(0.24,0.32,p);
+      return {a:Math.max((1-gone)*base,h)*intro, col:mix(MUTED,C1,Math.min(1,h)), scale:(1+0.18*h)*(1-0.45*gone), lift:gone*30, h};}
+    if(cat===2){const h=smooth(0.38,0.46,p)-smooth(0.52,0.58,p), gone=smooth(0.52,0.58,p);
+      return {a:Math.max((1-gone)*base,h)*intro, col:mix(MUTED,C2,Math.min(1,h)), scale:(1+0.28*h)*(1-0.45*gone), lift:gone*30, h};}
+    const h=smooth(0.62,0.74,p);
+    return {a:Math.max(base,h)*intro, col:mix(MUTED,C3,h), scale:1+0.7*h, lift:0, h};
+  }
+
+  function trace(x,y,r,shape,ox,oy){const n=shape.length;ctx.beginPath();ctx.moveTo(x+(shape[0].x+shape[n-1].x)/2*r+ox,y+(shape[0].y+shape[n-1].y)/2*r+oy);for(let i=0;i<n;i++){const c=shape[i],d=shape[(i+1)%n];ctx.quadraticCurveTo(x+c.x*r+ox,y+c.y*r+oy,x+(c.x+d.x)/2*r+ox,y+(c.y+d.y)/2*r+oy);}ctx.closePath();}
+  function crumb(x,y,r,shape,col,a){
+    trace(x,y,r,shape,r*0.13,r*0.22);ctx.fillStyle=`rgba(74,48,28,${a*0.12})`;ctx.fill();
+    trace(x,y,r,shape,0,0);ctx.fillStyle=rgba(col,a);ctx.fill();
+    ctx.beginPath();ctx.ellipse(x+r*0.22,y+r*0.26,r*0.46,r*0.38,-0.5,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${(col[0]*0.76)|0},${(col[1]*0.68)|0},${(col[2]*0.56)|0},${a*0.34})`;ctx.fill();
+    ctx.beginPath();ctx.ellipse(x-r*0.22,y-r*0.26,r*0.46,r*0.36,-0.5,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,249,235,${a*0.22})`;ctx.fill();
+    ctx.beginPath();ctx.ellipse(x-r*0.30,y-r*0.32,r*0.18,r*0.14,-0.5,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,252,244,${a*0.26})`;ctx.fill();
+    trace(x,y,r,shape,0,0);ctx.lineWidth=Math.max(0.4,r*0.05);
+    ctx.strokeStyle=`rgba(${(col[0]*0.64)|0},${(col[1]*0.55)|0},${(col[2]*0.43)|0},${a*0.16})`;ctx.stroke();
+  }
+
+  function draw(p,time){
+    ctx.clearRect(0,0,W,H);
+    const cx=W/2, topReserve=H*0.33, cy=topReserve+(H-topReserve)*0.42, Rp=Math.min(W*0.38,(H-topReserve)*0.42);
+    let vg=ctx.createRadialGradient(cx,cy,Rp*0.6,cx,cy,Math.max(W,H)*0.8);
+    vg.addColorStop(0,'rgba(40,25,15,0)');vg.addColorStop(1,'rgba(40,25,15,0.10)');
+    ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+
+    let sh=ctx.createRadialGradient(cx,cy+Rp*0.16,Rp*0.4,cx,cy+Rp*0.16,Rp*1.2);
+    sh.addColorStop(0,'rgba(34,28,20,0.2)');sh.addColorStop(1,'rgba(34,28,20,0)');
+    ctx.fillStyle=sh;ctx.beginPath();ctx.ellipse(cx,cy+Rp*0.15,Rp*1.16,Rp*0.62,0,0,Math.PI*2);ctx.fill();
+
+    let pg=ctx.createRadialGradient(cx-Rp*0.28,cy-Rp*0.3,Rp*0.1,cx,cy,Rp);
+    pg.addColorStop(0,'#FFFFFF');pg.addColorStop(0.68,'#FBF7EF');pg.addColorStop(1,'#E9DECB');
+    ctx.fillStyle=pg;ctx.beginPath();ctx.arc(cx,cy,Rp,0,Math.PI*2);ctx.fill();
+
+    ctx.beginPath();ctx.arc(cx,cy,Rp,0,Math.PI*2);ctx.lineWidth=Math.max(1,Rp*0.012);ctx.strokeStyle='rgba(34,28,20,0.10)';ctx.stroke();
+    ctx.beginPath();ctx.arc(cx,cy,Rp*0.965,0,Math.PI*2);ctx.lineWidth=Math.max(1,Rp*0.006);ctx.strokeStyle='rgba(200,145,47,0.6)';ctx.stroke();
+    ctx.beginPath();ctx.arc(cx,cy,Rp*0.885,0,Math.PI*2);ctx.lineWidth=Math.max(.5,Rp*0.0025);ctx.strokeStyle='rgba(200,145,47,0.32)';ctx.stroke();
+
+    const wellR=Rp*0.70;
+    let wg=ctx.createRadialGradient(cx,cy,wellR*0.82,cx,cy,wellR);
+    wg.addColorStop(0,'rgba(34,28,20,0)');wg.addColorStop(1,'rgba(34,28,20,0.09)');
+    ctx.fillStyle=wg;ctx.beginPath();ctx.arc(cx,cy,wellR,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,wellR,0,Math.PI*2);ctx.lineWidth=1;ctx.strokeStyle='rgba(34,28,20,0.07)';ctx.stroke();
+
+    ctx.lineCap='round';
+    ctx.beginPath();ctx.arc(cx,cy,Rp*0.93,Math.PI*1.04,Math.PI*1.5);ctx.lineWidth=Rp*0.03;ctx.strokeStyle='rgba(255,255,255,0.55)';ctx.stroke();
+    ctx.beginPath();ctx.arc(cx,cy,Rp*0.5,Math.PI*1.1,Math.PI*1.32);ctx.lineWidth=Rp*0.012;ctx.strokeStyle='rgba(255,255,255,0.35)';ctx.stroke();
+    ctx.lineCap='butt';
+
+    const R=wellR*0.92, baseDotR=Math.max(2,Rp*0.019);
+
+    const ghostA=smooth(0.80,0.92,p)*0.06;
+    if(ghostA>0.002){
+      ctx.strokeStyle=`rgba(120,98,70,${ghostA})`;ctx.lineWidth=1;
+      for(const d of dots){ if(d.cat===3)continue; const x=cx+d.nx*R,y=cy+d.ny*R; ctx.beginPath();ctx.arc(x,y,baseDotR*d.sz*0.8,0,Math.PI*2);ctx.stroke(); }
+    }
+
+    ctx.globalCompositeOperation='lighter';
+    for(const d of dots){
+      if(d.cat!==3)continue; const s=dotStyle(3,p); if(s.h<0.05)continue;
+      const x=cx+d.nx*R,y=cy+d.ny*R, glow=s.h*(0.72+0.28*Math.sin(time*1.6+d.ph)), gr=baseDotR*d.sz*s.scale*3.2;
+      let g=ctx.createRadialGradient(x,y,0,x,y,gr);
+      g.addColorStop(0,`rgba(247,176,54,${0.34*glow})`);g.addColorStop(1,'rgba(247,176,54,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,gr,0,Math.PI*2);ctx.fill();
+    }
+    ctx.globalCompositeOperation='source-over';
+
+    for(const d of dots){
+      const s=dotStyle(d.cat,p); if(s.a<=0.01)continue;
+      const x=cx+d.nx*R, y=cy+d.ny*R - s.lift, rr=baseDotR*d.sz*s.scale;
+      crumb(x,y,rr,d.shape,s.col,s.a);
+    }
+  }
+
+  const STAR_SVG=(col)=>`<svg class="mstar" viewBox="-448.54 -291.81 422.24 458.93" aria-hidden="true"><path fill="${col}" d="M-251.17-277.81c8.56,0,17.11,0,25.67,0c6.13,2,12.58,3.34,18.32,6.12c24.38,11.83,38.26,31.33,40.4,58.5 c0.74,9.41,0.12,18.92,0.12,30.14c4.96-3.79,7.81-6.04,10.74-8.18c36.96-26.93,82.08-17.74,104.89,21.8 c4.57,7.92,7.21,16.96,10.73,25.49c0,7.95,0,15.89,0,23.84c-6.43,19.23-17.42,34.99-34.94,45.71 c-6.64,4.06-13.41,7.91-21.16,12.47c27.79,11.08,48.32,28.15,56.1,57.34c0,8.56,0,17.11,0,25.67c-1.1,2.64-2.34,5.22-3.28,7.91 c-9.44,27.13-26.49,46.44-55.72,51.91c-19.59,3.66-37.06-3.64-53.59-13.45c-4.25-2.52-8.45-5.13-12.44-7.55 c-1.21,14.13-1.19,27.46-3.67,40.3c-5.61,28.98-29.98,50.41-56.4,51.14c-7.98,0.59-15.96,1.18-23.94,1.77c-1.22,0-2.44,0-3.67,0 c-1.72-1.01-3.32-2.42-5.18-2.98c-26.6-8.03-43.29-25.58-48.45-52.77c-2.27-11.98-1.69-24.5-2.39-36.7 c-7.3,4.34-14.29,9.2-21.85,12.88c-37.63,18.35-77.18,4.95-95.74-32.48c-3.41-6.89-5.32-14.52-7.92-21.81c0-7.95,0-15.89,0-23.84 c6.34-18.49,16.44-34.2,33.37-44.78c7.13-4.45,14.4-8.68,20.68-12.46c-11.03-7.5-23.84-13.65-33.09-23.23 c-8.9-9.22-14.12-22-20.96-33.22c0-8.56,0-17.11,0-25.67c3.09-7.73,5.49-15.82,9.39-23.12c13.06-24.4,33.53-38.85,61.37-38.69 c11.62,0.07,23.43,5.51,34.71,9.71c7.17,2.67,13.52,7.54,21.02,11.87c0-10.05-0.76-19.19,0.14-28.18 c2.84-28.42,15.37-50.35,43.32-61.11C-260.21-275.15-255.65-276.37-251.17-277.81z M-177.65-65.96 c17.34-3.5,35.03-5.72,51.82-10.88c15.2-4.67,30.41-10.97,43.83-19.4c16.43-10.32,21.8-27.04,17.91-46.37 c-6.38-31.71-37.48-49.18-66.79-36.07c-11.72,5.24-23.08,12.85-32.3,21.77c-14.39,13.93-26.81,29.89-40.39,45.37 c-2.4-1.36-5.76-3.27-9.43-5.34c1.83-4.01,3.53-7.53,5.07-11.11c11.14-25.89,20.46-52.15,19.13-81.04 c-1.24-26.87-15.07-42.34-41.59-45.82c-25.7-3.37-47.69,8.8-52.71,32.88c-3.07,14.73-2.56,31.18,0.56,45.97 c4.26,20.26,12.52,39.68,19.26,60.03c-2.49,1.37-5.82,3.21-7.93,4.37c-13.89-15.78-26.1-32.04-40.82-45.55 c-10.72-9.84-23.94-18.15-37.5-23.42c-23.08-8.97-43.64,1.21-56.05,24.6c-11.68,22.01-7.52,45.19,11.97,59.64 c8.18,6.06,17.57,11.52,27.26,14.32c22.55,6.51,45.61,11.25,68.94,16.81c0,1.64,0,4.23,0,7.21c-10.95,2-21.58,3.88-32.19,5.89 c-20.71,3.92-41.21,8.58-59.18,20.33c-10.75,7.03-19.22,16.07-21.86,29.22c-4.28,21.29,3.15,38.42,19.43,51.93 c15.82,13.13,33.22,12.01,50.68,3.98c19.61-9.01,34.37-24.08,47.8-40.48c7.1-8.67,13.63-17.79,20.46-26.77 c3.71,2.21,7.07,4.2,8.19,4.86c-7.28,24.78-15.84,47.97-20.74,71.91c-9,43.95,16.23,71.78,58.26,66.53 c18.27-2.28,32.74-13.72,35.15-32.08c2.02-15.43,2.27-31.88-0.93-46.99c-4.22-19.94-12.58-39-19.31-58.88 c2.62-1.52,5.93-3.43,9.14-5.3c7.25,9.52,13.72,18.78,20.97,27.39c15.23,18.08,31.53,34.99,54.89,42.65 c24.26,7.96,45.38-1.31,57.82-25.23c11.41-21.94,6.74-44.7-13.07-59.42c-6.99-5.2-14.87-10.27-23.13-12.48 c-21.34-5.73-43.03-10.28-64.76-14.33C-177.06-56.6-179.34-59.2-177.65-65.96z"/><path fill="${col}" d="M-225.39,151.35c-0.03,0.59-0.07,1.18-0.1,1.77c-7.95,0-15.89,0-23.84,0 C-241.35,152.53-233.37,151.94-225.39,151.35z"/></svg>`;
+
+  const STAR_COLOR={ 1:'#BD2333', 2:'#F7B036', 3:'#b07810' };
+
+  function captionHTML(p){
+    const blocks=[
+      { env:(1-smooth(0.04,0.08,p)),                     stars:0, eyebrow:'Las estrelladas', big:fmt(DATA.total), small:'restaurantes con estrella Michelin' },
+      { env:smooth(0.10,0.14,p)*(1-smooth(0.28,0.32,p)), stars:1, big:fmt(DATA.s1*smooth(0.10,0.18,p)), small:'una cocina de gran calidad' },
+      { env:smooth(0.39,0.43,p)*(1-smooth(0.55,0.59,p)), stars:2, big:fmt(DATA.s2*smooth(0.38,0.46,p)), small:'una cocina excelente · vale un desvío' },
+      { env:smooth(0.63,0.67,p)*(1-smooth(0.85,0.89,p)), stars:3, big:fmt(DATA.s3*smooth(0.62,0.74,p)), small:'una cocina excepcional · vale el viaje' },
+      { env:smooth(0.88,0.92,p),                         stars:3, big:'157 / 3.842', small:'la cima · apenas el 4%' },
+    ];
+    let best=blocks[0]; for(const b of blocks) if(b.env>best.env) best=b;
+    let inner;
+    if(best.stars>0){
+      const col=STAR_COLOR[best.stars];
+      let s=''; for(let i=0;i<best.stars;i++) s+=STAR_SVG(col);
+      inner=`<span class="stars">${s}</span>`;
+    } else inner=`<span class="eyebrow">${best.eyebrow}</span>`;
+    return `<div style="opacity:${best.env.toFixed(3)}"><div class="ribbon"><span class="ln"></span>${inner}<span class="ln r"></span></div><div class="big">${best.big}</div><div class="small">${best.small}</div></div>`;
+  }
+
+  let p=0, lastDrawn=-1;
+  function setProgress(){const max=TRACK.scrollHeight-VP.clientHeight;p=max>0?Math.min(1,Math.max(0,VP.scrollTop/max)):0;}
+  VP.addEventListener('scroll',setProgress,{passive:true});
+  window.addEventListener('resize',resize);
+
+  function loop(now){
+    const time=now/1000, shimmer=p>0.80;
+    if(p!==lastDrawn || shimmer){
+      draw(p,time);
+      cap.innerHTML=captionHTML(p);
+      hint.style.opacity=(1-smooth(0.02,0.06,p)).toFixed(2);
+      const coverOut=smooth(0.02,0.10,p);
+      cover.style.opacity='1';
+      cover.style.transform=`translateY(${-coverOut*110}vh)`;
+      outro.style.opacity=smooth(0.93,0.99,p).toFixed(3);
+      cv.style.opacity=((0.35+0.65*smooth(0.02,0.09,p))*(1-smooth(0.91,0.985,p))).toFixed(3);
+      cap.style.opacity=(smooth(0.05,0.09,p)*(1-smooth(0.92,0.96,p))).toFixed(3);
+      lastDrawn=p;
+    }
+    requestAnimationFrame(loop);
+  }
+  resize();setProgress();requestAnimationFrame(loop);
+</script>
+</body>
+</html>

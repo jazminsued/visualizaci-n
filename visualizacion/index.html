@@ -297,14 +297,21 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
   #mi-stage .panel{ position:absolute; inset:0; z-index:6; display:flex; align-items:center; justify-content:center; padding:0 7vw; pointer-events:none; }
   #mi-cover{ transition: opacity 0.1s linear, transform 0.1s linear; }
   #mi-outro{ opacity:0; }
-  #mi-outro .box{ background:none; border:none; box-shadow:none; backdrop-filter:none; max-width:760px; }
-  #mi-outro .sub{ color:var(--red); }
+  #mi-stage #mi-outro .box{ background:none; border:none; box-shadow:none; backdrop-filter:none; max-width:760px; }
+  #mi-stage #mi-outro .sub{ font-family:'Inter',sans-serif; font-style:normal; font-weight:400; font-size:clamp(14px,1.6vw,18px); color:#4a403a; line-height:1.55; max-width:56ch; margin:28px auto 0; }
+  #mi-outro .obar{ display:flex; align-items:center; gap:14px; margin:clamp(24px,4.5vh,40px) auto 0; width:min(640px,78vw); }
+  #mi-outro .obar-track{ position:relative; flex:1; height:18px; background:rgba(120,90,50,.12); border-radius:4px; overflow:hidden; }
+  #mi-outro .obar-fill{ position:absolute; left:0; top:0; bottom:0; width:0; border-radius:4px; background:linear-gradient(90deg,#BD2333,#7A1622); transition:width 1.2s cubic-bezier(.22,1,.36,1) .15s; }
+  #mi-outro.on .obar-fill{ width:4%; }
+  #mi-outro .obar-pct{ font-weight:700; font-size:18px; font-variant-numeric:tabular-nums; color:var(--red); }
   #mi-stage .panel .box{ max-width:780px; text-align:center; background:rgba(255,252,245,.62); backdrop-filter:blur(4px); border-radius:16px; padding:clamp(26px,4vw,40px) clamp(28px,4.4vw,46px); box-shadow:0 24px 60px rgba(90,60,40,.12); }
-  #mi-stage .panel .eyebrow{ font-weight:600; letter-spacing:.26em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:14px; }
-  #mi-stage .panel h1{ font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(34px,5.6vw,66px); line-height:1.02; color:var(--ink); margin-bottom:14px; }
+  #mi-stage #mi-cover .box{ max-width:900px; padding:36px 60px 40px; }
+  #mi-stage .panel .eyebrow{ font-weight:600; letter-spacing:.22em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:14px; }
+  #mi-stage .panel h1{ font-family:'Playfair Display',Georgia,serif; font-weight:900; font-size:clamp(28px,4.4vw,52px); line-height:1.03; letter-spacing:-.01em; color:var(--ink); margin:0 auto; }
   #mi-stage .panel h1 .r{ color:var(--red); }
   #mi-stage .panel .sub{ font-family:'Inter',serif; font-style:italic; font-weight:500; font-size:clamp(17px,2.3vw,24px); color:#6a5644; }
-  #mi-stage .panel .cue{ margin-top:18px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#a8714e; animation:mi-bob 1.8s infinite; }
+  #mi-stage #mi-cover .sub{ font-family:'Inter',sans-serif; font-style:normal; font-weight:400; font-size:clamp(14px,1.6vw,18px); color:#4a403a; line-height:1.55; max-width:56ch; margin:16px auto 0; }
+  #mi-stage .panel .cue{ margin-top:22px; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#a8714e; animation:mi-bob 1.8s infinite; }
   #mi-stage .panel .big{ font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(23px,3.3vw,40px); line-height:1.18; color:var(--ink); }
   #mi-stage .panel .big .r{ color:var(--red); } #mi-stage .panel .big .g{ color:var(--goldink); }
 
@@ -312,7 +319,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
     background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%); }
   #mi-stage canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
-  #mi-stage .cap{ position:absolute; top:5%; max-height:28vh; left:0; right:0; text-align:center; padding:0 7vw; pointer-events:none; z-index:3; }
+  #mi-stage .cap{ position:absolute; top:9%; max-height:28vh; left:0; right:0; text-align:center; padding:0 7vw; pointer-events:none; z-index:3; }
   #mi-stage .ribbon{ display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:16px; }
   #mi-stage .ribbon .ln{ width:clamp(30px,7vw,76px); height:1px; background:linear-gradient(90deg,transparent,#C8912F); }
   #mi-stage .ribbon .ln.r{ background:linear-gradient(90deg,#C8912F,transparent); }
@@ -320,7 +327,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
   #mi-stage .stars .mstar{ display:block; height:1.16em; width:auto; }
   #mi-stage .eyebrow{ font-weight:600; letter-spacing:.3em; text-transform:uppercase; font-size:11px; color:var(--red); }
   #mi-stage .big{ font-family:'Playfair Display',Georgia,serif; font-weight:600; font-size:clamp(40px,6.4vw,78px); line-height:.92; letter-spacing:-.01em; color:var(--ink); }
-  #mi-stage .small{ font-family:'Playfair Display',serif; font-style:italic; font-weight:500; font-size:clamp(14px,2.1vw,20px); color:#6a5644; margin-top:11px; }
+  #mi-stage .small{ font-family:'Playfair Display',serif; font-style:italic; font-weight:500; font-size:clamp(14px,2.1vw,20px); color:#6a5644; margin-top:22px; }
 
   #mi-stage .coursetag{ position:absolute; bottom:6%; left:0; right:0; text-align:center; z-index:3; pointer-events:none; font-size:10.5px; letter-spacing:.42em; text-transform:uppercase; color:var(--goldink); font-weight:600; }
   #mi-stage .hint{ position:absolute; bottom:10.5%; left:0; right:0; text-align:center; color:#a8714e; font-size:11px; letter-spacing:.2em; text-transform:uppercase; animation:mi-bob 1.8s infinite; z-index:3; pointer-events:none; }
@@ -362,9 +369,12 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
   #ti-stage .hint{ position:absolute; bottom:7.5%; left:0; right:0; text-align:center; color:#a8714e; font-size:11px; letter-spacing:.2em; text-transform:uppercase; animation:ti-bob 1.8s infinite; z-index:3; pointer-events:none; }
   @keyframes ti-bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
-#cm-tickets-stage{position:fixed;inset:0;z-index:2;display:none;width:100%;height:100vh;height:100svh;overflow:hidden;background:var(--cm-background)}
+#cm-tickets-stage{position:fixed;inset:0;z-index:2;display:none;width:100%;height:100vh;height:100svh;overflow:hidden}
+/* fondo en capa propia: durante la entrada se funde de 0→1 junto con la subida del recuadro,
+   dejando ver la escena anterior (migas) debajo en vez de taparla de golpe */
+#cm-tickets-stage .cm-bg{position:absolute;inset:0;background:var(--cm-background);pointer-events:none}
 #cm-tickets-stage::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.4;mix-blend-mode:multiply;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>")}
-#cm-tickets-scroll{height:200vh;min-height:200svh;position:relative;z-index:1;pointer-events:none}
+#cm-tickets-scroll{height:250vh;min-height:250svh;position:relative;z-index:1;pointer-events:none}
 .cm-section{position:relative;z-index:5;isolation:isolate;width:100%;min-height:100vh;overflow:hidden;padding:clamp(52px,7vh,84px) clamp(34px,6vw,86px) clamp(58px,8vh,92px);background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%);background-attachment:fixed}
 .cm-section::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.38;pointer-events:none;mix-blend-mode:multiply;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>")}
 .cm-wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto}
@@ -453,43 +463,26 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
 @media(max-width:820px){#cm-tickets-stage{position:relative;display:block!important;height:auto;min-height:0;overflow:visible;opacity:1!important}#cm-tickets-scroll{display:none}.cm-panel{position:relative;inset:auto;min-height:100vh;min-height:100svh;opacity:1!important;transform:none!important}#cm-tickets-chart{display:flex;align-items:flex-start;padding:48px 18px 56px}.cm-chart-wrap{max-width:500px;min-height:0;padding:0}.cm-tickets{grid-template-columns:1fr;width:100%;gap:18px;margin-top:0}.cm-ticket{min-height:0;padding:21px 24px}.cm-ticket-head{min-height:70px}.cm-stars-img svg{width:clamp(40px,12vw,46px)}.cm-chart-cap{margin-bottom:30px}}
 @media(max-width:480px){.cm-cover-box{padding:30px 22px 34px}.cm-cover-title{font-size:clamp(32px,10vw,48px)}.cm-price-row{grid-template-columns:60px 1fr 46px;gap:8px}}
 
-/* ===== OUTRO: el libro se cierra (espejo de #bookintro, sobre la escena anterior) ===== */
-#bookoutro{position:fixed;inset:0;z-index:25;display:none;align-items:center;pointer-events:none;
-  overflow:hidden;will-change:opacity;padding:0 clamp(28px,5vw,80px);background:transparent}
-#bookoutro .bo-bg{position:absolute;inset:0;z-index:0;opacity:0;will-change:opacity;
-  background:radial-gradient(130% 110% at 50% 0%, #f6efdd 0%, #efe5d0 52%, #e7d6b6 100%)}
-#bookoutro .bo-text{will-change:opacity,transform;display:flex;flex-direction:column;align-items:flex-start;text-align:left;
-  gap:clamp(10px,1.6vh,18px);max-width:min(38vw,460px);flex:0 0 auto;opacity:0;position:relative;z-index:1}
+/* ===== OUTRO: un círculo rojo se expande desde el centro y tapa la escena final ===== */
+#bookoutro{position:fixed;inset:0;z-index:25;display:none;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(18px,4vh,40px);pointer-events:none;overflow:hidden;padding:0 clamp(28px,5vw,80px);background:transparent}
+#bookoutro .bo-circle{position:absolute;left:50%;top:50%;width:150vmax;height:150vmax;margin:-75vmax 0 0 -75vmax;
+  border-radius:50%;z-index:0;will-change:transform;transform:scale(0);
+  background:radial-gradient(circle at 50% 42%, #c9293c 0%, #BD2333 55%, #9a1b2a 100%);
+  box-shadow:0 0 80px rgba(60,5,12,.35)}
+#bookoutro .bo-text{will-change:opacity,transform;display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:clamp(12px,2.2vh,24px);max-width:min(88vw,980px);flex:0 0 auto;opacity:0;position:relative;z-index:2}
 #bookoutro .bo-eyebrow{font-family:'Inter',sans-serif;font-weight:600;letter-spacing:.34em;text-transform:uppercase;
-  font-size:clamp(10.5px,1.3vw,13px);color:var(--goldink)}
-#bookoutro h1{font-family:'Playfair Display',serif;font-weight:900;line-height:.98;letter-spacing:-.01em;
-  font-size:clamp(30px,5.4vw,62px);color:var(--ink);max-width:14ch}
-#bookoutro .bo-lede{font-family:'Inter',sans-serif;font-weight:400;line-height:1.5;
-  font-size:clamp(14px,1.7vw,18px);color:#5e544b;max-width:34ch}
-#bookoutro .bo-cue{font-family:'Inter',sans-serif;font-size:12.5px;letter-spacing:.05em;color:#9a8c79;margin-top:2px}
-#bookoutro .bo-stagewrap{position:absolute;right:0;top:0;bottom:0;width:56vw;display:flex;align-items:center;justify-content:flex-end;
-  padding:0;z-index:1}
-#bookoutro .bo-man{position:relative;height:min(78vh,560px);width:calc(min(78vh,560px) * 245.61 / 356.4);
-  flex:0 0 auto;margin-right:clamp(-18px,-2.2vw,-6px);z-index:2;opacity:0;
-  transform-origin:bottom right;will-change:transform,opacity;
-  filter:drop-shadow(0 18px 22px rgba(40,25,10,.28))}
+  font-size:clamp(10.5px,1.3vw,13px);color:#F7B036}
+#bookoutro h1{font-family:'Playfair Display',serif;font-weight:900;line-height:1;letter-spacing:-.01em;
+  font-size:clamp(46px,7.6vw,108px);color:#F7B036}
+#bookoutro .bo-lede{font-family:'Inter',sans-serif;font-weight:400;line-height:1.5;letter-spacing:.04em;
+  font-size:clamp(17px,2.1vw,23px);color:rgba(253,247,234,.9)}
+#bookoutro .bo-cue{font-family:'Inter',sans-serif;font-size:12.5px;letter-spacing:.05em;color:rgba(253,247,234,.55);margin-top:2px}
+#bookoutro .bo-man{position:relative;height:min(42vh,330px);width:calc(min(42vh,330px) * 245.61 / 356.4);
+  flex:0 0 auto;z-index:1;opacity:0;will-change:transform,opacity;
+  filter:drop-shadow(0 18px 22px rgba(60,10,15,.35))}
 #bookoutro .bo-man svg,#bookoutro .bo-man img{display:block;width:100%;height:100%}
-#bookoutro .bo-scene{position:relative;perspective:1700px;height:min(100vh, 56vw * 1600 / 1073.42);
-  width:calc(min(100vh, 56vw * 1600 / 1073.42) * 1073.42 / 1600);will-change:transform;flex:0 0 auto;z-index:3}
-#bookoutro .bo-book{position:relative;width:100%;height:100%;transform-style:preserve-3d}
-#bookoutro .bo-face{position:absolute;inset:0;border-radius:5px 9px 9px 5px;overflow:hidden}
-#bookoutro .bo-back{background:#f1e9d7;box-shadow:inset 0 0 0 1px #d8c8a8, 0 18px 40px -16px rgba(40,30,20,.45)}
-#bookoutro .bo-back .bo-pginner{position:absolute;inset:9% 8% 8% 12%;border-radius:2px 5px 5px 2px;
-  background:linear-gradient(90deg,#e3ded0 0%,#f4ecdb 18%,#f4ecdb 100%)}
-#bookoutro .bo-back .bo-bshadow{position:absolute;inset:0;pointer-events:none;opacity:0;
-  background:linear-gradient(90deg, rgba(20,10,5,.55) 0%, rgba(20,10,5,0) 42%)}
-#bookoutro .bo-front{
-  transform-origin:left center;will-change:transform;backface-visibility:hidden;
-  transform:rotateY(-156deg) translateZ(1px);
-  box-shadow:0 22px 46px -18px rgba(60,10,10,.55), inset -6px 0 14px -8px rgba(0,0,0,.35)}
-#bookoutro .bo-front svg,#bookoutro .bo-front img{display:block;width:100%;height:100%}
-#bookoutro .bo-front .bo-shade{position:absolute;inset:0;pointer-events:none;opacity:0;
-  background:linear-gradient(90deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,0) 16%, rgba(0,0,0,0) 55%, rgba(0,0,0,.6) 100%)}
 </style></head>
 <body>
 <div id="bookintro">
@@ -547,7 +540,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
     <div class="cap" id="ti-cap"></div>
     <div class="hint" id="ti-hint"></div>
     <div class="panel" id="ti-cover"><div class="box">
-      <div class="eyebrow">Tercer servicio</div>
+      <div class="eyebrow">La expansión de la guía</div>
       <h1>¿Cómo conquistó el mundo<br>la <span class="r">guía</span>?</h1>
       <div class="sub">Año tras año, cada vez más países se sumaron a la guía michelin.</div>
     </div></div>
@@ -565,18 +558,23 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
     <div class="cap" id="mi-cap"></div>
     <div class="hint" id="mi-hint"></div>
     <div class="panel" id="mi-cover"><div class="box">
-      <div class="eyebrow">Primer servicio</div>
+      <div class="eyebrow">Restaurantes por estrella</div>
       <h1>El plato de las <span class="r">estrellas</span></h1>
       <div class="sub">3.842 restaurantes, algunos con 1 estrella, otros con 2 y unos pocos con 3.</div>
-      <div class="cue">Scroll &#8595;</div>
     </div></div>
     <div class="panel" id="mi-outro"><div class="box">
-      <div class="big">De los 3.842, apenas <span class="g">157</span><br>alcanzan las tres estrellas.<br>La cima es una franja angosta.</div>
-      <div class="sub" style="margin-top:16px">157 / 3.842 &middot; apenas el 4%</div>
+      <div class="eyebrow">Restaurantes por estrella</div>
+      <h1>La cima es una franja <span class="r">angosta</span></h1>
+      <div class="sub">De los 3.842, apenas 157 alcanzan las tres estrellas.</div>
+      <div class="obar">
+        <div class="obar-track"><div class="obar-fill"></div></div>
+        <div class="obar-pct">4%</div>
+      </div>
     </div></div>
   </div>
 </div>
 <div id="cm-tickets-stage" aria-live="polite">
+  <div class="cm-bg" aria-hidden="true"></div>
   <section class="cm-panel" id="cm-tickets-cover" aria-label="Introducción al gráfico">
     <div class="cm-cover-box">
       <div class="cm-cover-eyebrow">Estrellas &amp; precio</div>
@@ -1069,10 +1067,10 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
   function mi_captionHTML(p){
     const blocks=[
       { env:(1-mi_smooth(0.04,0.08,p)),                     stars:0, eyebrow:'Las estrelladas', big:mi_fmt(DATA.total), small:'restaurantes con estrella Michelin' },
-      { env:mi_smooth(0.10,0.14,p)*(1-mi_smooth(0.28,0.32,p)), stars:1, big:mi_fmt(DATA.s1*mi_smooth(0.10,0.18,p)), small:'una cocina de gran calidad' },
-      { env:mi_smooth(0.39,0.43,p)*(1-mi_smooth(0.55,0.59,p)), stars:2, big:mi_fmt(DATA.s2*mi_smooth(0.38,0.46,p)), small:'una cocina excelente · vale un desvío' },
-      { env:mi_smooth(0.63,0.67,p)*(1-mi_smooth(0.85,0.89,p)), stars:3, big:mi_fmt(DATA.s3*mi_smooth(0.62,0.74,p)), small:'una cocina excepcional · vale el viaje' },
-      { env:mi_smooth(0.88,0.92,p),                         stars:3, big:'157 / 3.842', small:'la cima · apenas el 4%' },
+      { env:mi_smooth(0.10,0.14,p)*(1-mi_smooth(0.28,0.32,p)), stars:1, big:mi_fmt(DATA.s1*mi_smooth(0.10,0.18,p)), small:'Una cocina de gran calidad' },
+      { env:mi_smooth(0.39,0.43,p)*(1-mi_smooth(0.55,0.59,p)), stars:2, big:mi_fmt(DATA.s2*mi_smooth(0.38,0.46,p)), small:'Una cocina excelente · vale un desvío' },
+      { env:mi_smooth(0.63,0.67,p)*(1-mi_smooth(0.85,0.89,p)), stars:3, big:mi_fmt(DATA.s3*mi_smooth(0.62,0.74,p)), small:'Una cocina excepcional · vale el viaje' },
+      { env:mi_smooth(0.88,0.92,p),                         stars:3, big:'157 / 3.842', small:'Una cocina excepcional · vale el viaje' },
     ];
     let best=blocks[0]; for(const b of blocks) if(b.env>best.env) best=b;
     let inner;
@@ -1125,13 +1123,18 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
       // (ya no depende del estado de tiempo: su propio rango de scroll, medido directamente, alcanza)
       var mi_wineEl=document.querySelector('.scroller');
       var mi_wineAlreadyIn = mi_wineEl && parseFloat(mi_wineEl.style.opacity||'0') > 0.05;
-      var inRange = !mi_wineAlreadyIn && sy>=mi_start-mi_FADE && sy<mi_start+mi_padH+mi_FADE;
+      // la escena sigue activa ~medio viewport dentro de "estrellas & precio": el fondo de esa
+      // escena entra en fundido (velo) mientras el recuadro sube, tapando esta gradualmente
+      var mi_OUT=Math.round((window.innerHeight||800)*0.55);
+      var inRange = !mi_wineAlreadyIn && sy>=mi_start-mi_FADE && sy<mi_start+mi_padH+mi_OUT;
       mi_setActive(inRange);
       if(!inRange) return;
       var p=mi_clamp((sy-mi_start)/Math.max(1,mi_padH));
       // crossfade: se desvanece a 0 cerca de cada borde del tramo, en vez de cortar de golpe
-      var edgeFade=Math.min(mi_clamp((sy-mi_start+mi_FADE)/mi_FADE), mi_clamp((mi_start+mi_padH+mi_FADE-sy)/mi_FADE));
+      // (en la salida el corte queda debajo del velo ya opaco de la escena siguiente)
+      var edgeFade=Math.min(mi_clamp((sy-mi_start+mi_FADE)/mi_FADE), mi_clamp((mi_start+mi_padH+mi_OUT-sy)/mi_FADE));
       mi_STAGE.style.opacity=edgeFade.toFixed(3);
+      document.getElementById('mi-grain').style.opacity=(0.4*mi_clamp((mi_start+mi_padH+mi_OUT-sy)/mi_OUT)).toFixed(3);
       /* cartel: entra desde abajo (+60px→0) sincronizado con el fade del padre; sale hacia arriba (0→-110vh) en p 2%→10% */
       var miCoverIn=mi_clamp((sy-mi_start+mi_FADE)/mi_FADE);   // 0→1 durante los 60px de approach
       var miCoverOut=mi_smooth(0.02,0.10,p);                    // 0→1 durante la salida (sin cambio)
@@ -1143,6 +1146,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
         mi_cap.innerHTML=mi_captionHTML(p);
         mi_hint.style.opacity=(1-mi_smooth(0.02,0.06,p)).toFixed(2);
         mi_outro.style.opacity=mi_smooth(0.93,0.99,p).toFixed(3);
+        mi_outro.classList.toggle('on', p>0.94);
         mi_cv.style.opacity=((0.35+0.65*mi_smooth(0.02,0.09,p))*(1-mi_smooth(0.91,0.985,p))).toFixed(3);
         mi_cap.style.opacity=(mi_smooth(0.05,0.09,p)*(1-mi_smooth(0.92,0.96,p))).toFixed(3);
         mi_lastDrawn=p;
@@ -1890,6 +1894,7 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
 })();
 (function(){
   const stage = document.getElementById('cm-tickets-stage');
+  const bgVeil = stage.querySelector('.cm-bg');
   const scrollPad = document.getElementById('cm-tickets-scroll');
   const cover = document.getElementById('cm-tickets-cover');
   const chart = document.getElementById('cm-tickets-chart');
@@ -1913,29 +1918,27 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
   }
   function render(){
     requestAnimationFrame(render);
-    if(mobile.matches){ stage.style.display='block'; stage.style.opacity='1'; return; }
-    const miEl = document.getElementById('mi-stage');
-    const miVisible = miEl && miEl.style.display === 'block' && parseFloat(miEl.style.opacity || '0') > 0.05;
-    if(miVisible){ setActive(false); return; }
+    if(mobile.matches){ stage.style.display='block'; stage.style.opacity='1'; bgVeil.style.opacity='1'; return; }
     const sy = window.scrollY || window.pageYOffset || 0;
     const inRange = sy >= start - FADE && sy <= start + range + FADE;
     setActive(inRange);
     if(!inRange) return;
     const p = clamp((sy - start) / range);
     const edgeFade = Math.min(clamp((sy-start+FADE)/FADE), clamp((start+range+FADE-sy)/FADE));
-    const coverIn = clamp((sy - start + FADE) / FADE);
-    const coverOut = smooth(.12,.34,p);
-    const graphicIn = smooth(0,.30,p);
-    const graphicOut = 1 - smooth(.70,.90,p);
-    const captionIn = smooth(.14,.32,p);
-    const captionOut = 1 - smooth(.70,.84,p);
-    const outroIn = smooth(.72,.94,p);
+    const coverIn = smooth(0,.30,p);   // el recuadro sube desde abajo de la pantalla con el scroll
+    const coverOut = smooth(.42,.56,p);
+    const graphicIn = smooth(.36,.56,p);
+    const graphicOut = 1 - smooth(.80,.93,p);
+    const captionIn = smooth(.44,.56,p);
+    const captionOut = 1 - smooth(.80,.89,p);
+    const outroIn = smooth(.82,.96,p);
     const state = [p,edgeFade,coverIn,coverOut,graphicIn,graphicOut,captionIn,captionOut,outroIn].map(x=>x.toFixed(3)).join('|');
     if(state === lastState) return;
     lastState = state;
     stage.style.opacity = edgeFade.toFixed(3);
-    cover.style.opacity = (coverIn*(1-coverOut)).toFixed(3);
-    cover.style.transform = `translateY(${((1-coverIn)*60-coverOut*220).toFixed(1)}px)`;
+    bgVeil.style.opacity = coverIn.toFixed(3);   // el fondo tapa la escena anterior al ritmo de la subida del recuadro
+    cover.style.opacity = (1-coverOut).toFixed(3);
+    cover.style.transform = `translateY(${((1-coverIn)*100).toFixed(2)}vh) translateY(${(-coverOut*220).toFixed(1)}px)`;
     chart.style.opacity = (graphicIn*graphicOut).toFixed(3);
     chart.style.transform = 'none';
     chartCap.style.opacity = (captionIn*captionOut).toFixed(3);
@@ -1944,8 +1947,8 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
     ticketsWrap.style.transform = `translateY(${((1-graphicIn)*28-(1-graphicOut)*46).toFixed(1)}px)`;
     ticketCards.forEach((ticket, i) => {
       const delay = i * .04;
-      const ticketIn = smooth(.20+delay,.36+delay,p);
-      const ticketOut = 1 - smooth(.68,.88,p);
+      const ticketIn = smooth(.48+delay,.60+delay,p);
+      const ticketOut = 1 - smooth(.79,.92,p);
       ticket.style.opacity = (ticketIn*ticketOut).toFixed(3);
       ticket.style.setProperty('--cm-entry-y', `${((1-ticketIn)*26-(1-ticketOut)*34).toFixed(1)}px`);
     });
@@ -1961,50 +1964,34 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
 })();
 </script>
 <div id="bookoutro">
-  <div class="bo-bg"></div>
+  <div class="bo-circle"></div>
+  <div class="bo-man"><img src="michelin-man.svg" alt="" aria-hidden="true" style="display:block;width:100%;height:100%"></div>
   <div class="bo-text">
-    <div class="bo-eyebrow">Guía Michelin · Un siglo después</div>
-    <h1>La última página</h1>
-    <p class="bo-lede">3.842 restaurantes, más de cuarenta países y 125 años de expansión. Las estrellas se concentran en pocos platos, el prestigio se paga y la creatividad gana. La guía vuelve a cerrarse — hasta la próxima edición.</p>
-    <div class="bo-cue">Gracias por leer ▪</div>
-  </div>
-  <div class="bo-stagewrap">
-    <div class="bo-man"><img src="michelin-man.svg" alt="" aria-hidden="true" style="display:block;width:100%;height:100%"></div>
-    <div class="bo-scene">
-      <div class="bo-book">
-        <div class="bo-face bo-back"><div class="bo-pginner"></div><div class="bo-bshadow"></div></div>
-        <div class="bo-face bo-front">
-          <img src="guia-michelin-outro.svg" alt="" aria-hidden="true" style="display:block;width:100%;height:100%">
-          <div class="bo-shade"></div>
-        </div>
-      </div>
-    </div>
+    <h1>La guía Michelin</h1>
+    <p class="bo-lede">Muchas gracias por leer ▪</p>
   </div>
 </div>
 <script>
-/* Outro: el libro abierto entra con zoom in sobre la última escena, la tapa se cierra
-   sobre lo leído mientras esa escena se desvanece detrás, el muñeco reaparece y el libro
-   vuelve a su lugar a la derecha con el texto de despedida. Fases espejo de #bookintro. */
+/* Outro: un círculo rojo se expande desde el centro de la pantalla hasta taparlo todo;
+   con el fondo ya rojo aparece el muñeco Michelin quieto a la derecha y entra el
+   texto de despedida. */
 (function(){
   var bo=document.getElementById('bookoutro');
   if(!bo) return;
-  var boFront=bo.querySelector('.bo-front');
-  var boScene=bo.querySelector('.bo-scene');
-  var boText=bo.querySelector('.bo-text');
+  var boCircle=bo.querySelector('.bo-circle');
   var boMan=bo.querySelector('.bo-man');
-  var boShade=bo.querySelector('.bo-shade');
-  var boBackShadow=bo.querySelector('.bo-bshadow');
-  var boBg=bo.querySelector('.bo-bg');
+  var boText=bo.querySelector('.bo-text');
   var spacer=document.getElementById('bo-spacer');
   if(!spacer) return;
 
   /* arranca ~una pantalla antes de que la escena anterior (el juego) termine de salir,
-     así el libro se cierra encima de ella en vez de aparecer sobre un vacío */
+     así el círculo crece encima de ella en vez de aparecer sobre un vacío */
   var startY=0, rangeH=1;
   function measure(){
     var vh=window.innerHeight||1;
     startY = Math.max(0, spacer.offsetTop - Math.round(vh*0.9));
     rangeH = Math.max(1, Math.round(vh*1.3));
+    lastP=-1;
   }
   measure();
   window.addEventListener('resize', measure);
@@ -2016,21 +2003,9 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
   setTimeout(measure, 3000);
   if(window.ResizeObserver){ new ResizeObserver(measure).observe(document.body); }
 
-  /* cuánto hay que correr el libro (en reposo pegado a la derecha) para centrarlo; se mide
-     con display forzado y transform apagado porque el outro suele estar display:none */
-  var centerDx=0;
-  function measureCenter(){
-    var prevT=boScene.style.transform, prevD=bo.style.display, prevV=bo.style.visibility;
-    bo.style.visibility='hidden'; bo.style.display='flex'; boScene.style.transform='none';
-    var r=boScene.getBoundingClientRect();
-    centerDx=(window.innerWidth/2)-(r.left+r.width/2);
-    boScene.style.transform=prevT; bo.style.display=prevD; bo.style.visibility=prevV;
-  }
-  measureCenter();
-  window.addEventListener('resize', measureCenter);
-
   var active=false, lastP=-1;
   function clamp(v){return v<0?0:v>1?1:v;}
+  function ease(t){return t*t*(3-2*t);}
 
   function setActive(on){
     if(on===active) return; active=on;
@@ -2040,45 +2015,31 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
   function loop(){
     requestAnimationFrame(loop);
     var sy=window.scrollY||window.pageYOffset||0;
-    // guard real: si tiempo o migas todavía están visibles, el cierre del libro no se activa,
+    // guard real: si tiempo o migas todavía están visibles, el círculo no se activa,
     // sin importar lo que diga el cálculo de rango propio (puede estar desfasado por timing de layout)
     var tiEl=document.getElementById('ti-stage');
     var tiVisible = tiEl && tiEl.style.display==='block' && parseFloat(tiEl.style.opacity||'0') > 0.05;
     var miEl=document.getElementById('mi-stage');
     var miVisible = miEl && miEl.style.display==='block' && parseFloat(miEl.style.opacity||'0') > 0.05;
-    /* activo desde el arranque solapado hasta el final del documento: a p=0 el overlay
-       arranca transparente y a p=1 el libro cerrado queda en pantalla hasta el fondo */
+    /* activo desde el arranque solapado hasta el final del documento: a p=0 el círculo
+       tiene tamaño cero y a p=1 la pantalla queda roja con el texto hasta el fondo */
     var inRange = !tiVisible && !miVisible && sy>=startY;
     setActive(inRange);
     if(!inRange) return;
     var p=clamp((sy-startY)/rangeH);
     if(p===lastP) return;
-    var q=1-p;   // las ventanas de fase reusan la línea de tiempo de la intro al revés
-    /* 1) entrada con zoom in (p 0 -> .38): el libro abierto aparece chico y centrado
-       sobre la escena todavía visible, y crece hasta su tamaño real */
-    var fp=clamp((q-0.62)/0.38), fe=fp*fp*(3-2*fp);
-    var cp=clamp(q/0.62), ce=cp*cp*(3-2*cp);
-    boScene.style.transform='translateX('+(ce*centerDx).toFixed(1)+'px) scale('+(1-fe*0.4).toFixed(3)+')';
-    bo.style.opacity=(1-fe).toFixed(3);
-    /* 2) la tapa se cierra sobre el lomo (p .38 -> .82), con la misma luz rasante y la
-       sombra proyectada sobre la página que en la apertura; la escena de atrás se
-       desvanece al mismo ritmo que el giro de la tapa */
-    var op=clamp((q-0.18)/0.44), oe=op*op*(3-2*op);
-    boFront.style.transform='rotateY('+(-oe*156).toFixed(1)+'deg) translateZ(1px)';
-    if(boBg) boBg.style.opacity=(1-oe).toFixed(3);
-    if(boShade) boShade.style.opacity=Math.min(1,oe*1.4).toFixed(2);
-    if(boBackShadow) boBackShadow.style.opacity=Math.sin(op*Math.PI).toFixed(2);
-    /* 2b) el muñeco reaparece recién cuando la tapa casi terminó de cerrarse y deja de taparlo */
-    if(boMan){
-      var mp=clamp((oe-0.05)/0.25), me=mp*mp*(3-2*mp);
-      boMan.style.opacity=String(1-me);
-      boMan.style.transform='rotate('+(-oe*10).toFixed(1)+'deg)';
-    }
-    /* 3) con el libro ya cerrado y volviendo a la derecha, entra el texto de despedida
-       (espejo del texto de bienvenida: mismo recorrido de 220px, en sentido inverso) */
-    var tp=clamp(q/0.25);
-    boText.style.opacity=String(1-tp);
-    boText.style.transform='translateY('+(-tp*220).toFixed(1)+'px)';
+    /* 1) el círculo crece desde el centro (p 0 -> .6) hasta pintar toda la pantalla;
+       a escala 1 mide 150vmax, más que la diagonal de cualquier ventana */
+    var ce=ease(clamp(p/0.6));
+    boCircle.style.transform='scale('+ce.toFixed(4)+')';
+    /* 2) con el fondo ya rojo aparece el muñeco, estático a la derecha (p .58 -> .78) */
+    var me=ease(clamp((p-0.58)/0.2));
+    boMan.style.opacity=me.toFixed(3);
+    boMan.style.transform='translateY('+((1-me)*24).toFixed(1)+'px)';
+    /* 3) por último entra el texto de despedida (p .8 -> 1) */
+    var tp=ease(clamp((p-0.8)/0.2));
+    boText.style.opacity=tp.toFixed(3);
+    boText.style.transform='translateY('+((1-tp)*36).toFixed(1)+'px)';
     lastP=p;
   }
   loop();

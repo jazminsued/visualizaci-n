@@ -117,7 +117,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
 #postres .dish .nm{font-weight:500;color:#2a211c}
 #postres .dish .dots{flex:1;border-bottom:1.5px dotted #c3b394;transform:translateY(-3px);min-width:12px}
 #postres .dish .loc{color:#5b4d42;font-size:13.5px;font-style:italic;white-space:nowrap}
-#postres .pfoot{text-align:center;margin:46px auto 0;max-width:720px}
+#postres .pfoot{text-align:center;margin:46px auto 0;max-width:720px;opacity:0}
 #postres .pfoot .q{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(17px,2.8vw,22px);color:#2a211c;line-height:1.45}
 #postres .pfoot .q b{color:#184f23;font-style:normal}
 #postres .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
@@ -371,7 +371,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
     background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%); }
   #ti-stage canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
-  #ti-stage .cap{ position:absolute; top:6%; left:0; right:0; text-align:center; padding:0 7vw; pointer-events:none; z-index:3; }
+  #ti-stage .cap{ position:absolute; top:11%; left:0; right:0; text-align:center; padding:0 7vw; pointer-events:none; z-index:3; }
   #ti-stage .eyebrow{ font-weight:600; letter-spacing:.3em; text-transform:uppercase; font-size:11px; color:var(--red); margin-bottom:10px; }
   #ti-stage .big{ font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(40px,6.4vw,76px); line-height:.95; color:var(--ink); }
   #ti-stage .small{ font-family:'Playfair Display',serif; font-style:italic; font-weight:500; font-size:clamp(14px,2.1vw,20px); color:#6a5644; margin-top:8px; }
@@ -884,7 +884,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
         </ul>
       </div>
     </div>
-    <div class="pfoot reveal">
+    <div class="pfoot">
       <p class="q">El postre perfecto <b>no deja huella.</b></p>
     </div>
     </div>
@@ -1435,96 +1435,84 @@ document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(
 })();
 </script>
 <script>
-/* Entrada del intro del postre (mismo patrón que las copas). El pin lo hace
-   CSS position:sticky en .foot (sin jitter, a diferencia de compensar el
-   scroll con translate); acá solo se maneja el fade:
-   el cierre de las copas queda pegado y hace fade out mientras el postre
-   sube desde abajo y hace fade in. (La fase B —el cartel de intro del
-   postre— se maneja aparte, más abajo, con position:fixed + rAF.) */
+/* Portada + cierre del postre, unificados con el mismo patrón que #mi-stage (mi_):
+   un solo spacer combinado (footpin -> fin de .pcover-spacer), un solo progreso
+   continuo "p" recalculado por rAF a partir de scrollY, y todo lo demás (fade out
+   del cierre de las copas, fade in de #postres, fade in/out del cartel) derivado
+   de ese único p -- en vez de dos scripts con dos rangos medidos por separado.
+   El menú de países queda libre (acordeón + reveal-on-scroll aparte, sin tocar).
+   El cierre del postre (.pfoot) también pasa de IntersectionObserver a un fundido
+   continuo atado a su propia posición, con la misma técnica. */
 (function(){
-  var pi_footpin=document.getElementById('footpin');
-  var pi_foot=pi_footpin?pi_footpin.querySelector('.foot'):null;
-  var pi_postres=document.getElementById('postres');
-  if(!pi_foot||!pi_postres) return;
-  var pi_aStart=0,pi_aRange=1,pi_last='';
-  function pi_clamp(v){return Math.max(0,Math.min(1,v));}
-  function pi_smooth(a,b,v){var t=pi_clamp((v-a)/(b-a));return t*t*(3-2*t);}
-  /* medir por offsets y sobre los contenedores estáticos: el offsetTop de un
-     elemento sticky varía mientras está pegado */
-  function pi_absTop(el){var y=0;while(el){y+=el.offsetTop;el=el.offsetParent;}return y;}
-  function pi_measure(){
-    pi_aStart=pi_absTop(pi_footpin);                              /* el cierre se pega */
-    pi_aRange=Math.max(1,pi_absTop(pi_postres)-pi_aStart);
-    pi_last='';
+  var pv_footpin=document.getElementById('footpin');
+  var pv_foot=pv_footpin?pv_footpin.querySelector('.foot'):null;
+  var pv_postres=document.getElementById('postres');
+  var pv_spacer=pv_postres?pv_postres.querySelector('.pcover-spacer'):null;
+  var pv_cover=pv_postres?pv_postres.querySelector('.pcover'):null;
+  var pv_pfoot=pv_postres?pv_postres.querySelector('.pfoot'):null;
+  if(!pv_foot||!pv_postres||!pv_spacer||!pv_cover) return;
+
+  var pv_start=0,pv_range=1,pv_active=false,pv_last='',pf_start=0;
+  var pv_FADE=60; // px de crossfade en los bordes del tramo, igual que mi_FADE
+  function pv_clamp(v){return v<0?0:v>1?1:v;}
+  function pv_smooth(a,b,v){var t=pv_clamp((v-a)/(b-a));return t*t*(3-2*t);}
+  function pv_absTop(el){var y=0;while(el){y+=el.offsetTop;el=el.offsetParent;}return y;}
+
+  function pv_measure(){
+    pv_start=pv_absTop(pv_footpin);
+    var coverEnd=pv_absTop(pv_spacer)+pv_spacer.offsetHeight;
+    pv_range=Math.max(1,coverEnd-pv_start);
+    if(pv_pfoot) pf_start=pv_absTop(pv_pfoot);
+    pv_last='';
   }
-  function pi_frame(){
-    requestAnimationFrame(pi_frame);
+
+  function pv_setActive(on){
+    if(on===pv_active) return; pv_active=on;
+    pv_cover.style.display=on?'flex':'none';
+  }
+
+  function pv_loop(){
+    requestAnimationFrame(pv_loop);
     var sy=window.scrollY||window.pageYOffset||0;
-    var ta=pi_clamp((sy-pi_aStart)/pi_aRange);
-    var footOut=pi_smooth(0.25,0.75,ta);
-    var sceneIn=pi_smooth(0.30,0.88,ta);
-    var state=ta.toFixed(3);
-    if(state===pi_last) return;
-    pi_last=state;
-    if(ta<=0){pi_foot.style.opacity='';pi_postres.style.opacity='';}
-    else{pi_foot.style.opacity=(1-footOut).toFixed(3);pi_postres.style.opacity=sceneIn.toFixed(3);}
+    var vh=window.innerHeight||800;
+
+    var inRange=sy>=pv_start-pv_FADE && sy<pv_start+pv_range+pv_FADE;
+    pv_setActive(inRange);
+    var p=pv_clamp((sy-pv_start)/pv_range);
+    var pf=pv_pfoot?pv_clamp((sy+vh-pf_start)/(vh*0.65)):0;
+    var state=p.toFixed(3)+'|'+pf.toFixed(3)+'|'+(inRange?1:0);
+    if(state===pv_last) return;
+    pv_last=state;
+
+    if(p<=0){pv_foot.style.opacity='';pv_postres.style.opacity='';}
+    else{
+      var footOut=pv_smooth(0.12,0.40,p);
+      var postresIn=pv_smooth(0.15,0.45,p);
+      pv_foot.style.opacity=(1-footOut).toFixed(3);
+      pv_postres.style.opacity=postresIn.toFixed(3);
+    }
+
+    if(inRange){
+      var edgeFade=Math.min(pv_clamp((sy-pv_start+pv_FADE)/pv_FADE),pv_clamp((pv_start+pv_range+pv_FADE-sy)/pv_FADE));
+      var coverOut=pv_smooth(0.56,0.82,p);
+      pv_cover.style.opacity=((1-coverOut)*edgeFade).toFixed(3);
+      pv_cover.style.transform='translateY('+(-coverOut*220).toFixed(1)+'px)';
+    }
+
+    if(pv_pfoot){
+      var pfIn=pv_smooth(0.10,0.85,pf);
+      pv_pfoot.style.opacity=pfIn.toFixed(3);
+      pv_pfoot.style.transform='translateY('+((1-pfIn)*16).toFixed(1)+'px)';
+    }
   }
-  pi_measure();
-  window.addEventListener('resize',pi_measure);
-  window.addEventListener('load',pi_measure);
-  setTimeout(pi_measure,150);setTimeout(pi_measure,400);setTimeout(pi_measure,900);
-  setTimeout(pi_measure,1800);setTimeout(pi_measure,3000);
-  if(window.ResizeObserver){new ResizeObserver(pi_measure).observe(document.body);}
-  requestAnimationFrame(pi_frame);
-})();
-/* Cartel de intro del postre ("La estrella que no se sirve en el plato"):
-   igual que #cm-tickets-stage, un spacer en flujo (.pcover-spacer) reserva el
-   alto de scroll y el cartel es position:fixed, pineado/desvanecido a mano
-   por JS en vez de depender de position:sticky (que en algunos navegadores
-   no se activaba de forma confiable acá). */
-(function(){
-  var pc_postres=document.getElementById('postres');
-  var pc_spacer=pc_postres?pc_postres.querySelector('.pcover-spacer'):null;
-  var pc_cover=pc_postres?pc_postres.querySelector('.pcover'):null;
-  if(!pc_spacer||!pc_cover) return;
-  var pc_start=0,pc_range=1,pc_active=false,pc_last='';
-  function pc_clamp(v){return Math.max(0,Math.min(1,v));}
-  function pc_smooth(a,b,v){var t=pc_clamp((v-a)/(b-a));return t*t*(3-2*t);}
-  function pc_absTop(el){var y=0;while(el){y+=el.offsetTop;el=el.offsetParent;}return y;}
-  function pc_measure(){
-    pc_start=pc_absTop(pc_spacer);
-    /* el rango activo es el alto entero del spacer (no spacer-viewport): .pbody
-       arranca justo después del spacer y debe deslizarse continuamente durante
-       todo ese tramo, igual que hacía el margin-top:-100vh de la versión sticky */
-    pc_range=Math.max(1,pc_spacer.offsetHeight);
-    pc_last='';
-  }
-  function pc_setActive(next){
-    if(next===pc_active) return;
-    pc_active=next;
-    pc_cover.style.display=next?'flex':'none';
-  }
-  function pc_render(){
-    requestAnimationFrame(pc_render);
-    var sy=window.scrollY||window.pageYOffset||0;
-    var inRange=sy>=pc_start && sy<=pc_start+pc_range;
-    pc_setActive(inRange);
-    if(!inRange) return;
-    var p=pc_clamp((sy-pc_start)/pc_range);
-    var coverOut=pc_smooth(0.12,0.65,p);
-    var state=p.toFixed(3);
-    if(state===pc_last) return;
-    pc_last=state;
-    pc_cover.style.opacity=(1-coverOut).toFixed(3);
-    pc_cover.style.transform='translateY('+(-coverOut*220).toFixed(1)+'px)';
-  }
-  pc_measure();
-  window.addEventListener('resize',pc_measure);
-  window.addEventListener('load',pc_measure);
-  setTimeout(pc_measure,150);setTimeout(pc_measure,400);setTimeout(pc_measure,900);
-  setTimeout(pc_measure,1800);setTimeout(pc_measure,3000);
-  if(window.ResizeObserver){new ResizeObserver(pc_measure).observe(document.body);}
-  requestAnimationFrame(pc_render);
+
+  pv_measure();
+  window.addEventListener('resize',pv_measure);
+  window.addEventListener('load',pv_measure);
+  setTimeout(pv_measure,150);setTimeout(pv_measure,400);setTimeout(pv_measure,900);
+  setTimeout(pv_measure,1800);setTimeout(pv_measure,3000);
+  if(window.ResizeObserver){new ResizeObserver(pv_measure).observe(document.body);}
+  requestAnimationFrame(pv_loop);
 })();
 </script>
 <script src="d3.min.js"></script>

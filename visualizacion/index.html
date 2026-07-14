@@ -1484,11 +1484,16 @@ document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(
     if(state===pv_last) return;
     pv_last=state;
 
-    if(p<=0){pv_foot.style.opacity='1';pv_postres.style.opacity='0';}
+    if(p<=0){pv_foot.style.opacity='0';pv_postres.style.opacity='0';}
     else{
-      var footOut=pv_smooth(0.12,0.40,p);
-      var postresIn=pv_smooth(0.15,0.45,p);
-      pv_foot.style.opacity=(1-footOut).toFixed(3);
+      // .foot ya está fijo (sticky) para cuando p>0, así que el fundido de entrada acá no
+      // tiene ningún desplazamiento: aparece de la nada, quieto, sin scroll asociado.
+      // Secuencial con la intro siguiente (no crossfade): el cierre termina de desvanecerse
+      // (p .30) antes de que arranque la intro (p .34), para que no se pisen un instante.
+      var footIn=pv_smooth(0,0.06,p);
+      var footOut=pv_smooth(0.14,0.30,p);
+      var postresIn=pv_smooth(0.34,0.55,p);
+      pv_foot.style.opacity=(footIn*(1-footOut)).toFixed(3);
       pv_postres.style.opacity=postresIn.toFixed(3);
     }
 
@@ -1497,7 +1502,7 @@ document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(
       // sincronizado con postresIn (arriba): #postres es su ancestro y compone opacidad con .pcover
       // (fixed), así que si este fundido termina antes que el del padre, la tarjeta ya está
       // asentada en su lugar cuando recién se empieza a ver — y no se percibe que "viene de abajo"
-      var coverIn=pv_smooth(0.15,0.45,p);
+      var coverIn=pv_smooth(0.34,0.55,p);
       var coverOut=pv_smooth(0.56,0.82,p);
       pv_cover.style.opacity=((1-coverOut)*edgeFade).toFixed(3);
       pv_cover.style.transform='translateY('+((1-coverIn)*50-coverOut*220).toFixed(1)+'px)';

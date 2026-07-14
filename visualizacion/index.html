@@ -78,7 +78,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
    postre sube por encima; el spacer del ::after da esa pantalla de scroll y el
    margen negativo del postre hace que la superposición ocurra durante el pin */
 #footpin::after{content:"";display:block;height:100vh}
-#postres{position:relative;z-index:5;margin-top:-100vh;padding:6vh clamp(44px,6vw,82px) 13vh;
+#postres{position:relative;z-index:4;margin-top:-100vh;padding:6vh clamp(44px,6vw,82px) 13vh;
   background:radial-gradient(140% 120% at 50% 4%, #f6efdd 0%, #efe5d0 50%, #ead9bb 100%);background-attachment:fixed}
 #postres::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.4;mix-blend-mode:multiply;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>")}
 #postres .pcard{position:relative;z-index:1;max-width:none;margin:0;padding:0}
@@ -129,7 +129,7 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
    pineado/desvanecido a mano por JS según scrollY. */
 #postres .pcover-spacer{height:100vh}
 #postres .pcover{position:fixed;inset:0;z-index:2;display:none;pointer-events:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 4vw}
-#postres .pbody{position:relative;z-index:1}
+#postres .pbody{position:relative;z-index:1;padding-top:clamp(56px,9vh,110px)}
 #postres .pcover .cbox{background:rgba(255,252,245,.62);backdrop-filter:blur(4px);border-radius:16px;padding:34px clamp(28px,5vw,56px) 40px;box-shadow:0 24px 60px rgba(90,60,40,.12);max-width:760px}
 #postres .pcover .course-tag{margin-bottom:14px}
 #postres .pcover .pcover-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(30px,5vw,58px);line-height:1.04;letter-spacing:-.01em;color:#2a211c;margin:0 auto;max-width:16ch}
@@ -1446,10 +1446,16 @@ document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(
 (function(){
   var pv_footpin=document.getElementById('footpin');
   var pv_foot=pv_footpin?pv_footpin.querySelector('.foot'):null;
+  // el fundido se aplica a los hijos directos, no a .foot: position:sticky + opacity
+  // fraccionaria en el mismo elemento hace que Chrome deje de pintar parte del texto
+  // envuelto en varias líneas (bug de layer de composición) — aplicado a los hijos
+  // (que no son sticky) el mismo fundido se ve idéntico sin ese corte.
+  var pv_footKids=pv_foot?[...pv_foot.children]:[];
   var pv_postres=document.getElementById('postres');
   var pv_spacer=pv_postres?pv_postres.querySelector('.pcover-spacer'):null;
   var pv_cover=pv_postres?pv_postres.querySelector('.pcover'):null;
   var pv_pfoot=pv_postres?pv_postres.querySelector('.pfoot'):null;
+  var pv_pbody=pv_postres?pv_postres.querySelector('.pbody'):null;
   if(!pv_foot||!pv_postres||!pv_spacer||!pv_cover) return;
 
   var pv_start=0,pv_range=1,pv_active=false,pv_last='',pf_start=0;
@@ -1460,7 +1466,10 @@ document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(
 
   function pv_measure(){
     pv_start=pv_absTop(pv_footpin);
-    var coverEnd=pv_absTop(pv_spacer)+pv_spacer.offsetHeight;
+    // el tramo termina justo donde arranca .pbody (el cuerpo real, contenido normal): así
+    // p=1 coincide siempre con el momento en que el cuerpo ya llegó a su posición final,
+    // sea cual sea su alto real, y coverOut puede sincronizarse con ese punto sin adivinar píxeles.
+    var coverEnd=pv_pbody?pv_absTop(pv_pbody):(pv_absTop(pv_spacer)+pv_spacer.offsetHeight);
     pv_range=Math.max(1,coverEnd-pv_start);
     if(pv_pfoot) pf_start=pv_absTop(pv_pfoot);
     pv_last='';
@@ -1477,14 +1486,19 @@ document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(
     var vh=window.innerHeight||800;
 
     var inRange=sy>=pv_start-pv_FADE && sy<pv_start+pv_range+pv_FADE;
-    pv_setActive(inRange);
+    // la tarjeta se activa (display:flex) recién cerca de cuando empieza a aparecer (coverIn
+    // arranca en p=.34, más abajo): si está activa desde antes, su backdrop-filter:blur sigue
+    // desenfocando lo que hay detrás (el cierre de copas) aunque su propia opacidad sea 0 —
+    // un "blur fantasma" que se veía como texto cortado/borroso durante el cierre.
+    var coverActive=sy>=pv_start+pv_range*0.30 && sy<pv_start+pv_range+pv_FADE;
+    pv_setActive(coverActive);
     var p=pv_clamp((sy-pv_start)/pv_range);
     var pf=pv_pfoot?pv_clamp((sy+vh-pf_start)/(vh*0.65)):0;
     var state=p.toFixed(3)+'|'+pf.toFixed(3)+'|'+(inRange?1:0);
     if(state===pv_last) return;
     pv_last=state;
 
-    if(p<=0){pv_foot.style.opacity='0';pv_postres.style.opacity='0';}
+    if(p<=0){pv_footKids.forEach(function(k){k.style.opacity='0';});pv_postres.style.opacity='0';if(pv_pbody)pv_pbody.style.opacity='0';}
     else{
       // .foot ya está fijo (sticky) para cuando p>0, así que el fundido de entrada acá no
       // tiene ningún desplazamiento: aparece de la nada, quieto, sin scroll asociado.
@@ -1492,20 +1506,27 @@ document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(
       // (p .30) antes de que arranque la intro (p .34), para que no se pisen un instante.
       var footIn=pv_smooth(0,0.06,p);
       var footOut=pv_smooth(0.14,0.30,p);
-      var postresIn=pv_smooth(0.34,0.55,p);
-      pv_foot.style.opacity=(footIn*(1-footOut)).toFixed(3);
-      pv_postres.style.opacity=postresIn.toFixed(3);
+      var footOp=(footIn*(1-footOut)).toFixed(3);
+      pv_footKids.forEach(function(k){k.style.opacity=footOp;});
+      // #postres en sí ya no tiene fundido propio (la tarjeta y el cuerpo lo manejan cada
+      // uno por su cuenta más abajo): si acá tuviera su propio ritmo de aparición, el cuerpo
+      // -que no tiene desplazamiento, es contenido normal ya sentado en su lugar- quedaría
+      // visible asomando por los bordes de la tarjeta mucho antes de que esta se desvanezca.
+      pv_postres.style.opacity='1';
+      // secuencial, no crossfade: es texto sobre texto (no una tarjeta sobre un gráfico de
+      // fondo), así que un cruce transparente se lee como superpuesto/ilegible. El cuerpo
+      // arranca recién después de que la tarjeta terminó de desvanecerse (coverOut termina
+      // en p=1, definido arriba como el punto exacto donde .pbody llega a su posición final).
+      if(pv_pbody){ var bodyIn=pv_smooth(0.96,1.0,p); pv_pbody.style.opacity=bodyIn.toFixed(3); }
     }
 
     if(inRange){
       var edgeFade=Math.min(pv_clamp((sy-pv_start+pv_FADE)/pv_FADE),pv_clamp((pv_start+pv_range+pv_FADE-sy)/pv_FADE));
-      // sincronizado con postresIn (arriba): #postres es su ancestro y compone opacidad con .pcover
-      // (fixed), así que si este fundido termina antes que el del padre, la tarjeta ya está
-      // asentada en su lugar cuando recién se empieza a ver — y no se percibe que "viene de abajo"
+      // sin desplazamiento de entrada: aparece de la nada, quieta, igual que el cierre de copas.
       var coverIn=pv_smooth(0.34,0.55,p);
-      var coverOut=pv_smooth(0.56,0.82,p);
-      pv_cover.style.opacity=((1-coverOut)*edgeFade).toFixed(3);
-      pv_cover.style.transform='translateY('+((1-coverIn)*50-coverOut*220).toFixed(1)+'px)';
+      var coverOut=pv_smooth(0.85,0.94,p);
+      pv_cover.style.opacity=(coverIn*(1-coverOut)*edgeFade).toFixed(3);
+      pv_cover.style.transform='translateY('+(-coverOut*220).toFixed(1)+'px)';
     }
 
     if(pv_pfoot){

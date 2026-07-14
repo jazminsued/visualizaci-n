@@ -1153,8 +1153,8 @@ h2{font-family:'Playfair Display';font-weight:700;font-size:clamp(26px,3.4vw,40p
       /* cartel: entra desde abajo (+60px→0) sincronizado con el fade del padre; sale hacia arriba (0→-110vh) en p 2%→10% */
       var miCoverIn=mi_clamp((sy-mi_start+mi_FADE)/mi_FADE);   // 0→1 durante los 60px de approach
       var miCoverOut=mi_smooth(0.02,0.10,p);                    // 0→1 durante la salida (sin cambio)
-      mi_cover.style.opacity=miCoverIn.toFixed(3);
-      mi_cover.style.transform='translateY('+((1-miCoverIn)*60).toFixed(1)+'px) translateY('+(-miCoverOut*110).toFixed(1)+'vh)';
+      mi_cover.style.opacity=(miCoverIn*(1-miCoverOut)).toFixed(3);
+      mi_cover.style.transform='translateY('+((1-miCoverIn)*60-miCoverOut*220).toFixed(1)+'px)';
       var time=now/1000, shimmer=p>0.80;
       if(p!==mi_lastDrawn || shimmer){
         mi_draw(p,time);
@@ -1484,7 +1484,7 @@ document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(
     if(state===pv_last) return;
     pv_last=state;
 
-    if(p<=0){pv_foot.style.opacity='';pv_postres.style.opacity='';}
+    if(p<=0){pv_foot.style.opacity='1';pv_postres.style.opacity='0';}
     else{
       var footOut=pv_smooth(0.12,0.40,p);
       var postresIn=pv_smooth(0.15,0.45,p);
@@ -1494,9 +1494,13 @@ document.querySelectorAll('#postres .reveal').forEach(function(el){pRev.observe(
 
     if(inRange){
       var edgeFade=Math.min(pv_clamp((sy-pv_start+pv_FADE)/pv_FADE),pv_clamp((pv_start+pv_range+pv_FADE-sy)/pv_FADE));
+      // sincronizado con postresIn (arriba): #postres es su ancestro y compone opacidad con .pcover
+      // (fixed), así que si este fundido termina antes que el del padre, la tarjeta ya está
+      // asentada en su lugar cuando recién se empieza a ver — y no se percibe que "viene de abajo"
+      var coverIn=pv_smooth(0.15,0.45,p);
       var coverOut=pv_smooth(0.56,0.82,p);
       pv_cover.style.opacity=((1-coverOut)*edgeFade).toFixed(3);
-      pv_cover.style.transform='translateY('+(-coverOut*220).toFixed(1)+'px)';
+      pv_cover.style.transform='translateY('+((1-coverIn)*50-coverOut*220).toFixed(1)+'px)';
     }
 
     if(pv_pfoot){
@@ -1624,7 +1628,7 @@ function setActive(i){
   cover.classList.toggle('on', s.kind==='intro');
   pc.classList.toggle('on', s.kind==='focus');
   closing.classList.toggle('on', s.kind==='close');
-  legend.style.opacity = s.kind==='close' ? 0 : 1;
+  legend.style.opacity = s.kind==='focus' ? 1 : 0;
   if(s.kind==='intro'){coverT.textContent=s.title; coverB.textContent=s.bajada;}
   if(s.kind==='focus'){pc.innerHTML=`<div class="kick">${s.kick}</div><div class="ttl">${s.ttl}</div><div class="mbig">${s.big}</div><div class="msub">${s.sub}</div><div class="note">${s.note}</div>`;}
   if(s.kind==='close'){clT.textContent=s.title; clB.textContent=s.body; clTop.innerHTML=topHTML;
@@ -1640,10 +1644,11 @@ function setActive(i){
 let W=0,H=0,lastTr='';
 /* refs y medidas cacheadas: NO leer layout en cada frame (causa del scroll lento) */
 var _wineEl=document.querySelector('.scroller');
+var _introBox=document.querySelector('.scroller .intro .box');
 var _shelf=document.getElementById('shelfwrap');
 var _legend=document.querySelector('.legend');
 var _footEl=document.querySelector('.foot');
-var _vh=0,_msH=1,_wineTop=1,_footTop=1e9,_lastSy=-1,_lastGOp=-1,_lastSo=-1,_lastWine=null,_lastLegendWant=null,_mapEnd=1;
+var _vh=0,_msH=1,_wineTop=1,_footTop=1e9,_lastSy=-1,_lastGOp=-1,_lastSo=-1,_lastIntroOp=-1,_lastWine=null,_lastLegendWant=null,_mapEnd=1;
 function measure(){
   _vh=window.innerHeight||document.documentElement.clientHeight;
   var msEl=document.getElementById('mscroller');
@@ -1678,8 +1683,18 @@ function frame(){
   const gFadeB=mapEnd, gFadeA=mapEnd-vh*0.4;
   const gOp=Math.max(0,Math.min(1,(gFadeB-sy)/Math.max(1,(gFadeB-gFadeA))));
   if(gOp!==_lastGOp){_lastGOp=gOp; graphic.style.opacity=gOp;}
-  if(_wineEl){const so=Math.max(0,Math.min(1,(sy-(wineTop-vh*0.5))/(vh*0.35))); if(so!==_lastSo){_lastSo=so; _wineEl.style.opacity=so;}}
-  const want=(sy >= (wineTop - vh*0.45)) && (sy < _footTop - vh*0.5) && !window.__postresIn;
+  if(_wineEl){const so=Math.max(0,Math.min(1,(sy-(wineTop-vh*0.15))/(vh*0.15))); if(so!==_lastSo){_lastSo=so; _wineEl.style.opacity=so;}}
+  if(_introBox){
+    const introIn=Math.max(0,Math.min(1,(sy-(wineTop-vh*0.15))/(vh*0.15)));
+    // la tarjeta no está fija: viaja con el scroll normal y el borde del viewport la recorta,
+    // así que el fundido de salida tiene que terminar ANTES de que el borde la alcance (~0.32vh
+    // más abajo, dado el alto típico de la tarjeta), si no se ve como un corte duro en vez de un desvanecido
+    const introOut=Math.max(0,Math.min(1,(sy-(wineTop+vh*0.15))/(vh*0.15)));
+    const introOp=introIn*(1-introOut);
+    if(introOp!==_lastIntroOp){_lastIntroOp=introOp; _introBox.style.opacity=introOp.toFixed(3); _introBox.style.transform='translateY('+((1-introIn)*30-introOut*40).toFixed(1)+'px)';}
+  }
+  // la leyenda y el estante de copas solo importan una vez que la tarjeta de intro ya se fue
+  const want=(sy >= (wineTop + vh*0.30)) && (sy < _footTop - vh*0.5) && !window.__postresIn;
   const legendWant = want && (window.__legendWantedByStage!==false);
   if(want!==_lastWine){_lastWine=want; if(_shelf)_shelf.style.opacity=want?1:0;}
   if(legendWant!==_lastLegendWant){_lastLegendWant=legendWant; if(_legend)_legend.style.opacity=legendWant?1:0;}
@@ -2025,7 +2040,8 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
     if(!inRange) return;
     const p = clamp((sy - start) / range);
     const edgeFade = Math.min(clamp((sy-start+FADE)/FADE), clamp((start+range+outExt-sy)/outFade));
-    const coverIn = smooth(0,.30,p);   // el recuadro sube desde abajo de la pantalla con el scroll
+    const coverIn = smooth(0,.30,p);   // ritmo lento: el fondo tapa la escena anterior mientras se acerca el recuadro
+    const boxIn = smooth(.22,.30,p);   // el recuadro en sí aparece recién al final de ese tramo: fundido corto + subida chica, igual que los demás carteles
     const coverOut = smooth(.42,.56,p);
     const graphicIn = smooth(.36,.56,p);
     const graphicOut = 1 - smooth(.80,.93,p);
@@ -2037,8 +2053,8 @@ try{var _pio=new IntersectionObserver(function(es){es.forEach(function(e){window
     lastState = state;
     stage.style.opacity = edgeFade.toFixed(3);
     bgVeil.style.opacity = coverIn.toFixed(3);   // el fondo tapa la escena anterior al ritmo de la subida del recuadro
-    cover.style.opacity = (1-coverOut).toFixed(3);
-    cover.style.transform = `translateY(${((1-coverIn)*100).toFixed(2)}vh) translateY(${(-coverOut*220).toFixed(1)}px)`;
+    cover.style.opacity = (boxIn*(1-coverOut)).toFixed(3);
+    cover.style.transform = `translateY(${((1-boxIn)*50-coverOut*220).toFixed(1)}px)`;
     chart.style.opacity = (graphicIn*graphicOut).toFixed(3);
     chart.style.transform = 'none';
     chartCap.style.opacity = (captionIn*captionOut).toFixed(3);
